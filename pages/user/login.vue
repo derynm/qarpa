@@ -58,7 +58,11 @@
           <!-- <button class="bg-yellow-300 mb-8">
             Sign In
           </button> -->
-          <button-component :text-fill="'Sign In'" class="w-full mb-8" />
+          <button-component
+            :text-fill="'Sign In'"
+            class="w-full mb-8"
+            :disabled="isDisabled"
+          />
           <p class="text-center">
             <a href="/user/register">
               Belum punya akun ?
@@ -83,9 +87,11 @@ export default {
       isFocus: false,
       showPaswd: false,
       emailLogin: null,
-      passwordLogin: null
+      passwordLogin: null,
+      isDisabled: true
     }
   },
+
   // computed: {
   //   inputClass () {
   //     return {
@@ -97,6 +103,14 @@ export default {
   methods: {
     typePaswdHandler () {
       this.showPaswd = !this.showPaswd
+    },
+    disableButton () {
+      if (
+        (this.emailLogin && this.passwordLogin === null) ||
+        (this.emailLogin && this.passwordLogin === '')
+      ) {
+        this.isDisabled = !this.isDisabled
+      }
     }
   }
 }

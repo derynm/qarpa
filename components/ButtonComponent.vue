@@ -1,5 +1,5 @@
 <template>
-  <button class="button-global" disabled>
+  <button class="button-global">
     {{ textFill }}
   </button>
 </template>
