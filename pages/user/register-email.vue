@@ -28,7 +28,6 @@
           <button-component
             :text-fill="'Sign In'"
             class="w-full mb-8"
-            :disabled="isDisabled"
           />
           <p class="text-center">
             <a href="/user/login">
