@@ -1,52 +1,47 @@
 <template>
   <div>
-    <hooper
-      class="hooper flex py-10 mb-8"
-      :progress="true"
-      :auto-play="true"
-      :play-speed="2000"
+    <div
+      class="navbar p-6 sticky top-0 bg-gray-200 mx-auto flex flex-wrap md:flex-nowrap justify-center md:justify-between gap-4"
     >
-      <slide class="flex flex-col items-center px-2 text-center">
-        <img src="~/assets/image.png" class="w-60 md:w-72" alt="">
-        <p class="carrousel-text font-semibold text-xl">
-          Kami ingin membantu anda dalam membangun bisnis
-        </p>
-        <p class="carrousel-text">
-          Mengelola dan meningkatkan keuntungan usaha dengan efisien dan cepat
-        </p>
-        <button class="bg-btn">
-          Daftar Sekarang
-        </button>
-      </slide>
-      <slide class="flex flex-col items-center text-center">
-        <img src="~/assets/image.png" class="w-60 md:w-72" alt="">
-        <p class="carrousel-text font-semibold text-xl">
-          Kami ingin membantu anda dalam membangun bisnis
-        </p>
-        <p class="carrousel-text">
-          Mengelola dan meningkatkan keuntungan usaha dengan efisien dan cepat
-        </p>
-        <button class="bg-btn">
-          Daftar Sekarang
-        </button>
-      </slide>
-      <slide class="flex flex-col items-center text-center">
-        <img src="~/assets/image.png" class="w-60 md:w-72" alt="">
-        <p class="carrousel-text font-semibold text-xl">
-          Kami ingin membantu anda dalam membangun bisnis
-        </p>
-        <p class="carrousel-text">
-          Mengelola dan meningkatkan keuntungan usaha dengan efisien dan cepat
-        </p>
-        <button class="bg-btn">
-          Daftar Sekarang
-        </button>
-      </slide>
-    </hooper>
-    <div class="div container mx-auto max-w-5xl">
-      <div class="product py-4 my-20">
+      <div class="navbar-title font-bold text-xl md:text-3xl">
+        QARPA
+      </div>
+      <div class="navbar-button flex gap-1 items-stretch">
+        <nuxt-link to="/user/login">
+          <ButtonComponent class="coverage" :text-fill="'Masuk'" />
+        </nuxt-link>
+        <nuxt-link to="/user/register">
+          <ButtonComponent :text-fill="'Daftar Sekarang'" />
+        </nuxt-link>
+      </div>
+    </div>
+    <div class="jumbotron">
+      <div
+        class="flex flex-wrap-reverse md:flex-nowrap justify-center items-center p-5 max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
+      >
+        <div class="jumbotron-text">
+          <p class="font-semibold text-xl lg:text-3xl">
+            Dapatkan Layanan Manajemen Terbaik Dalam Satu Aplikasi
+          </p>
+          <p>
+            Mengelola dan meningkatkan keuntungan usaha dengan efisien dan cepat
+          </p>
+        </div>
+        <div class="jumbotron-image">
+          <img
+            src="https://cdn.discordapp.com/attachments/1024706945304760320/1029671504666959962/Data_extraction-amico_1_1.png"
+            class="w-60 md:w-72"
+            alt=""
+          >
+        </div>
+      </div>
+    </div>
+    <div
+      class="div container px-6 md:px-0 mx-auto max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-5xl"
+    >
+      <div class="product py-4 my-16">
         <div class="product-title pt-4 pb-9">
-          <p class="text-3xl md:text-5xl text-center font-semibold">
+          <p class="text-2xl lgx:text-5xl text-center font-semibold">
             Kami memiliki layanan terbaik untuk memudahkan bisnis anda
           </p>
         </div>
@@ -89,20 +84,10 @@
           </div>
         </div>
       </div>
-      <div class="card flex justify-between items-center p-6 shadow-lg my-20">
-        <div class="card-content">
-          <p class="font-semibold text-lg md:text-2xl">
-            Ayo mulai bangun bisnis mu, dan rasakan omset miliaran rupiah
-          </p>
-        </div>
-        <div class="card-content">
-          <NuxtLink class="bg-btn" to="/">
-            Daftar Sekarang
-          </NuxtLink>
-        </div>
-      </div>
     </div>
-    <div class="footer grid grid-cols-1 md:grid-cols-5 text-white p-14 gap-3">
+    <div
+      class="footer bg-gray-400 grid grid-cols-1 md:grid-cols-6 text-white p-8 md:p-14 gap-3"
+    >
       <div class="content-footer md:col-span-2">
         <p class="text-black text-3xl font-bold pb-4">
           QARPA
@@ -113,7 +98,7 @@
         </P>
       </div>
       <div class="content-footer">
-        <p class="text-black">
+        <p class="text-black pb-2">
           PERUSAHAAN
         </p>
         <ul>
@@ -124,7 +109,7 @@
         </ul>
       </div>
       <div class="content-footer">
-        <p class="text-black">
+        <p class="text-black pb-2">
           PRODUCT
         </p>
         <ul>
@@ -135,7 +120,7 @@
         </ul>
       </div>
       <div class="content-footer">
-        <p class="text-black">
+        <p class="text-black pb-2">
           OFFICE
         </p>
         <ul>
@@ -145,41 +130,23 @@
           <li>team@qatros.co.id</li>
         </ul>
       </div>
+      <div class="content-footer">
+        <p class="text-black pb-2">
+          APLIKASI
+        </p>
+        <img
+          src="https://cdn.discordapp.com/attachments/1024706945304760320/1029675167728803860/image_10.png"
+          alt=""
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Hooper, Slide } from 'hooper'
-import 'hooper/dist/hooper.css'
-
 export default {
-  name: 'LandingPage',
-  components: {
-    Hooper,
-    Slide
-  }
+  name: 'LandingPage'
 }
 </script>
 
-<style scoped>
-img {
-  border: none;
-}
-.hooper {
-  height: 500px;
-  border-bottom: solid 3px black;
-}
-.bg-btn {
-  color: #fff;
-  background-color: #f1a661;
-  border-radius: 4px;
-  padding: 4px;
-}
-.footer {
-  background-color: #e38b29;
-}
-.carrousel-text {
-  padding: 2px 6px 12px 6px;
-}
-</style>
+<style scoped></style>
