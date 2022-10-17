@@ -4,7 +4,7 @@
       <ButtonComponent class="" :text-fill="'+ Tambah Cabang'" />
     </div>
     <div class="card-cabang grid grid-cols-1 md:grid-cols-2 gap-2">
-      <CardCabang v-for="item in cabang" :key="item.id" :item="item" />
+      <PosCardCabang v-for="item in tes" :key="item.id" :item="item" />
     </div>
   </div>
 </template>
@@ -12,37 +12,12 @@
 <script>
 export default {
   layout: 'dashboard-pos',
-  data () {
-    return {
-      cabang: [
-        {
-          id: 1,
-          name: 'Cabang 1',
-          pendapatan: 80,
-          order: 53
-        },
-        {
-          id: 2,
-          name: 'Cabang 2',
-          pendapatan: 40,
-          order: 12
-        },
-        {
-          id: 3,
-          name: 'Cabang 3',
-          pendapatan: 40,
-          order: 12
-        },
-        {
-          id: 4,
-          name: 'Cabang 4',
-          pendapatan: 40,
-          order: 12
-        }
-      ]
-    }
+  async asyncData ({ params, $axios }) {
+    const tes = await $axios.$get(
+      'https://6289dd84e5e5a9ad321e3041.mockapi.io/test'
+    )
+    return { tes }
   }
-  // container px-6 md:px-0 mx-auto max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-5xl
 }
 </script>
 
