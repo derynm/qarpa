@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DashboardComponent :title="'Qarpa'" :notif="true" />
+    <DashboardComponent title="Qarpa" :notif="true" />
     <Nuxt />
   </div>
 </template>
