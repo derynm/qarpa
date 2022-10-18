@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
-    <div class="mx-auto max-w-lg shrink-0">
+    <div class="mx-auto max-w-lg">
       <div
         class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0"
       >
