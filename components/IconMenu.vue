@@ -1,10 +1,7 @@
 <template>
-  <div class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center">
+  <div class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center items-center">
     <nuxt-link to="dashboard/pos">
-      <img
-        src="https://cdn.discordapp.com/attachments/1029421569530929264/1029452214059667476/854049991865401374.gif"
-        alt=""
-      >
+      <IconsPosIcon />
       <p class="pt-4">
         {{ item }}
       </p>
