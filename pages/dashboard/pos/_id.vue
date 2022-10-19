@@ -9,33 +9,49 @@
         </p>
       </div>
       <div class="icon">
+        <ButtonComponent text-fill="Tutup" @clicked="validate = true" />
+      </div>
+    </div>
+    <div
+      class="container px-4 md:px-8 lg:px-12 flex flex-col justify-between h-[80vh]"
+    >
+      <div class="content">
+        <div>
+          <ButtonComponent
+            class="mb-4"
+            text-fill="Pilih Customer"
+            @clicked="pickCustomer = true"
+          />
+        </div>
+        <div class="search-bar flex items-center shadow-md p-3 rounded-md">
+          <IconsSearchIcon />
+          <input class="p-1 w-full" type="text" placeholder="Cari Produk">
+        </div>
+        <div class="product mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+          <PosCardProduct />
+        </div>
+      </div>
+      <div class="btn flex flex-row-reverse">
         <ButtonComponent
-          text-fill="Tutup"
-          :custom-emit="emit"
-          @click-button="clickButton"
+          text-fill="Pembayaran"
+          @clicked="orderDetails = true"
         />
       </div>
     </div>
-    <div class="container px-4 md:px-8 lg:px-12">
-      <div>
-        <ButtonComponent class="mb-4" text-fill="Pilih Customer" />
-      </div>
-      <div class="search-bar flex items-center shadow-md p-3 rounded-md">
-        <IconSearchIcon />
-        <input class="p-1 w-full" type="text" placeholder="Cari Produk">
-      </div>
-      <div class="product mt-4 grid grid-cols-1 md:grid-cols-2 gap-2">
-        <PosCardProduct />
-        <PosCardProduct />
-      </div>
-    </div>
     {{ tes }}
-    <OpenCloseModal
-      v-show="closeOpenModal"
+    <ModalValidate
+      v-show="validate"
       :text="modalText"
-      @decline="closeOpenModal = false"
+      @decline="validate = false"
       @accept="$router.push('/dashboard/pos')"
     />
+    <ModalPilihCustomer v-show="pickCustomer" @add="addCustomer = true" />
+    <ModalTambahCustomer
+      v-show="addCustomer"
+      :text="addCustomerText"
+      @decline="addCustomer = false"
+    />
+    <ModalOrderDetails v-show="orderDetails" />
   </div>
 </template>
 
@@ -49,19 +65,20 @@ export default {
   },
   data () {
     return {
-      closeOpenModal: false,
+      validate: false,
+      pickCustomer: false,
+      addCustomer: false,
+      orderDetails: false,
       emit: 'click-button',
       modalText: {
         content: 'Apakah Anda Yakin ingin tutup Toko',
         btn1: 'Batal',
         btn2: 'Tutup'
+      },
+      addCustomerText: {
+        btn1: 'Batal',
+        btn2: 'Tambah'
       }
-    }
-  },
-  methods: {
-    clickButton () {
-      this.closeOpenModal = true
-      console.log('clicked')
     }
   }
 }
