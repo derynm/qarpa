@@ -1,11 +1,11 @@
 <template>
-  <div
-    class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center items-center"
-  >
-    <IconsPosIcon />
-    <p class="pt-4">
-      {{ item }}
-    </p>
+  <div class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center items-center">
+    <nuxt-link to="dashboard/pos">
+      <IconsPosIcon />
+      <p class="pt-4">
+        {{ item }}
+      </p>
+    </nuxt-link>
   </div>
 </template>
 
@@ -17,9 +17,6 @@ export default {
       type: String,
       required: true
     }
-  },
-  mounted () {
-    console.log(this.item)
   }
 }
 </script>
