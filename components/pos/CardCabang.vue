@@ -4,14 +4,7 @@
       <p class="font-semibold text-xl md:text-2xl">
         {{ item.name }}
       </p>
-      <ButtonComponent
-        text-fill="Buka"
-        :custom-emit="emit"
-        @click-button="clickButton"
-      />
-      <!-- <button @click="clickButton">
-        Buka
-      </button> -->
+      <ButtonComponent text-fill="Buka" @clicked="validateModal = true" />
     </div>
     <div class="content flex justify-around text-center pt-4">
       <div class="profit">
@@ -27,13 +20,13 @@
         </p>
       </div>
     </div>
-    <OpenCloseModal
-      v-show="closeOpenModal"
+    <ModalValidate
+      v-show="validateModal"
       :text="modalText"
-      @decline="closeOpenModal = false"
-      @accept="closeToInputModal"
+      @decline="validateModal = false"
+      @accept="acceptBtn"
     />
-    <InputKasirModal v-show="inputKasirModal" :id="item.id" />
+    <ModalInputKasir v-show="inputKasir" :id="item.id" />
   </div>
 </template>
 
@@ -41,14 +34,13 @@
 export default {
   props: {
     item: {
-      type: Object,
-      required: true
+      type: Object
     }
   },
   data () {
     return {
-      closeOpenModal: false,
-      inputKasirModal: false,
+      validateModal: false,
+      inputKasir: false,
       emit: 'click-button',
       modalText: {
         content: 'Apakah Anda Yakin ingin buka Toko',
@@ -58,13 +50,9 @@ export default {
     }
   },
   methods: {
-    clickButton () {
-      this.closeOpenModal = true
-      console.log('clicked')
-    },
-    closeToInputModal () {
-      this.closeOpenModal = false
-      this.inputKasirModal = true
+    acceptBtn () {
+      this.validateModal = false
+      this.inputKasir = true
     }
   }
 }

@@ -35,10 +35,10 @@
           <p>Cappucinno</p>
           <p>Rp.15.000</p>
         </div>
-        <div class="item-btn flex">
-          <p>-</p>
+        <div class="item-btn flex items-center gap-1">
+          <ButtonComponent text-fill="+" />
           <p>1</p>
-          <p>+</p>
+          <ButtonComponent text-fill="-" />
         </div>
       </div>
     </div>
