@@ -7,9 +7,7 @@
         {{ title }}
       </p>
     </div>
-    <div
-      class="icon grid justify-items-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5"
-    >
+    <div :class="IconClass">
       <Profile
         class="icon-profile col-span-2 md:col-span-3 lg:col-span-4 border shadow-md rounded-lg p-2 grid justify-items-center grid-cols-2 md:grid-cols-4 lg:grid-cols-5 items-center mr-1"
       />
@@ -29,6 +27,16 @@ export default {
       required: true
     },
     notif: Boolean
+  },
+  computed: {
+    IconClass () {
+      return {
+        'icon grid justify-items-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5':
+          this.notif,
+        'icon grid justify-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
+          !this.notif
+      }
+    }
   }
 }
 </script>

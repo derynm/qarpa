@@ -1,5 +1,5 @@
 <template>
-  <button class="button-global" @click="customFunction">
+  <button class="button-global" @click="$emit('clicked')">
     {{ textFill }}
   </button>
 </template>
@@ -7,14 +7,9 @@
 <script>
 export default {
   props: {
-    textFill: { type: String, default: '' },
-    customEmit: { type: String, default: '' }
+    textFill: { type: String, default: '' }
   },
-  methods: {
-    customFunction () {
-      this.$emit(this.customEmit)
-    }
-  }
+  emits: ['clicked']
 }
 </script>
 
