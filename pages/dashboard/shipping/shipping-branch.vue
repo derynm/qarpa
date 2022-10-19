@@ -13,18 +13,22 @@
       <button-component
         class="absolute right-0 bottom-5"
         :text-fill="'Kirim Barang'"
+        @clicked="showOrderList"
       />
     </div>
+    <modal-order-detail-shipping v-if="isShowOrderList" @closeModal="showOrderList" />
   </div>
 </template>
 
 <script>
-import CardProductWom from '~/components/wom/CardProductWom.vue'
+import CardProductWom from '~/components/inventory-shipping/CardProductShipping.vue'
 import ButtonComponent from '~/components/ButtonComponent.vue'
+import ModalOrderDetailShipping from '~/components/inventory-shipping/ModalOrderDetailShipping.vue'
 export default {
-  components: { CardProductWom, ButtonComponent },
+  components: { CardProductWom, ButtonComponent, ModalOrderDetailShipping },
   data () {
     return {
+      isShowOrderList: false,
       dummyProduct: [
         {
           product_name: 'cappuccino',
@@ -37,6 +41,11 @@ export default {
           price: '20000'
         }
       ]
+    }
+  },
+  methods: {
+    showOrderList () {
+      this.isShowOrderList = !this.isShowOrderList
     }
   }
 }
