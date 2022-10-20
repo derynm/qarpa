@@ -2,10 +2,13 @@
   <div
     class="nav flex justify-between py-10 items-center px-4 md:px-8 lg:px-12"
   >
-    <div class="title-dashboard">
-      <p class="text-xl lg:text-3xl font-bold">
-        {{ title }}
-      </p>
+    <div class="flex items-center gap-3">
+      <IconsBackIcon />
+      <div class="title-dashboard">
+        <p class="text-xl lg:text-3xl font-bold">
+          {{ title }}
+        </p>
+      </div>
     </div>
     <div :class="IconClass">
       <Profile
