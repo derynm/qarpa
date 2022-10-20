@@ -8,6 +8,7 @@
         <button-component text-fill="Tambah Customer" />
       </nuxt-link>
     </div>
+    <search-bar class="my-4"/>
     <card-customer class="shadow-md p-2 mb-3" />
     <card-customer class="shadow-md p-2 mb-3" />
     <card-customer class="shadow-md p-2 mb-3" />
@@ -19,8 +20,9 @@
 import { mapMutations } from 'vuex'
 import CardCustomer from '~/components/pos/CardCustomer.vue'
 import ButtonComponent from '~/components/ButtonComponent.vue'
+import SearchBar from '~/components/SearchBar.vue'
 export default {
-  components: { CardCustomer, ButtonComponent },
+  components: { CardCustomer, ButtonComponent, SearchBar },
   layout: 'dashboard-pos',
   data () {
     return {}
