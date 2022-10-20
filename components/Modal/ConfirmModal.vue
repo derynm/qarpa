@@ -5,13 +5,10 @@
         {{ title }}
       </h3>
       <p>{{ text }}</p>
-      <!-- <button @click="$emit('closeModal')">
-        {{ textButton }}
-      </button> -->
       <button-component
         class="w-full"
         :text-fill="textButton"
-        @click="$emit('closeModal')"
+        @clicked="$emit('closeModal')"
       />
     </div>
   </div>
