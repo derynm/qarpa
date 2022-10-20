@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   layout: 'dashboard-pos',
   async asyncData ({ params, $axios }) {
@@ -34,7 +35,14 @@ export default {
       },
       validate: false
     }
+  },
+  created () {
+    this.setPageTitle('Point of Sales')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
   }
+
   // methods: {
   //   openToko (num) {
   //     console.log((this.tes.find(({ id }) => id === num).status = true))
