@@ -4,7 +4,7 @@
       <h1 class="text-3xl font-bold mb-8">
         Barang Terkirim
       </h1>
-      <SuccessShipping class="h-72 mx-auto"/>
+      <SuccessShipping class="h-72 mx-auto" />
       <p class="my-8">
         Stok sudah terupdate, mohon di cek bagian inventory
       </p>

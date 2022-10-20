@@ -5,36 +5,8 @@
         <BackIcon />
       </div>
       <h2 class="font-bold text-2xl">
-        Order Details
+        Order Details Customer - COD
       </h2>
-      <div class="bg-white rounded shadow p-3">
-        <div class="flex">
-          <LocationPoint />
-          <h3 class="text-xl font-semibold">
-            Alamat Cabang
-          </h3>
-        </div>
-        <div class="grid grid-cols-2 my-4">
-          <div>
-            <div class="flex items-center mb-7">
-              <p>Cabang 1</p>
-              <button class="border-2 py-1 px-2 rounded-md">
-                Ubah
-              </button>
-            </div>
-            <p class="text-left text-xs">
-              Kontak : 0878 -8758-6851
-            </p>
-          </div>
-          <div>
-            <p class="text-justify text-xs">
-              Kos Al Kindi Pagar putih dekat laundry, Jalan Sukun No.62,
-              RT.2/RW.14, Condongcatur, Depok (dekat laundry), KAB. SLEMAN -
-              DEPOK, DI YOGYAKARTA, ID 55283
-            </p>
-          </div>
-        </div>
-      </div>
       <div class="bg-white rounded shadow p-3 my-2">
         <h3 class="text-xl font-semibold">
           Produk
@@ -64,10 +36,25 @@
         </div>
       </div>
       <div class="bg-white rounded shadow p-3 mb-2">
+        <div class="mb-3">
+          <p class="text-left">Discount</p>
+          <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
+            <input
+              v-model="DiscountOrder"
+              type="text"
+              class="w-full rounded-xl p-2"
+              placeholder="Discount"
+            >
+          </div>
+        </div>
         <hr class="border-dashed border-t-2 border-black">
         <div class="flex justify-between font-semibold my-9">
           <p>Subtotal</p>
           <p>Rp.101.000</p>
+        </div>
+        <div class="flex justify-between font-semibold my-9">
+          <p>Discount</p>
+          <p>-</p>
         </div>
         <hr class="border-t-2 border-black">
         <div class="flex justify-between font-bold my-4 text-xl">
@@ -75,7 +62,7 @@
           <p>Rp.101.000</p>
         </div>
       </div>
-      <nuxt-link to="/dashboard/shipping/shipping-succes">
+      <nuxt-link to="/dashboard/shipping/shipping-costumer-success">
         <button-component :text-fill="'Bayar Sekarang'" />
       </nuxt-link>
     </div>
@@ -85,11 +72,14 @@
 <script>
 import ButtonComponent from '../ButtonComponent.vue'
 import BackIcon from '../icons/backIcon.vue'
-import LocationPoint from '../icons/icons-shipping/location-point.vue'
 export default {
-  components: { BackIcon, LocationPoint, ButtonComponent },
-  props: { to: String },
-  emits: ['closeModal']
+  components: { BackIcon, ButtonComponent },
+  emits: ['closeModal'],
+  data () {
+    return {
+      DiscountOrder: null
+    }
+  }
 }
 </script>
 
