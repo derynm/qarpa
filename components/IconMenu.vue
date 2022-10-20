@@ -1,11 +1,11 @@
 <template>
-  <div class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center items-center">
-    <nuxt-link to="dashboard/pos">
+  <div class="icon-menu shadow-md p-3 border-2">
+    <div class="flex flex-col justify-center items-center">
       <IconsPosIcon />
       <p class="pt-4">
         {{ item }}
       </p>
-    </nuxt-link>
+    </div>
   </div>
 </template>
 

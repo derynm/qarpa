@@ -15,7 +15,7 @@ export default {
 
 <style lang="postcss" scoped>
 .button-global {
-  background-color: #2e60af;
+  background-color: #b1b1b1;
   @apply px-10 py-3 rounded-lg font-bold text-white;
   &:hover {
     @apply bg-gray-800;
