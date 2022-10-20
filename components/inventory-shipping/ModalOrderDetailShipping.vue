@@ -1,7 +1,9 @@
 <template>
-  <div class="modal-overlay">
-    <div class="modal-body">
-      <BackIcon @click="$emit('closeModal')" />
+  <div class="modal-overlay" @click="$emit('closeModal')">
+    <div class="modal-body" @click.stop="">
+      <div class="w-7 cursor-pointer" @click="$emit('closeModal')">
+        <BackIcon />
+      </div>
       <h2 class="font-bold text-2xl">
         Order Details
       </h2>
@@ -73,7 +75,9 @@
           <p>Rp.101.000</p>
         </div>
       </div>
-      <button-component :text-fill="'Bayar Sekarang'" />
+      <nuxt-link to="/dashboard/shipping/shipping-succes">
+        <button-component :text-fill="'Bayar Sekarang'" />
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -81,7 +85,7 @@
 <script>
 import ButtonComponent from '../ButtonComponent.vue'
 import BackIcon from '../icons/backIcon.vue'
-import LocationPoint from '../icons/location-point.vue'
+import LocationPoint from '../icons/icons-shipping/location-point.vue'
 export default {
   components: { BackIcon, LocationPoint, ButtonComponent },
   emits: ['closeModal']

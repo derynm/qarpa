@@ -1,5 +1,5 @@
 <template>
-  <div class="relative h-screen mx-2 md:mx-24">
+  <div class="relative h-screen mx-4 md:mx-12">
     <div class="bg-white p-3 shadow">
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <card-product-wom
@@ -16,16 +16,21 @@
         @clicked="showOrderList"
       />
     </div>
-    <modal-order-detail-shipping v-if="isShowOrderList" @closeModal="showOrderList" />
+    <modal-order-detail-shipping
+      v-if="isShowOrderList"
+      @closeModal="showOrderList"
+    />
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import CardProductWom from '~/components/inventory-shipping/CardProductShipping.vue'
 import ButtonComponent from '~/components/ButtonComponent.vue'
 import ModalOrderDetailShipping from '~/components/inventory-shipping/ModalOrderDetailShipping.vue'
 export default {
   components: { CardProductWom, ButtonComponent, ModalOrderDetailShipping },
+  layout: 'dashboard-pos',
   data () {
     return {
       isShowOrderList: false,
@@ -43,10 +48,14 @@ export default {
       ]
     }
   },
+  created () {
+    this.setPageTitle('Kirim Barang Ke Cabang')
+  },
   methods: {
     showOrderList () {
       this.isShowOrderList = !this.isShowOrderList
-    }
+    },
+    ...mapMutations(['setPageTitle'])
   }
 }
 </script>

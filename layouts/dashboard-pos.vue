@@ -1,12 +1,18 @@
 <template>
   <div>
-    <DashboardComponent :title="'Point of Sales'" />
+    <DashboardComponent :title="pageTitle" />
     <Nuxt />
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  computed: {
+    pageTitle () {
+      return this.$store.state.pageTitle
+    }
+  }
+}
 </script>
 
 <style></style>
