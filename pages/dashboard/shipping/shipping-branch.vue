@@ -1,6 +1,7 @@
 <template>
   <div class="relative h-screen mx-4 md:mx-12">
     <div class="bg-white p-3 shadow">
+      <search-bar class="my-3"/>
       <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
         <card-product
           v-for="(product, index) in dummyProduct"
@@ -28,8 +29,9 @@ import { mapMutations } from 'vuex'
 import CardProduct from '~/components/inventory-shipping/CardProductShipping.vue'
 import ButtonComponent from '~/components/ButtonComponent.vue'
 import ModalOrderDetailShipping from '~/components/inventory-shipping/ModalOrderDetailShipping.vue'
+import SearchBar from '~/components/SearchBar.vue'
 export default {
-  components: { CardProduct, ButtonComponent, ModalOrderDetailShipping },
+  components: { CardProduct, ButtonComponent, ModalOrderDetailShipping, SearchBar },
   layout: 'dashboard-pos',
   data () {
     return {
