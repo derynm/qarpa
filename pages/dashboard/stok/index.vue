@@ -26,7 +26,9 @@
             <StokCardBarang />
           </div>
           <div class="btn flex justify-center my-4">
-            <ButtonComponent text-fill="+ Tambah Produk" />
+            <nuxt-link to="stok/tambah-produk">
+              <ButtonComponent text-fill="+ Tambah Produk" />
+            </nuxt-link>
           </div>
         </div>
       </div>
@@ -35,8 +37,15 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-stok'
+  layout: 'dashboard-pos',
+  created () {
+    this.setPageTitle('Inventory Stok')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
+  }
 }
 </script>
 

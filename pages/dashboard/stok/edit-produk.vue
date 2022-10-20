@@ -71,8 +71,15 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-stok',
+  layout: 'dashboard-pos',
+  created () {
+    this.setPageTitle('Inventory Stok')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
+  },
   data () {
     return {
       deleteModal: false,
