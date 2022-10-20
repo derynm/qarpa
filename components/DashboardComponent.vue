@@ -3,7 +3,9 @@
     class="nav flex justify-between py-10 items-center px-4 md:px-8 lg:px-12"
   >
     <div class="flex items-center gap-3">
+      <div class="cursor-pointer" @click="$router.go(-1) ">
       <IconsBackIcon />
+      </div>
       <div class="title-dashboard">
         <p class="text-xl lg:text-3xl font-bold">
           {{ title }}
