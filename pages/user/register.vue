@@ -90,7 +90,7 @@
           <!-- <button class="bg-yellow-300 mb-8">
             Sign Up
           </button> -->
-          <button-component :text-fill="'Sign Up'" class="w-full mb-8" />
+          <button-component :text-fill="'Sign Up'" class="w-full mb-8" @clicked="showModalHandler"/>
           <p class="text-center">
             <a href="/user/login">
               Sudah punya akun ?
@@ -105,6 +105,7 @@
       :title="'Akun Berhasil Dibuat'"
       :text-button="'Lanjutkan'"
       :text="'Silahkan Login Kembali untuk mengakses QARPA'"
+      @closeModal="showModalHandler"
     />
   </div>
 </template>
@@ -130,6 +131,9 @@ export default {
   methods: {
     typePaswdHandler () {
       this.showPaswd = !this.showPaswd
+    },
+    showModalHandler () {
+      this.showModal = !this.showModal
     }
   }
 }
