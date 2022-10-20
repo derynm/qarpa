@@ -64,7 +64,7 @@
 
 <script>
 export default {
-  layout: 'dashboard-stock'
+  layout: 'dashboard-stok'
 }
 </script>
 

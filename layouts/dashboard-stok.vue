@@ -1,6 +1,6 @@
 <template>
   <div>
-    <DashboardComponent title="Inventory Stock" />
+    <DashboardComponent title="Inventory Stok" />
     <Nuxt />
   </div>
 </template>

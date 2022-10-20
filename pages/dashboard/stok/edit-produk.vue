@@ -72,7 +72,7 @@
 
 <script>
 export default {
-  layout: 'dashboard-stock',
+  layout: 'dashboard-stok',
   data () {
     return {
       deleteModal: false,
