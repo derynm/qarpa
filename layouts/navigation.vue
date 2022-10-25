@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <DashboardComponent :title="pageTitle" />
-    <Nuxt />
+  <div class="flex">
+    <div class="max-w-2xl mx-auto">
+      <DashboardComponent :title="pageTitle" />
+      <Nuxt />
+    </div>
   </div>
 </template>
 

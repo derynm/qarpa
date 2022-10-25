@@ -2,7 +2,7 @@
   <div
     class="nav flex justify-between py-10 items-center px-4 md:px-8 lg:px-12"
   >
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-8">
       <div class="cursor-pointer" @click="$router.go(-1) ">
       <IconsBackIcon />
       </div>
@@ -11,15 +11,6 @@
           {{ title }}
         </p>
       </div>
-    </div>
-    <div :class="IconClass">
-      <Profile
-        class="icon-profile col-span-2 md:col-span-3 lg:col-span-4 border shadow-md rounded-lg p-2 grid justify-items-center grid-cols-2 md:grid-cols-4 lg:grid-cols-5 items-center mr-1"
-      />
-      <Notification
-        v-if="notif"
-        class="icon-notif border shadow-md rounded-lg p-2 flex justify-center items-center"
-      />
     </div>
   </div>
 </template>
