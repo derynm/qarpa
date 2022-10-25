@@ -28,7 +28,7 @@ export default {
     updateValue (value) {
       this.$emit('input', value)
     }
-  },
+  }
 }
 </script>
 
