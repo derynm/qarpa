@@ -1,12 +1,7 @@
 <template>
-  <div>
-    <DashboardComponent title="Qarpa" :notif="true" />
-    <Nuxt />
+  <div class="flex">
+    <div class="max-w-2xl mx-auto">
+      <Nuxt />
+    </div>
   </div>
 </template>
-
-<script>
-export default {}
-</script>
-
-<style></style>
