@@ -1,5 +1,5 @@
 <template>
-  <button class="button-global">
+  <button class="button-global" @click="$emit('clicked')">
     {{ textFill }}
   </button>
 </template>
@@ -8,19 +8,19 @@
 export default {
   props: {
     textFill: { type: String, default: '' }
-  }
+  },
+  emits: ['clicked']
 }
 </script>
 
 <style lang="postcss" scoped>
 .button-global {
-  background-color: #2E60AF;
-  @apply px-10 py-3 rounded-lg font-bold text-white;
+  @apply px-10 py-3 rounded-lg bg-primary font-bold text-white;
   &:hover {
-    @apply bg-gray-800;
+    @apply bg-secondary;
   }
   &:disabled {
-    @apply bg-gray-400
+    @apply bg-disabled;
   }
 }
 </style>

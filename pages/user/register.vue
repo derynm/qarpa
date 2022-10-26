@@ -1,9 +1,7 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
     <div class="mx-auto max-w-lg">
-      <div
-        class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0"
-      >
+      <div class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0">
         <div class="mx-5 text-center">
           <h1>Create Account</h1>
           <p>Lengkapi form di bawah dengan menggunakan data Anda yang valid</p>
@@ -13,8 +11,8 @@
             <p>Nama</p>
             <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
               <input
-                type="text"
                 v-model="nameRegister"
+                type="text"
                 class="w-full rounded-xl p-2"
                 placeholder="Nama"
                 @focus.prevent="isFocus = true"
@@ -26,8 +24,8 @@
             <p>Nama Program Usaha</p>
             <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
               <input
-                type="text"
                 v-model="businessRegister"
+                type="text"
                 class="w-full rounded-xl p-2"
                 placeholder="Program usaha anda"
                 @focus.prevent="isFocus = true"
@@ -66,8 +64,8 @@
                 class="my-2 flex rounded-xl border-2 border-solid border-black p-1 mb-8 md:mb-0 lg:mb-0"
               >
                 <input
-                  class="w-full p-2"
                   v-model="passwordConfirmRegister"
+                  class="w-full p-2"
                   placeholder="Password"
                   :type="showPaswd ? 'text' : 'password'"
                   @focus.prevent="isFocus = true"
@@ -92,7 +90,7 @@
           <!-- <button class="bg-yellow-300 mb-8">
             Sign Up
           </button> -->
-          <button-component :text-fill="'Sign Up'" class="w-full mb-8" />
+          <button-component :text-fill="'Sign Up'" class="w-full mb-8" @clicked="showModalHandler"/>
           <p class="text-center">
             <a href="/user/login">
               Sudah punya akun ?
@@ -102,6 +100,13 @@
         </form>
       </div>
     </div>
+    <confirm-modal
+      v-if="showModal"
+      :title="'Akun Berhasil Dibuat'"
+      :text-button="'Lanjutkan'"
+      :text="'Silahkan Login Kembali untuk mengakses QARPA'"
+      @closeModal="showModalHandler"
+    />
   </div>
 </template>
 
@@ -109,8 +114,9 @@
 import ButtonComponent from '~/components/ButtonComponent.vue'
 import ShowPaswdIcon from '~/components/icons/icons-input/showPaswdIcon.vue'
 import unShowPaswdIcon from '~/components/icons/icons-input/unShowPaswdIcon.vue'
+import ConfirmModal from '~/components/Modal/ConfirmModal.vue'
 export default {
-  components: { ShowPaswdIcon, unShowPaswdIcon, ButtonComponent },
+  components: { ShowPaswdIcon, unShowPaswdIcon, ButtonComponent, ConfirmModal },
   data () {
     return {
       isFocus: false,
@@ -118,12 +124,16 @@ export default {
       nameRegister: null,
       businessRegister: null,
       passwordRegister: null,
-      passwordConfirmRegister: null
+      passwordConfirmRegister: null,
+      showModal: false
     }
   },
   methods: {
     typePaswdHandler () {
       this.showPaswd = !this.showPaswd
+    },
+    showModalHandler () {
+      this.showModal = !this.showModal
     }
   }
 }
