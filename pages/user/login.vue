@@ -42,7 +42,7 @@
           </div>
           <button-component
             :text-fill="'Sign In'"
-            class="w-full mb-8"
+            class="w-full mb-8 py-3"
             :disabled="isDisabled"
           />
           <p class="text-center font-bold">

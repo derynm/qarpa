@@ -1,16 +1,14 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
     <div class="mx-auto max-w-lg">
-      <div class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0">
+      <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 my-7 text-center">
           <h1 class="text-2xl font-bold">
-            Kode Verifikasi Telah Terkirim
+            Kode Verifikasi Telah Dikirim
           </h1>
-          <p>
-            Silahkan cek kode yang telah dikirimkan ke email yang didaftarkan
-          </p>
+          <p>Masukkan kode yang telah dikirimkan ke email dibawah ini</p>
         </div>
-        <form>
+        <form @submit.prevent="handleSubmit">
           <div class="mb-8 flex justify-center">
             <div
               class="my-2 mx-2 rounded-md border-2 border-solid border-black p-1 w-full max-w-[60px]"
@@ -21,7 +19,7 @@
                   v-model="codeVerification.code1"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input2')"
@@ -37,7 +35,7 @@
                   v-model="codeVerification.code2"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input3')"
@@ -53,7 +51,7 @@
                   v-model="codeVerification.code3"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input4')"
@@ -69,7 +67,7 @@
                   v-model="codeVerification.code4"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input5')"
@@ -85,7 +83,7 @@
                   v-model="codeVerification.code5"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input6')"
@@ -101,7 +99,7 @@
                   v-model="codeVerification.code6"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                 >
@@ -109,13 +107,16 @@
             </div>
           </div>
 
-          <button-component :text-fill="'Sign In'" class="w-full mb-8" />
-          <p class="text-center">
-            <a href="/user/login">
-              Sudah punya akun ?
-              <span class="font-bold underline">Masuk Sekarang</span>
-            </a>
-          </p>
+          <button-component
+            :text-fill="'Verifikasi Email'"
+            class="w-full mb-8 py-3"
+            :disabled="isDisabled"
+          />
+          <button-component
+            :text-fill="'Kirim ulang email'"
+            :outlined="true"
+            class="w-full mb-8 py-3"
+          />
         </form>
       </div>
     </div>
@@ -128,14 +129,34 @@ export default {
     return {
       isFocus: false,
       codeVerification: {
-        code1: null,
-        code2: null,
-        code3: null,
-        code4: null,
-        code5: null,
-        code6: null
+        code1: '',
+        code2: '',
+        code3: '',
+        code4: '',
+        code5: '',
+        code6: ''
       },
       isDisabled: true
+    }
+  },
+  watch: {
+    'codeVerification.code1' () {
+      this.disabledButton()
+    },
+    'codeVerification.code2' () {
+      this.disabledButton()
+    },
+    'codeVerification.code3' () {
+      this.disabledButton()
+    },
+    'codeVerification.code4' () {
+      this.disabledButton()
+    },
+    'codeVerification.code5' () {
+      this.disabledButton()
+    },
+    'codeVerification.code6' () {
+      this.disabledButton()
     }
   },
   mounted () {
@@ -146,6 +167,35 @@ export default {
       if (e.target.value.length === 1) {
         this.$refs?.[nextField].focus()
       }
+    },
+    disabledButton () {
+      if (
+        this.codeVerification.code1 &&
+        this.codeVerification.code2 &&
+        this.codeVerification.code3 &&
+        this.codeVerification.code4 &&
+        this.codeVerification.code5 &&
+        this.codeVerification.code6 !== ''
+      ) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
+    },
+    async handleSubmit () {
+      const code =
+        this.codeVerification.code1 +
+        this.codeVerification.code2 +
+        this.codeVerification.code3 +
+        this.codeVerification.code4 +
+        this.codeVerification.code5 +
+        this.codeVerification.code6
+      await this.$axios
+        .$post('users/auth/signup/reedem', { token: code })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch(error => console.log(error.response))
     }
   }
 }
