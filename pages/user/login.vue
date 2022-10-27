@@ -8,7 +8,7 @@
           </h1>
           <p>Masuk dulu yuk untuk kerja bareng di Qarpa</p>
         </div>
-        <form @submit.prevent="">
+        <form @submit.prevent="handleLogin">
           <div class="mb-8">
             <InputFieldEmailInput
               v-model="dataLogin.email"
@@ -95,8 +95,19 @@ export default {
         this.isDisabled = true
       }
     },
-    handleLogin() {
-
+    async handleLogin () {
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            user: {
+              email: this.dataLogin.email,
+              password: this.dataLogin.password
+            }
+          }
+        })
+      } catch (error) {
+        console.log(error.response)
+      }
     }
   }
 }
