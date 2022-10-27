@@ -1,12 +1,23 @@
 <template>
-  <div class="icon-menu shadow-md p-3 border-2 flex flex-col justify-center">
-    <img
-      src="https://cdn.discordapp.com/attachments/1029421569530929264/1029452214059667476/854049991865401374.gif"
-      alt=""
-    >
-    <p class="pt-4">
-      {{ item }}
-    </p>
+  <div class="icon-menu shadow-md border rounded-md">
+    <nuxt-link :to="item.url" class="cursor-pointer">
+      <div class="flex flex-col justify-center items-center py-2">
+        <!-- <IconsPosIcon /> -->
+        <IconsIconDashboardPos v-if="item.name === 'Point of Sale'" />
+        <IconsIconDashboardWom v-if="item.name === 'Work Order'" />
+        <IconsIconDashboardLeaves v-if="item.name === 'Leaves'" />
+        <IconsIconDashboardTimeoff v-if="item.name === 'Cuti'" />
+        <IconsIconDashboardShipping v-if="item.name === 'Pengiriman'" />
+        <IconsIconDashboardStok v-if="item.name === 'Stok Gudang'" />
+        <IconsIconDashboardKaryawan v-if="item.name === 'Karyawan'" />
+        <IconsIconDashboardKeuangan v-if="item.name === 'Keuangan'" />
+        <IconsIconDashboardAudit v-if="item.name === 'Audit'" />
+        <IconsIconDashboardSubscription v-if="item.name === 'Subscription'" />
+        <p class="text-sm text-[#354497]">
+          {{ item.name }}
+        </p>
+      </div>
+    </nuxt-link>
   </div>
 </template>
 
@@ -15,12 +26,9 @@ export default {
   name: 'NuxtIconMenu',
   props: {
     item: {
-      type: String,
+      type: Object,
       required: true
     }
-  },
-  mounted () {
-    console.log(this.item)
   }
 }
 </script>

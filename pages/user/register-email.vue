@@ -1,38 +1,39 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
-    <div class="mx-auto max-w-lg shrink-0">
-      <div
-        class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0"
-      >
+    <div class="mx-auto max-w-lg">
+      <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 my-7 text-center">
-          <h1 class="text-2xl font-bold">
-            Mari bergabung dengan QARPA !
-          </h1>
-          <p>Lengkapi form di bawah dengan menggunakan data Anda yang valid</p>
+          <p>Halo Usahawan, ayo bergabung bersama Qarpa!</p>
         </div>
-        <form>
+        <form @submit.prevent="handleSubmit">
           <div class="mb-8">
-            <p>Email</p>
-            <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
-              <input
-                v-model="emailCheck"
-                type="text"
-                class="w-full rounded-xl p-2"
-                placeholder="Email"
-                @focus.prevent="isFocus = true"
-                @blur="isFocus = false"
-              >
+            <InputFieldEmailInput
+              v-model="emailCheck"
+              label="Email"
+              placeholder="Masukkan Email Anda"
+            />
+            <div v-if="!emailValid" class="pl-3 flex">
+              <IconsWarningIcon />
+              <p class="ml-1 text-danger text-[10px] font-semibold">
+                Email tidak valid
+              </p>
             </div>
           </div>
 
           <button-component
-            :text-fill="'Sign In'"
-            class="w-full mb-8"
+            v-if="!isLoading"
+            text-fill="Lanjutkan"
+            class="w-full mb-8 py-3"
+            :disabled="isDisabled"
           />
-          <p class="text-center">
+          <div v-if="isLoading" class="flex justify-center mb-8">
+            <Loading />
+          </div>
+
+          <p class="text-center font-bold">
             <a href="/user/login">
-              Sudah punya akun ?
-              <span class="font-bold underline">Masuk Sekarang</span>
+              Sudah punya Akun?
+              <span class="text-secondary">Masuk Sekarang</span>
             </a>
           </p>
         </form>
@@ -47,7 +48,42 @@ export default {
     return {
       isFocus: false,
       emailCheck: null,
-      isDisabled: true
+      emailValid: true,
+      isDisabled: true,
+      isLoading: false,
+      debounce: null,
+      // eslint-disable-next-line
+      reg: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    }
+  },
+  watch: {
+    emailCheck () {
+      this.checkEmail()
+    }
+  },
+
+  methods: {
+    checkEmail () {
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+        if (!this.reg.test(this.emailCheck)) {
+          this.emailValid = false
+          this.isDisabled = true
+        } else {
+          this.emailValid = true
+          this.isDisabled = false
+        }
+      }, 600)
+    },
+    async handleSubmit () {
+      this.isLoading = true
+      await this.$axios
+        .$post('users/auth/signup', { email: this.emailCheck })
+        .then((response) => {
+          this.isLoading = false
+          this.$router.push('/user/verification-email')
+        })
+        .catch(error => console.log(error.response))
     }
   }
 }
