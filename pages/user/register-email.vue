@@ -23,7 +23,7 @@
           <button-component
             v-if="!isLoading"
             text-fill="Lanjutkan"
-            class="w-full mb-8"
+            class="w-full mb-8 py-3"
             :disabled="isDisabled"
           />
           <div v-if="isLoading" class="flex justify-center mb-8">
