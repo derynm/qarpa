@@ -13,8 +13,10 @@
         </p>
       </div>
     </div>
-    <div class="right pr-4">
-      <IconsArrowRight />
+    <div class="right px-4">
+      <nuxt-link to="/profile">
+        <IconsArrowRight />
+      </nuxt-link>
     </div>
   </div>
 </template>
