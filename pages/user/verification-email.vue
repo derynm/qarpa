@@ -1,14 +1,12 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
     <div class="mx-auto max-w-lg">
-      <div class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0">
+      <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 my-7 text-center">
           <h1 class="text-2xl font-bold">
-            Kode Verifikasi Telah Terkirim
+            Kode Verifikasi Telah Dikirim
           </h1>
-          <p>
-            Silahkan cek kode yang telah dikirimkan ke email yang didaftarkan
-          </p>
+          <p>Masukkan kode yang telah dikirimkan ke email dibawah ini</p>
         </div>
         <form>
           <div class="mb-8 flex justify-center">
@@ -21,7 +19,7 @@
                   v-model="codeVerification.code1"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input2')"
@@ -37,7 +35,7 @@
                   v-model="codeVerification.code2"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input3')"
@@ -53,7 +51,7 @@
                   v-model="codeVerification.code3"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input4')"
@@ -69,7 +67,7 @@
                   v-model="codeVerification.code4"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input5')"
@@ -85,7 +83,7 @@
                   v-model="codeVerification.code5"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input6')"
@@ -101,7 +99,7 @@
                   v-model="codeVerification.code6"
                   type="text"
                   maxlength="1"
-                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg uppercase"
+                  class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg "
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                 >
@@ -109,13 +107,15 @@
             </div>
           </div>
 
-          <button-component :text-fill="'Sign In'" class="w-full mb-8" />
-          <p class="text-center">
-            <a href="/user/login">
-              Sudah punya akun ?
-              <span class="font-bold underline">Masuk Sekarang</span>
-            </a>
-          </p>
+          <button-component
+            :text-fill="'Verifikasi Email'"
+            class="w-full mb-8 py-3"
+          />
+          <button-component
+            :text-fill="'Kirim ulang email'"
+            :outlined="true"
+            class="w-full mb-8 py-3"
+          />
         </form>
       </div>
     </div>
