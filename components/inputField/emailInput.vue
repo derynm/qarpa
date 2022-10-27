@@ -5,7 +5,7 @@
     <legend class="ml-6 px-2 text-lg">
       {{ label }}
     </legend>
-    <IconsMessageIcon class="ml-2" />
+    <IconsMessageIcon class="ml-2 mt-1" />
     <input
       type="email"
       :placeholder="placeholder"
