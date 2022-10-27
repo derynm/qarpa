@@ -44,7 +44,7 @@
                 </p>
               </div>
               <div class="right">
-                <IconsArrowRightIcon />
+                <IconsArrowRight />
               </div>
             </div>
             <div class="discount pb-5 border-b border-dotted border-black">
