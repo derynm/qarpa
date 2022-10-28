@@ -1,96 +1,56 @@
 <template>
   <div class="container mx-auto flex h-screen items-center">
     <div class="mx-auto max-w-lg">
-      <div class="mx-2 rounded-xl border-2 p-3 shadow md:mx-0 lg:mx-0">
+      <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 text-center">
           <h1>Create Account</h1>
           <p>Lengkapi form di bawah dengan menggunakan data Anda yang valid</p>
         </div>
-        <form>
+        <form @submit.prevent="">
           <div class="mb-8">
-            <p>Nama</p>
-            <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
-              <input
-                v-model="nameRegister"
-                type="text"
-                class="w-full rounded-xl p-2"
-                placeholder="Nama"
-                @focus.prevent="isFocus = true"
-                @blur="isFocus = false"
-              >
-            </div>
+            <InputFieldBasicInput
+              v-model="nameRegister"
+              label="Nama"
+              placeholder="Masukkan Nama Lengkap"
+            />
           </div>
           <div class="mb-8">
-            <p>Nama Program Usaha</p>
-            <div class="my-2 rounded-xl border-2 border-solid border-black p-1">
-              <input
-                v-model="businessRegister"
-                type="text"
-                class="w-full rounded-xl p-2"
-                placeholder="Program usaha anda"
-                @focus.prevent="isFocus = true"
-                @blur="isFocus = false"
-              >
+            <InputFieldBasicInput
+              v-model="businessRegister"
+              label="Nama Usaha"
+              placeholder="Masukkan Nama Usaha Anda"
+            />
+          </div>
+          <div class="mb-8">
+            <InputFieldPasswordInput
+              v-model="passwordRegister"
+              label="Kata Sandi"
+              placeholder="Masukkan Kata Sandi"
+            />
+            <div v-if="passwordMatch" class="pl-3 flex">
+              <IconsWarningIcon />
+              <p class="ml-1 text-danger text-[10px] font-semibold">
+                Email tidak valid
+              </p>
             </div>
           </div>
-          <div
-            class="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-2 mb-8"
-          >
-            <div>
-              <p>Password</p>
-              <div
-                class="my-2 flex rounded-xl border-2 border-solid border-black p-1 mb-8 md:mb-0 lg:mb-0"
-              >
-                <input
-                  v-model="passwordRegister"
-                  class="w-full p-2"
-                  placeholder="Password"
-                  :type="showPaswd ? 'text' : 'password'"
-                  @focus.prevent="isFocus = true"
-                  @blur="isFocus = false"
-                >
-                <div
-                  class="flex flex-col justify-center"
-                  @click="typePaswdHandler"
-                >
-                  <show-paswd-icon v-if="!showPaswd" class="mr-1" />
-                  <un-show-paswd-icon v-if="showPaswd" class="mr-1" />
-                </div>
-              </div>
-            </div>
-            <div>
-              <p>Konfirmasi Password</p>
-              <div
-                class="my-2 flex rounded-xl border-2 border-solid border-black p-1 mb-8 md:mb-0 lg:mb-0"
-              >
-                <input
-                  v-model="passwordConfirmRegister"
-                  class="w-full p-2"
-                  placeholder="Password"
-                  :type="showPaswd ? 'text' : 'password'"
-                  @focus.prevent="isFocus = true"
-                  @blur="isFocus = false"
-                >
-                <div
-                  class="flex flex-col justify-center"
-                  @click="typePaswdHandler"
-                >
-                  <show-paswd-icon v-if="!showPaswd" class="mr-1" />
-                  <un-show-paswd-icon v-if="showPaswd" class="mr-1" />
-                </div>
-              </div>
+          <div class="mb-8">
+            <InputFieldPasswordInput
+              v-model="passwordConfirmRegister"
+              label="Konfirmasi Kata Sandi"
+              placeholder="Konfirmasi Kata Sandi Anda"
+            />
+            <div v-if="passwordMatch" class="pl-3 flex">
+              <IconsWarningIcon />
+              <p class="ml-1 text-danger text-[10px] font-semibold">
+                Email tidak valid
+              </p>
             </div>
           </div>
-          <div class="mb-4">
-            <input type="checkbox">
-            <label>Saya setuju dengan
-              <span class="underline-offset-8 font-semibold underline">syarat dan ketentuan
-              </span></label>
-          </div>
-          <!-- <button class="bg-yellow-300 mb-8">
-            Sign Up
-          </button> -->
-          <button-component :text-fill="'Sign Up'" class="w-full mb-8" @clicked="showModalHandler"/>
+          <button-component
+            :text-fill="'Daftar Akun'"
+            class="w-full mb-8 py-3"
+          />
           <p class="text-center">
             <a href="/user/login">
               Sudah punya akun ?
@@ -112,20 +72,30 @@
 
 <script>
 import ButtonComponent from '~/components/ButtonComponent.vue'
-import ShowPaswdIcon from '~/components/icons/icons-input/showPaswdIcon.vue'
-import unShowPaswdIcon from '~/components/icons/icons-input/unShowPaswdIcon.vue'
 import ConfirmModal from '~/components/Modal/ConfirmModal.vue'
 export default {
-  components: { ShowPaswdIcon, unShowPaswdIcon, ButtonComponent, ConfirmModal },
+  components: { ButtonComponent, ConfirmModal },
   data () {
     return {
       isFocus: false,
       showPaswd: false,
-      nameRegister: null,
-      businessRegister: null,
-      passwordRegister: null,
-      passwordConfirmRegister: null,
-      showModal: false
+      nameRegister: '',
+      businessRegister: '',
+      passwordRegister: '',
+      passwordConfirmRegister: '',
+      passwordMatch: false,
+      showModal: false,
+      code: this.$route.query.code
+    }
+  },
+  computed: {
+    codeRegister () {
+      return this.$store.state.codeRegister
+    }
+  },
+  mounted () {
+    if (!this.code) {
+      this.$router.push('/user/register-email')
     }
   },
   methods: {
@@ -134,6 +104,17 @@ export default {
     },
     showModalHandler () {
       this.showModal = !this.showModal
+    },
+    async handleSubmit () {
+      await this.$axios
+        .$put('users/auth/signup/registration', {
+          token: this.codeRegister,
+          name: this.nameRegister,
+          password: this.passwordRegister,
+          company_name: this.businessRegister
+        })
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
     }
   }
 }

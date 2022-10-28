@@ -39,6 +39,7 @@
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input3')"
+                  @keyup.delete="prevInput('input1')"
                 >
               </div>
             </div>
@@ -55,6 +56,7 @@
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input4')"
+                  @keyup.delete="prevInput('input2')"
                 >
               </div>
             </div>
@@ -71,6 +73,7 @@
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input5')"
+                  @keyup.delete="prevInput('input3')"
                 >
               </div>
             </div>
@@ -87,6 +90,7 @@
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
                   @input="nextInput($event, 'input6')"
+                  @keyup.delete="prevInput('input4')"
                 >
               </div>
             </div>
@@ -102,6 +106,7 @@
                   class="w-full rounded-xl py-2 max-w-[50px] text-center font-extrabold text-lg"
                   @focus.prevent="isFocus = true"
                   @blur="isFocus = false"
+                  @keyup.delete="prevInput('input5')"
                 >
               </div>
             </div>
@@ -136,6 +141,7 @@ export default {
         code5: '',
         code6: ''
       },
+      email: this.$route.query.email,
       isDisabled: true
     }
   },
@@ -161,12 +167,18 @@ export default {
   },
   mounted () {
     this.$refs.input1.focus()
+    if (!this.email) {
+      this.$router.push('/user/register-email')
+    }
   },
   methods: {
     nextInput (e, nextField) {
       if (e.target.value.length === 1) {
         this.$refs?.[nextField].focus()
       }
+    },
+    prevInput (prevField) {
+      this.$refs?.[prevField].focus()
     },
     disabledButton () {
       if (
@@ -182,7 +194,7 @@ export default {
         this.isDisabled = true
       }
     },
-    async handleSubmit () {
+    handleSubmit () {
       const code =
         this.codeVerification.code1 +
         this.codeVerification.code2 +
@@ -190,10 +202,11 @@ export default {
         this.codeVerification.code4 +
         this.codeVerification.code5 +
         this.codeVerification.code6
-      await this.$axios
+      this.$axios
         .$post('users/auth/signup/reedem', { token: code })
         .then((response) => {
           console.log(response)
+          this.$router.push({ path: 'register', query: { code } })
         })
         .catch(error => console.log(error.response))
     }

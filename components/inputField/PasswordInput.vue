@@ -26,7 +26,8 @@ export default {
   props: {
     label: { type: String, default: null },
     placeholder: { type: String, default: null },
-    value: { type: String, default: '' }
+    value: { type: String, default: '' },
+    icon: { type: Boolean, default: true }
   },
   data () {
     return {
