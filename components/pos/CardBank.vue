@@ -1,21 +1,26 @@
 <template>
   <div
-    class="card-bank flex justify-between pb-5 border-b border-black items-center"
+    class="card-bank p-2 flex justify-between border shadow-md rounded-md items-center"
   >
     <div class="left">
-      <p>Nama Pemilik Rekening</p>
-      <p>78267xxxxx</p>
+      <p>Nadya Loppies</p>
+      <p>78262627</p>
     </div>
-    <div class="right">
-      <p class="text-xl">
-        BNI
+    <div class="right flex items-center gap-3">
+      <p class="font-bold">
+        {{ bank }}
       </p>
+      <IconsArrowRight color="black" />
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    bank: String
+  }
+}
 </script>
 
 <style></style>

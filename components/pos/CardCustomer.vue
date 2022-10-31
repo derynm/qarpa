@@ -1,19 +1,25 @@
 <template>
-  <div class="card flex flex-col md:flex-row md:justify-between">
+  <div class="card flex justify-between items-center shadow-md border p-2">
     <div class="content flex justify-between md:justify-start">
-      <img
-        class="pr-2"
-        src="https://cdn.discordapp.com/attachments/1024706945304760320/1031885881646264411/Image.png"
-        alt=""
-      >
       <div class="text">
-        <p>Name</p>
-        <p>Alamat</p>
-        <p>Kontak</p>
+        <p class="font-semibold">
+          Aninda Azzahra Fauziah
+        </p>
+        <div class="alamat flex gap-2">
+          <p>Alamat :</p>
+          <p>Yogyakarta</p>
+        </div>
+        <div class="kontak flex gap-2">
+          <p>Kontak :</p>
+          <p>0878-8758-6851</p>
+        </div>
       </div>
     </div>
     <div class="btn flex justify-center pt-2 md:pt-0">
-      <ButtonComponent text-fill="Hapus" />
+      <!-- <ButtonComponent text-fill="Hapus" /> -->
+      <button class="p-2 border border-red-600 rounded-lg">
+        <IconsTrash />
+      </button>
     </div>
   </div>
 </template>

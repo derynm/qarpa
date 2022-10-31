@@ -15,7 +15,7 @@
     </div>
     <div class="right px-4">
       <nuxt-link to="/profile">
-        <IconsArrowRight />
+        <IconsArrowRight color="white" />
       </nuxt-link>
     </div>
   </div>
