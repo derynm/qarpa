@@ -1,54 +1,55 @@
 <template>
-  <div class="container px-4 md:px-8 lg:px-12 mx-auto">
-    <div class="button flex pb-6">
-      <ButtonComponent
-        :text-fill="'+ Tambah Cabang'"
-        @clicked="validate = true"
-      />
+  <div class="container px-3 pb-8">
+    <div class="card-cabang grid grid-cols-1 gap-4">
+      <PosCardCabang v-for="item in dataCabang" :key="item.id" :item="item" />
     </div>
-    <div class="card-cabang grid grid-cols-1 md:grid-cols-2 gap-2">
-      <PosCardCabang v-for="item in tes" :key="item.id" :item="item" />
+    <div class="button flex justify-end pt-6">
+      <nuxt-link to="pos/tambah-cabang">
+        <ButtonComponent class="p-2" :text-fill="'+ Cabang'" />
+      </nuxt-link>
     </div>
-    <ModalTambahCabang
-      v-show="validate"
-      :text="modalText"
-      @decline="validate = false"
-    />
+    <!-- <button @click="clicked">
+      Click
+    </button> -->
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-pos',
-  async asyncData ({ params, $axios }) {
-    const tes = await $axios.$get(
-      'https://6289dd84e5e5a9ad321e3041.mockapi.io/test'
-    )
-    return { tes }
-  },
+  layout: 'navigation',
+  // async asyncData ({ params, $axios }) {
+  //   const tes = await $axios.$get(
+  //     'https://6289dd84e5e5a9ad321e3041.mockapi.io/test'
+  //   )
+  //   return { tes }
+  // },
   data () {
     return {
+      dataCabang: [],
       modalText: {
-        btn1: 'Batal',
-        btn2: 'Tambah'
+        btn1: 'Tidak',
+        btn2: 'Yakin'
       },
       validate: false
     }
   },
   created () {
-    this.setPageTitle('Point of Sales')
+    this.setPageTitle('Point of Sale')
+  },
+  mounted () {
+    this.$axios
+      .$get('branches', {
+        headers: {
+          Authorization:
+            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZXhwIjoxNjY3MjI3MDQ4fQ.iOv6zeQFmeCCWEiiqhWiid4pHABgsLUo02PZ0-BXHpc'
+        }
+      })
+      .then(response => (this.dataCabang = response))
   },
   methods: {
     ...mapMutations(['setPageTitle'])
   }
-
-  // methods: {
-  //   openToko (num) {
-  //     console.log((this.tes.find(({ id }) => id === num).status = true))
-  //     console.log(this.tes)
-  //   }
-  // }
 }
 </script>
 
