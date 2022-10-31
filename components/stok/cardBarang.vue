@@ -1,15 +1,21 @@
 <template>
-  <div class="card-barang flex justify-between shadow-md py-3 px-2">
-    <div class="left flex">
-      <IconsPosIcon class="rounded-full border border-black" />
-      <div class="pl-2 text-barang">
-        <p>Nama Barang</p>
+  <div
+    class="card-barang flex justify-between border shadow-md rounded-md py-3 px-2"
+  >
+    <div class="left flex gap-2">
+      <IconsPosIcon />
+      <div class="text-barang flex flex-col justify-center">
+        <p class="font-semibold">
+          Nama Barang
+        </p>
         <p>Rp.20.000</p>
       </div>
     </div>
-    <div class="right">
-      <p>Stok</p>
-      <p>x190</p>
+    <div class="right flex flex-col justify-center">
+      <p class="font-semibold">
+        Stok
+      </p>
+      <p>190</p>
     </div>
   </div>
 </template>
