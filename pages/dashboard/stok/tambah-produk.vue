@@ -1,73 +1,64 @@
 <template>
-  <div class="container mx-auto px-4 md:px-8 lg:px-12 pb-8">
-    <div class="title text-center text-2xl font-semibold mb-4">
-      <p>Tambah Produk</p>
+  <div class="container px-4">
+    <div class="header-text px-6 my-4 flex flex-col items-center gap-2">
+      <IconsPosIcon />
+      <ButtonComponent class="p-2" text-fill="upload gambar" />
     </div>
-    <div class="content">
-      <div class="img flex flex-col items-center">
-        <IconsPosIcon
-          class="rounded-full border border-black w-[180px] h-[180px] my-4"
+    <form class="flex flex-col justify-between min-h-[60vh]">
+      <div class="input">
+        <InputFieldBasicInput
+          v-model="dataCustomer.nama"
+          label="Nama Produk"
+          placeholder="..."
         />
-        <button class="border p-2">
-          Upload Gambar
-        </button>
-      </div>
-      <div class="form">
-        <form>
-          <div class="nama">
-            <label>Nama Produk</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Masukkan Nama Produk..."
-            >
-          </div>
-          <div class="harga">
-            <label>Harga Jual</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Tuliskan Harga..."
-            >
-          </div>
-          <div class="stok">
-            <label>Stok Produk</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Tuliskan Stok..."
-            >
-          </div>
-          <div class="jenis">
-            <label>Jenis Stok</label>
-            <select
-              id=""
-              name=""
-              class="w-full border border-black rounded-md p-2 mb-4"
-            >
-              <option value="1">
-                Jenis 1
+        <InputFieldBasicInput
+          v-model="dataCustomer.harga"
+          label="Harga"
+          placeholder="..."
+        />
+        <InputFieldBasicInput
+          v-model="dataCustomer.stok"
+          label="Stok"
+          placeholder="..."
+        />
+        <div class="dropdown">
+          <fieldset
+            class="my-2 rounded-md border-2 border-solid border-black bg-white"
+          >
+            <select id="" class="w-full rounded-xl px-4 py-3" name="">
+              <option value="">
+                Minuman
               </option>
-              <option value="2">
-                Jenis 2
+              <option value="">
+                Makanan
               </option>
             </select>
-          </div>
-          <div class="btn mt-2">
-            <ButtonComponent class="w-full" text-fill="Simpan" />
-          </div>
-        </form>
+          </fieldset>
+        </div>
       </div>
-    </div>
+      <div class="btn">
+        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-pos',
+  layout: 'navigation',
+  data () {
+    return {
+      dataCustomer: {
+        nama: '',
+        harga: '',
+        tipe: '',
+        stok: null
+      }
+    }
+  },
   created () {
-    this.setPageTitle('Inventory Stok')
+    this.setPageTitle('Tambah Produk')
   },
   methods: {
     ...mapMutations(['setPageTitle'])
@@ -75,4 +66,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+select {
+  outline: none;
+}
+</style>

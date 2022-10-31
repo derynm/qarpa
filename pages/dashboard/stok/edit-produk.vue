@@ -1,96 +1,90 @@
 <template>
-  <div class="container mx-auto px-4 md:px-8 lg:px-12 pb-8">
-    <div class="title text-center text-2xl font-semibold mb-4">
-      <p>Tambah Produk</p>
+  <div class="container px-4">
+    <div class="header-text px-6 my-4 flex flex-col items-center gap-2">
+      <IconsPosIcon />
+      <ButtonComponent class="p-2" text-fill="upload gambar" />
     </div>
-    <div class="content">
-      <div class="img flex flex-col items-center">
-        <IconsPosIcon
-          class="rounded-full border border-black w-[180px] h-[180px] my-4"
+    <form class="flex flex-col justify-between min-h-[60vh]" @submit.prevent="">
+      <div class="input">
+        <InputFieldBasicInput
+          v-model="dataProduk.nama"
+          label="Nama Produk"
+          placeholder="..."
         />
-        <button class="border p-2">
-          Upload Gambar
-        </button>
-      </div>
-      <div class="form">
-        <form>
-          <div class="nama">
-            <label>Nama Produk</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Masukkan Nama Produk..."
-            >
-          </div>
-          <div class="harga">
-            <label>Harga Jual</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Tuliskan Harga..."
-            >
-          </div>
-          <div class="stok">
-            <label>Stok Produk</label>
-            <input
-              class="w-full border border-black rounded-md p-2 mb-4"
-              type="text"
-              placeholder="Tuliskan Stok..."
-            >
-          </div>
-          <div class="jenis">
-            <label>Jenis Stok</label>
-            <select
-              id=""
-              name=""
-              class="w-full border border-black rounded-md p-2 mb-4"
-            >
-              <option value="1">
-                Jenis 1
+        <InputFieldBasicInput
+          v-model="dataProduk.harga"
+          label="Harga"
+          placeholder="..."
+        />
+        <InputFieldBasicInput
+          v-model="dataProduk.stok"
+          label="Stok"
+          placeholder="..."
+        />
+        <div class="dropdown">
+          <fieldset
+            class="my-2 rounded-md border-2 border-solid border-black bg-white"
+          >
+            <select id="" class="w-full rounded-xl px-4 py-3" name="">
+              <option value="">
+                Minuman
               </option>
-              <option value="2">
-                Jenis 2
+              <option value="">
+                Makanan
               </option>
             </select>
-          </div>
-        </form>
-        <div class="btn mt-2 text-center">
-          <ButtonComponent class="w-full" text-fill="Simpan" />
-          <button class="border-b border-black p-2" @click="deleteModal = true">
-            Hapus Produk
-          </button>
+          </fieldset>
         </div>
-        <ModalValidate
-          v-show="deleteModal"
-          :text="modalText"
-          @decline="deleteModal = false"
+      </div>
+      <div class="btn flex flex-col gap-4">
+        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+        <ButtonComponent
+          :outlined="true"
+          class="w-full py-2"
+          text-fill="Hapus Produk"
+          @clicked="deleteModal = true"
         />
       </div>
-    </div>
+    </form>
+    <ModalValidate
+      v-show="deleteModal"
+      :text="modalText"
+      @decline="deleteModal = false"
+    />
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-pos',
-  created () {
-    this.setPageTitle('Inventory Stok')
-  },
-  methods: {
-    ...mapMutations(['setPageTitle'])
-  },
+  layout: 'navigation',
   data () {
     return {
+      dataProduk: {
+        nama: '',
+        harga: '',
+        tipe: '',
+        stok: null
+      },
       deleteModal: false,
       modalText: {
-        content: 'Apakah anda yakin ingin menghapus produk ?',
+        content: 'Yakin ingin Hapus Produk ?',
         btn1: 'Batal',
         btn2: 'Yakin'
       }
     }
+  },
+  created () {
+    this.setPageTitle('Edit Produk')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
   }
 }
 </script>
 
-<style></style>
+<style>
+select {
+  outline: none;
+}
+</style>
