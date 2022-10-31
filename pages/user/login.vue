@@ -61,7 +61,7 @@
 import ButtonComponent from '~/components/ButtonComponent.vue'
 export default {
   components: { ButtonComponent },
-  layout: 'auth',
+  layout: 'dashboard',
   data () {
     return {
       isFocus: false,
@@ -104,7 +104,7 @@ export default {
               password: this.dataLogin.password
             }
           }
-        })
+        }).then(response => console.log(response))
       } catch (error) {
         console.log(error.response)
       }

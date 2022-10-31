@@ -75,13 +75,16 @@ export default {
         }
       }, 600)
     },
-    async handleSubmit () {
+    handleSubmit () {
       this.isLoading = true
-      await this.$axios
+      this.$axios
         .$post('users/auth/signup', { email: this.emailCheck })
         .then((response) => {
           this.isLoading = false
-          this.$router.push('/user/verification-email')
+          this.$router.push({
+            path: '/user/verification-email',
+            query: { email: this.emailCheck }
+          })
         })
         .catch(error => console.log(error.response))
     }

@@ -11,19 +11,14 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    './assets/css/main.css'
-  ],
+  css: ['./assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -55,9 +50,9 @@ export default {
     postcss: {
       plugins: {
         tailwindcss: {},
-        autoprefixer: {},
-      },
-    },
+        autoprefixer: {}
+      }
+    }
   },
 
   auth: {
@@ -66,20 +61,24 @@ export default {
         token: {
           property: 'token',
           global: true,
-          // required: true,
-          // type: 'Bearer'
+          required: true,
+          type: false
         },
         user: {
-          property: 'user',
-          autoFetch: false
+          property: false,
         },
         endpoints: {
           login: { url: 'users/auth/signin', method: 'post' },
-          // logout: { url: '/api/auth/logout', method: 'post' },
-          user: { url: '/api/auth/user', method: 'get' },
+          user: false,
           logout: false
-        }
+        },
       }
+    },
+    redirect: {
+      login: '/user/login',
+      logout: '/user/login',
+      callback: '/login',
+      home: '/dashboard'
     }
   }
 }
