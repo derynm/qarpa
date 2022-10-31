@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto w-full">
       <DashboardComponent :title="pageTitle" />
       <Nuxt />
     </div>
