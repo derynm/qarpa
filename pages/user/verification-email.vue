@@ -111,7 +111,7 @@
               </div>
             </div>
           </div>
-
+          <Timer />
           <button-component
             :text-fill="'Verifikasi Email'"
             class="w-full mb-8 py-3"

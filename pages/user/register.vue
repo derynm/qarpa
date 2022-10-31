@@ -6,7 +6,7 @@
           <h1>Create Account</h1>
           <p>Lengkapi form di bawah dengan menggunakan data Anda yang valid</p>
         </div>
-        <form @submit.prevent="">
+        <form @submit.prevent="handleSubmit">
           <div class="mb-8">
             <InputFieldBasicInput
               v-model="nameRegister"
@@ -27,10 +27,19 @@
               label="Kata Sandi"
               placeholder="Masukkan Kata Sandi"
             />
-            <div v-if="passwordMatch" class="pl-3 flex">
+            <div v-if="passwordMatch || passwordLength" class="pl-3 flex">
               <IconsWarningIcon />
-              <p class="ml-1 text-danger text-[10px] font-semibold">
-                Email tidak valid
+              <p
+                v-if="passwordMatch"
+                class="ml-1 text-danger text-[10px] font-semibold"
+              >
+                Password tidak sama
+              </p>
+              <p
+                v-if="passwordLength"
+                class="ml-1 text-danger text-[10px] font-semibold"
+              >
+                Password terlalu pendek (minimal 6 karakter)
               </p>
             </div>
           </div>
@@ -43,20 +52,19 @@
             <div v-if="passwordMatch" class="pl-3 flex">
               <IconsWarningIcon />
               <p class="ml-1 text-danger text-[10px] font-semibold">
-                Email tidak valid
+                Password tidak sama
               </p>
             </div>
           </div>
           <button-component
-            :text-fill="'Daftar Akun'"
+            v-if="!isLoading"
+            text-fill="Daftar Akun"
             class="w-full mb-8 py-3"
+            :disabled="isDisabled"
           />
-          <p class="text-center">
-            <a href="/user/login">
-              Sudah punya akun ?
-              <span class="font-bold underline">Masuk Sekarang</span>
-            </a>
-          </p>
+          <div v-if="isLoading" class="flex justify-center mb-8">
+            <Loading />
+          </div>
         </form>
       </div>
     </div>
@@ -71,10 +79,9 @@
 </template>
 
 <script>
-import ButtonComponent from '~/components/ButtonComponent.vue'
 import ConfirmModal from '~/components/Modal/ConfirmModal.vue'
 export default {
-  components: { ButtonComponent, ConfirmModal },
+  components: { ConfirmModal },
   data () {
     return {
       isFocus: false,
@@ -84,6 +91,9 @@ export default {
       passwordRegister: '',
       passwordConfirmRegister: '',
       passwordMatch: false,
+      passwordLength: false,
+      isDisabled: true,
+      isLoading: false,
       showModal: false,
       code: this.$route.query.code
     }
@@ -91,6 +101,21 @@ export default {
   computed: {
     codeRegister () {
       return this.$store.state.codeRegister
+    }
+  },
+  watch: {
+    nameRegister () {
+      this.checkInput()
+    },
+    businessRegister () {
+      this.checkInput()
+    },
+    passwordRegister () {
+      this.checkPasswordLength()
+      this.checkInput()
+    },
+    passwordConfirmRegister () {
+      this.checkInput()
     }
   },
   mounted () {
@@ -105,16 +130,59 @@ export default {
     showModalHandler () {
       this.showModal = !this.showModal
     },
-    async handleSubmit () {
-      await this.$axios
-        .$put('users/auth/signup/registration', {
-          token: this.codeRegister,
-          name: this.nameRegister,
-          password: this.passwordRegister,
-          company_name: this.businessRegister
-        })
-        .then(response => console.log(response))
-        .catch(error => console.log(error))
+    checkInput () {
+      if (
+        this.nameRegister &&
+        this.businessRegister &&
+        this.passwordRegister &&
+        this.passwordConfirmRegister !== '' &&
+        !this.passwordLength
+      ) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
+    },
+    checkPasswordLength () {
+      clearTimeout(this.debounce)
+      this.debounce = setTimeout(() => {
+        if (this.passwordRegister.length < 6) {
+          this.passwordLength = true
+        } else {
+          this.passwordLength = false
+        }
+      }, 1000)
+    },
+    checkPasswordMatch () {
+      if (this.passwordRegister !== this.passwordConfirmRegister) {
+        this.passwordMatch = true
+      } else {
+        this.passwordMatch = false
+      }
+    },
+    handleSubmit () {
+      this.checkPasswordMatch()
+      this.isLoading = true
+      if (!this.passwordMatch) {
+        this.$axios
+          .$put('users/auth/signup/registration', {
+            token: this.codeRegister,
+            name: this.nameRegister,
+            password: this.passwordRegister,
+            company_name: this.businessRegister
+          })
+          .then((response) => {
+            console.log(response)
+            this.isLoading = false
+          })
+          .catch((error) => {
+            console.log(error)
+            this.isLoading = false
+          })
+      }
+      if (this.passwordMatch) {
+        this.isLoading = false
+      }
     }
   }
 }
