@@ -11,19 +11,14 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    './assets/css/main.css'
-  ],
+  css: ['./assets/css/main.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,13 +35,14 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: 'https://qarpa-dev-backend.herokuapp.com/api/v1/'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -54,8 +50,35 @@ export default {
     postcss: {
       plugins: {
         tailwindcss: {},
-        autoprefixer: {},
-      },
+        autoprefixer: {}
+      }
+    }
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        token: {
+          property: 'token',
+          global: true,
+          required: true,
+          type: false
+        },
+        user: {
+          property: false,
+        },
+        endpoints: {
+          login: { url: 'users/auth/signin', method: 'post' },
+          user: false,
+          logout: false
+        },
+      }
     },
+    redirect: {
+      login: '/user/login',
+      logout: '/user/login',
+      callback: '/login',
+      home: '/dashboard'
+    }
   }
 }
