@@ -8,7 +8,7 @@
           Toko Qarpa
         </p>
         <p class="date">
-          11 September 2022
+          {{ timestamp }}
         </p>
       </div>
       <div class="notif">
@@ -54,16 +54,12 @@ export default {
           url: '/dashboard/wom'
         },
         {
-          name: 'Leaves',
-          url: '/dashboard/leaves'
-        },
-        {
           name: 'Cuti',
-          url: '/dashboard/timeoff'
+          url: '/dashboard/cuti'
         },
         {
           name: 'Pengiriman',
-          url: '/dashboard/shipping'
+          url: '/dashboard/pengiriman'
         },
         {
           name: 'Stok Gudang',
@@ -82,10 +78,40 @@ export default {
           url: '/dashboard/audit'
         },
         {
-          name: 'Subscription',
-          url: '/dashboard/audit'
+          name: 'Presensi',
+          url: '/dashboard/presensi'
         }
-      ]
+        // {
+        //   name: 'Subscription',
+        //   url: '/dashboard/audit'
+        // }
+      ],
+      timestamp: ''
+    }
+  },
+  created () {
+    this.getDate()
+  },
+  methods: {
+    getDate () {
+      const today = new Date()
+      const month = [
+        'Januari',
+        'Februari',
+        'Maret',
+        'April',
+        'Mei',
+        'Juni',
+        'Juli',
+        'Augustus',
+        'September',
+        'Oktober',
+        'November',
+        'Desember'
+      ][today.getMonth()]
+      const date = today.getDate() + ' ' + month + ' ' + today.getFullYear()
+      const dateTime = date
+      this.timestamp = dateTime
     }
   }
 }
