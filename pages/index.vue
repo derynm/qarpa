@@ -66,7 +66,7 @@
           </div>
           <div class="product-item shadow-md p-6">
             <p class="font-semibold">
-              Timeoff
+              Cuti
             </p>
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           </div>

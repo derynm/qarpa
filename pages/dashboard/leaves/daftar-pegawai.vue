@@ -29,7 +29,7 @@ export default {
     }
   },
   created () {
-    this.setPageTitle('Leaves Management')
+    this.setPageTitle('Karyawan')
   },
   methods: {
     ...mapMutations(['setPageTitle'])

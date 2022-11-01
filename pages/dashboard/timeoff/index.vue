@@ -31,7 +31,7 @@
           placeholder="Deskripsi..."
         >
       </div>
-      <div class="tgl-timeoff py-4 flex gap-3">
+      <div class="tgl-cuti py-4 flex gap-3">
         <div class="left w-full">
           <p class="pb-1">
             Tanggal mulai
@@ -95,7 +95,7 @@ import { mapMutations } from 'vuex'
 export default {
   layout: 'dashboard-pos',
   created () {
-    this.setPageTitle('Timeoff')
+    this.setPageTitle('Cuti')
   },
   methods: {
     ...mapMutations(['setPageTitle'])

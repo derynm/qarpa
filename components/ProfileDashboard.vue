@@ -1,6 +1,9 @@
 <template>
   <div
-    class="profile flex justify-between bg-[#344397] text-white items-center rounded-xl mt-[-30px]"
+    style="
+      background-image: url('https://cdn.discordapp.com/attachments/1024706945304760320/1036946410106527905/Gradient_Asset-min.png');
+    "
+    class="profile flex justify-between text-white items-center rounded-xl mt-[-30px]"
   >
     <div class="left flex items-center">
       <IconsPosIcon class="rounded-full p-2" />
