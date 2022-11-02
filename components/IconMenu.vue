@@ -5,9 +5,9 @@
         <!-- <IconsPosIcon /> -->
         <IconsIconDashboardPos v-if="item.name === 'Point of Sale'" />
         <IconsIconDashboardWom v-if="item.name === 'Work Order'" />
-        <IconsIconDashboardLeaves v-if="item.name === 'Leaves'" />
-        <IconsIconDashboardTimeoff v-if="item.name === 'Cuti'" />
-        <IconsIconDashboardShipping v-if="item.name === 'Pengiriman'" />
+        <IconsIconDashboardPresensi v-if="item.name === 'Presensi'" />
+        <IconsIconDashboardCuti v-if="item.name === 'Cuti'" />
+        <IconsIconDashboardPengiriman v-if="item.name === 'Pengiriman'" />
         <IconsIconDashboardStok v-if="item.name === 'Stok Gudang'" />
         <IconsIconDashboardKaryawan v-if="item.name === 'Karyawan'" />
         <IconsIconDashboardKeuangan v-if="item.name === 'Keuangan'" />
