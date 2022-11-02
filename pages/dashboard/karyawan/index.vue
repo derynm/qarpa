@@ -1,32 +1,22 @@
 <template>
-  <div class="h-screen mx-4 md:mx-12">
-    <div class="btn flex flex-row-reverse my-4">
-      <nuxt-link to="leaves/daftar-pegawai">
-        <ButtonComponent text-fill="Daftar Pegawai" />
-      </nuxt-link>
-    </div>
-    <div class="p-3">
-      <div class="flex">
-        <ButtonComponent
-          text-fill="Request"
-          class="w-full"
-          @clicked="isRequest = true"
-        />
-        <div class="border-l-2 mx-5" />
-        <ButtonComponent
-          text-fill="Approve"
-          class="w-full"
-          @clicked="isRequest = false"
-        />
+  <div>
+    <div class="content flex flex-col justify-between min-h-[80vh] px-2">
+      <div class="top">
+        <div class="empty flex flex-col items-center text-center mt-10">
+          <IconsKaryawanKosong />
+          <p class="font-semibold">
+            Kamu belum punya karyawan, nih?
+          </p>
+          <p>
+            Silahkan tambah karyawan baru, jika kamu sudah memiliki karyawan
+            untuk kelola usahamu.
+          </p>
+        </div>
       </div>
-      <div class="my-5">
-        <div v-show="isRequest">
-          <LeavesCardKaryawan class="border p-2" />
-          <LeavesCardKaryawan class="border p-2" />
-        </div>
-        <div v-show="!isRequest">
-          <p>Approved component</p>
-        </div>
+      <div class="bot-btn flex justify-end">
+        <nuxt-link to="karyawan/tambah-karyawan">
+          <ButtonComponent class="p-2" text-fill="+ Tambah" />
+        </nuxt-link>
       </div>
     </div>
   </div>
@@ -35,14 +25,9 @@
 <script>
 import { mapMutations } from 'vuex'
 export default {
-  layout: 'dashboard-pos',
-  data () {
-    return {
-      isRequest: true
-    }
-  },
+  layout: 'navigation',
   created () {
-    this.setPageTitle('Leaves Management')
+    this.setPageTitle('Karyawan')
   },
   methods: {
     ...mapMutations(['setPageTitle'])
