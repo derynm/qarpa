@@ -1,6 +1,6 @@
 <template>
   <div
-    class="nav flex justify-between py-10 items-center px-4 md:px-8 lg:px-12"
+    class="nav flex justify-between py-10 items-center px-4"
   >
     <div class="flex justify-between items-center gap-8 w-full">
       <div class="cursor-pointer" @click="$router.go(-1)">
