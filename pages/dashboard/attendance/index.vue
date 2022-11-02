@@ -1,58 +1,106 @@
 <template>
   <div>
-    <div class="container mx-auto flex h-screen items-center">
-      <div class="mx-auto max-w-lg">
-        <div class="mx-2 rounded-xl border-2 px-8 py-6 shadow md:mx-0 lg:mx-0">
+    <div class="max-w-2xl mx-auto w-full h-screen">
+      <div class="bg-white h-full">
+        <div class="bg-primary h-[216px]">
+          <div class="h-[60px] flex items-center w-full px-3 justify-between">
+            <IconsBackIcon color-fill="white" />
+            <h3 class="font-semibold text-white text-xl">
+              Presensi
+            </h3>
+            <div />
+          </div>
+        </div>
+        <div class="flex w-full justify-center">
           <div
-            class="bg-slate-200 flex justify-center items-center rounded-full min-h-[260px] min-w-[260px] md:min-h-[320px] md:min-w-[320px]"
+            class="min-h-[200px] min-w-[200px] md:min-h-[280px] md:min-w-[280px] rounded-full bg-warm flex items-center justify-center border-[6px] border-white -mt-[100px] md:-mt-[140px]"
           >
-            <h1 class="text-4xl md:text-5xl font-semibold">
+            <h1 class="text-3xl md:text-5xl font-semibold">
               00 : 00 : 00
             </h1>
           </div>
-          <div class="text-center my-6">
-            <h2 class="text-2xl font-semibold">
-              Ahmad Zakkan Ativana
-            </h2>
-            <p>Location :</p>
-          </div>
-          <div class="flex justify-between mx-4 mb-10 font-semibold">
-            <div class="text-center">
-              <p class="text-slate-300">
-                Check In
-              </p>
-              <p class="text-green-500">
-                --:--
-              </p>
+        </div>
+        <div class="flex justify-center">
+          <div class="items-center w-full my-3">
+            <h3 class="font-semibold text-lg text-center mx-auto mb-3">
+              Harry Styles
+            </h3>
+            <div class="flex justify-center">
+              <button-global
+                v-if="!isCheckIn"
+                padding="py-1 px-3"
+                color="bg-green-700"
+                text="Check In"
+                @click="getTimeNow"
+              />
+              <button-global
+                v-if="isCheckIn"
+                padding="py-1 px-3"
+                color="bg-red-700"
+                text="Check Out"
+                @click="checkOutModalShow = true"
+              />
             </div>
-            <div class="text-center">
-              <p class="text-slate-300">
-                Check In
-              </p>
-              <p class="text-red-600">
-                --:--
-              </p>
-            </div>
           </div>
-          <button-component :text-fill="'Check In'" class="w-full" />
+        </div>
+        <div class="px-3">
+          <h3 class="font-bold mb-2">
+            Riwayat Presensi
+          </h3>
+          <div class="max-h-[190px] overflow-y-auto">
+            <attendance-card-riwayat-presesnsi
+              v-for="(value, index) in 4"
+              :key="index"
+              date="11 Oktober 2022"
+              time="12.30 - 16.30"
+            />
+          </div>
         </div>
       </div>
     </div>
-    <attendance-modal v-if="checkInModalShow" text-button="Lanjutkan" text-modal="Check In Berhasil" />
-    <attendance-modal v-if="checkOutModalShow" text-button="Lanjutkan" text-modal="Check Out Berhasil" />
+    <attendance-modal
+      v-if="checkInModalShow"
+      text-button="Lanjutkan"
+      text-modal="Check In Berhasil"
+      @closeModal="checkInModalShow = false"
+    />
+    <attendance-modal
+      v-if="checkOutModalShow"
+      text-button="Lanjutkan"
+      text-modal="Check Out Berhasil"
+      @closeModal="checkOutModalShow = false"
+    />
   </div>
 </template>
 
 <script>
-import ButtonComponent from '~/components/ButtonComponent.vue'
 import AttendanceModal from '~/components/Modal/AttendanceModal.vue'
 
 export default {
-  components: { ButtonComponent, AttendanceModal },
+  components: { AttendanceModal },
   data () {
     return {
       checkInModalShow: false,
-      checkOutModalShow: false
+      checkOutModalShow: false,
+      isCheckIn: false,
+      posLatitude: null,
+      posLongitude: null
+    }
+  },
+  methods: {
+    getLocation () {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((pos) => {
+          this.posLatitude = pos.coords.latitude
+          this.posLongitude = pos.coords.longitude
+        })
+      } else {
+        alert('Geolocation is not supported by this browser.')
+      }
+    },
+    getTimeNow () {
+      const current = new Date()
+      console.log(current)
     }
   }
 }
