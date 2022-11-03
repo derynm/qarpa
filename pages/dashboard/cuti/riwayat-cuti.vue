@@ -1,30 +1,26 @@
 <template>
   <div class="container flex flex-col px-2">
-    <div class="box-cuti flex gap-2 mx-auto">
-      <CutiBoxCuti color="bg-[#6db570]" :total="1" status="Disetujui" />
-      <CutiBoxCuti color="bg-[#f7b548]" :total="1" status="Menuggu" />
-      <CutiBoxCuti color="bg-[#d61c4e]" :total="1" status="Ditolak" />
-    </div>
     <div class="dropdown my-3">
       <select id="" v-model="filterValue" class="border rounded-md p-2" name="">
         <option value="">
-          Jenis Izin
+          Status Cuti
         </option>
-        <option value="Izin">
-          Izin
+        <option value="Menunggu">
+          Menunggu
         </option>
-        <option value="Sakit">
-          Sakit
+        <option value="Ditolak">
+          Ditolak
         </option>
-        <option value="Liburan">
-          Liburan
+        <option value="Disetujui">
+          Disetujui
         </option>
       </select>
     </div>
     <div class="content flex flex-col justify-between">
       <div class="content-card">
         <CutiCardCuti
-          filter="Liburan"
+          show-button="true"
+          filter="Menunggu"
           :filter-value="filterValue"
           jenis-izin="Liburan"
           status="Menunggu"
@@ -32,7 +28,8 @@
           tgl-berakhir="5/10/2022"
         />
         <CutiCardCuti
-          filter="Sakit"
+          show-button="true"
+          filter="Disetujui"
           :filter-value="filterValue"
           jenis-izin="Sakit"
           status="Disetujui"
@@ -40,7 +37,8 @@
           tgl-berakhir="5/10/2022"
         />
         <CutiCardCuti
-          filter="Izin"
+          show-button="true"
+          filter="Ditolak"
           :filter-value="filterValue"
           jenis-izin="Izin"
           status="Ditolak"
@@ -48,13 +46,13 @@
           tgl-berakhir="5/10/2022"
         />
         <!-- <CutiCardCuti
-        v-for="item in listCuti" :key="item.id"
+          v-for="item in listCuti" :key="item.id"
 
-          :jenis-izin="item.title"
-          status="Ditolak"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        /> -->
+            :jenis-izin="item.title"
+            status="Ditolak"
+            tgl-mulai="1/10/2022"
+            tgl-berakhir="5/10/2022"
+          /> -->
       </div>
       <div class="btn flex justify-end my-5">
         <nuxt-link to="cuti/ajukan-cuti">
