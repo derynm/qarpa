@@ -166,10 +166,11 @@ export default {
       if (!this.passwordMatch) {
         this.$axios
           .$put('users/auth/signup/registration', {
-            token: this.codeRegister,
+            token: this.code,
             name: this.nameRegister,
             password: this.passwordRegister,
-            company_name: this.businessRegister
+            company_name: this.businessRegister,
+            full_address: 'indonesia'
           })
           .then((response) => {
             console.log(response)

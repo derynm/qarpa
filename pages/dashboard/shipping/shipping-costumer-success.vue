@@ -1,37 +1,61 @@
 <template>
-  <div class="container mx-auto flex h-screen items-center">
-    <div class="mx-auto max-w-lg bg-white shadow w-full text-center p-5">
-      <h1 class="text-3xl font-bold mb-8">
-        Transaksi Berhasil
-      </h1>
-      <SuccessShippingCostumer class="h-72 mx-auto" />
-      <div class="flex justify-between my-4 font-bold">
-        <p>Jenis Pembayaran</p>
-        <p>Tunai</p>
+  <div
+    class="max-w-2xl mx-auto w-full bg-white h-screen px-3 flex flex-col justify-center"
+  >
+    <div class="flex flex-col text-center">
+      <div class="mx-auto">
+        <h2 class="font-semibold text-xl">
+          Pengiriman Berhasil
+        </h2>
+        <img
+          src="@/assets/img/Confirmed-cuate 1.png"
+          class="max-w-[196px]"
+          alt="confirm-image mt-3"
+        >
+        <p>05 Okt 2022, 17:56</p>
+        <h3 class="font-semibold text-lg">
+          Rincian Pengiriman
+        </h3>
       </div>
-      <div class="flex justify-between my-4 font-bold">
-        <p>Total Tagihan</p>
-        <p>Rp. 101.000</p>
+      <div class="mt-3 mb-6">
+        <div class="flex justify-between">
+          <p>Nama Pelanggan</p>
+          <p class="font-semibold">
+            Anindia
+          </p>
+        </div>
+        <div class="flex justify-between">
+          <p>Kontak</p>
+          <p class="font-semibold">
+            08239976338
+          </p>
+        </div>
+        <div class="flex justify-between">
+          <p>Total Tagihan</p>
+          <p class="font-semibold">
+            Rp101.000
+          </p>
+        </div>
+        <div class="flex justify-between">
+          <p>Alamat</p>
+          <p class="font-semibold">
+            Jl. Dr Wahidin Sudirohuso Husodo
+          </p>
+        </div>
       </div>
-      <div class="flex justify-between my-4 font-bold">
-        <p>Diterima</p>
-        <p>Rp. 150.000</p>
-      </div>
-      <div class="flex justify-between my-4 font-bold">
-        <p>Kembalian</p>
-        <p>Rp. 49.000</p>
-      </div>
-      <button-component class="w-full" text-fill="Selesai" />
+      <button-global
+        text="Pengiriman Baru"
+        padding="py-3"
+        color="bg-primary"
+        class="mb-3"
+      />
+      <button-global text="Lihat Pengiriman" :outlined="true" padding="py-3" />
     </div>
   </div>
 </template>
 
 <script>
-import SuccessShippingCostumer from '~/components/icons/icons-shipping/successShippingCostumer.vue'
-
-export default {
-  components: { SuccessShippingCostumer }
-}
+export default {}
 </script>
 
 <style></style>

@@ -34,7 +34,7 @@ import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
   created () {
-    this.setPageTitle('Inventory Shipping')
+    this.setPageTitle('Pengiriman')
   },
   methods: {
     ...mapMutations(['setPageTitle'])
