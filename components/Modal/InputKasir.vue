@@ -9,7 +9,7 @@
         <p class="font-bold text-center pb-4 text-xl">
           Modal Kasir
         </p>
-        <form @submit.prevent="">
+        <form @submit.prevent="handleSubmit">
           <div class="nominal">
             <InputFieldBasicInput
               v-model="modalKasir.nominal"
@@ -27,16 +27,24 @@
           </div>
           <div class="modal-button flex text-center pt-2 justify-center gap-5">
             <div class="w-full">
-              <ButtonComponent
+              <ButtonGlobal
+                type="button"
+                class="w-full"
+                text="Tidak"
                 :outlined="true"
-                class="w-full p-2"
-                text-fill="Tidak"
-                @clicked="$emit('decline')"
+                padding="py-2"
+                @click="$emit('decline')"
               />
             </div>
-            <nuxt-link class="w-full" :to="`pos/${id}`">
-              <ButtonComponent class="w-full p-2" text-fill="Yakin" />
-            </nuxt-link>
+            <!-- <nuxt-link class="w-full" :to="`pos/${id}`"> -->
+            <ButtonGlobal
+              type="submit"
+              class="w-full"
+              text="Yakin"
+              padding="py-2"
+              color="bg-primary"
+            />
+            <!-- </nuxt-link> -->
           </div>
         </form>
       </div>
@@ -53,9 +61,25 @@ export default {
   data () {
     return {
       modalKasir: {
-        nominal: '',
+        nominal: null,
         catatan: ''
-      }
+      },
+      temp: ''
+    }
+  },
+  methods: {
+    handleSubmit () {
+      console.log(this.modalKasir)
+      console.log(this.id)
+      this.$axios
+        .$post(`branches/pos/open?branch_id=${this.id}`, {
+          pos: {
+            fund: this.modalKasir.nominal,
+            notes: this.modalKasir.catatan
+          }
+        })
+        // .then(response => (this.temp = response.data))
+        .then(this.$router.push(`pos/${this.id}`))
     }
   }
 }

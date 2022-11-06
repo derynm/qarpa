@@ -6,7 +6,7 @@
       </p>
     </div>
     <form
-      class="flex flex-col justify-between min-h-[75vh]"
+      class="flex flex-col justify-between min-h-[70vh]"
       @submit.prevent="handleSubmit"
     >
       <div class="input">
@@ -18,11 +18,6 @@
         <InputFieldBasicInput
           v-model="dataCabang.alamat"
           label="Alamat"
-          placeholder="..."
-        />
-        <InputFieldBasicInput
-          v-model="dataCabang.kodePos"
-          label="Kode Pos"
           placeholder="..."
         />
         <InputFieldBasicInput
@@ -47,7 +42,6 @@ export default {
       dataCabang: {
         nama: '',
         alamat: '',
-        kodePos: null,
         noHp: null
       }
     }
@@ -60,22 +54,13 @@ export default {
     handleSubmit () {
       console.log(this.dataCabang)
       this.$axios
-        .$post(
-          'branches',
-          {
-            branch: {
-              name: this.dataCabang.nama,
-              full_address: this.dataCabang.alamat,
-              postal_code: this.dataCabang.kodePos
-            }
-          },
-          {
-            headers: {
-              Authorization:
-                'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZXhwIjoxNjY3MDY2MzA3fQ.nOh2C2sYoH9u85YgM2gLABgMmtYPh1b9q4mrBEhkFXU'
-            }
+        .$post('branches', {
+          branch: {
+            name: this.dataCabang.nama,
+            full_address: this.dataCabang.alamat,
+            phone: this.dataCabang.noHp
           }
-        )
+        })
         .then(this.$router.push('/dashboard/pos'))
     }
   }

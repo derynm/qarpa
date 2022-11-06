@@ -8,6 +8,7 @@
         <ButtonComponent class="p-2" :text-fill="'+ Cabang'" />
       </nuxt-link>
     </div>
+
     <!-- <button @click="clicked">
       Click
     </button> -->
@@ -26,7 +27,7 @@ export default {
   // },
   data () {
     return {
-      dataCabang: [],
+      dataCabang: '',
       modalText: {
         btn1: 'Tidak',
         btn2: 'Yakin'
@@ -39,13 +40,9 @@ export default {
   },
   mounted () {
     this.$axios
-      .$get('branches', {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZXhwIjoxNjY3MjI3MDQ4fQ.iOv6zeQFmeCCWEiiqhWiid4pHABgsLUo02PZ0-BXHpc'
-        }
-      })
-      .then(response => (this.dataCabang = response))
+      .$get('branches')
+      // .then(response => console.log(response.data))
+      .then(response => (this.dataCabang = response.data))
   },
   methods: {
     ...mapMutations(['setPageTitle'])

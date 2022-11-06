@@ -11,7 +11,7 @@
         </button>
       </nuxt-link>
     </div>
-    <div class="container px-2 md:px-8 flex flex-col justify-between h-[80vh]">
+    <div class="container px-2 md:px-8 flex flex-col justify-between h-[75vh]">
       <div class="content">
         <SearchBar placeholder="Cari Produk" class="my-5" />
         <div class="product">
@@ -25,19 +25,11 @@
         </div>
       </div>
       <div class="btn">
-        <nuxt-link :to="`${temp}/detail`" class="flex">
+        <nuxt-link :to="`${$route.params.id}/detail`" class="flex">
           <ButtonComponent class="w-full p-3" text-fill="Detail Order" />
         </nuxt-link>
       </div>
     </div>
-    <!-- {{ tes }} -->
-    <!-- <ModalValidate
-      v-show="validate"
-      :text="modalText"
-      @decline="validate = false"
-      @accept="$router.push('/dashboard/pos')"
-    />
-    <ModalOrderDetails v-show="orderDetails" /> -->
   </div>
 </template>
 
@@ -45,25 +37,7 @@
 import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
-  // async asyncData ({ $axios }) {
-  //   const tes = await $axios.$get('branch', {
-  //     headers: {
-  //       Authorization:
-  //         'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZXhwIjoxNjY3MDY2MzA3fQ.nOh2C2sYoH9u85YgM2gLABgMmtYPh1b9q4mrBEhkFXU'
-  //     }
-  //   })
-  //   return { tes }
-  // },
-  // mounted () {
-  //   this.$axios
-  //     .$get('branches', {
-  //       headers: {
-  //         Authorization:
-  //           'Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyNiwiZXhwIjoxNjY2OTQ1NjQ5fQ.VF1hwCm4-3_6hI7YCznIf8VBAUeydIYo8mIy4ePt0I8'
-  //       }
-  //     })
-  //     .then(response => (this.dataCabang = response))
-  // },
+
   data () {
     return {
       // validate: false,
@@ -76,6 +50,11 @@ export default {
   created () {
     this.setPageTitle('Penjualan')
     this.getDate()
+  },
+  mounted () {
+    this.$axios
+      .$get(`branches/${this.$route.params.id}`)
+      .then(response => console.log(response.data))
   },
   methods: {
     ...mapMutations(['setPageTitle']),
