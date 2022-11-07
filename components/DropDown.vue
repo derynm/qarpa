@@ -1,6 +1,6 @@
 <template>
   <select class="p-3 shadow-md rounded-md border-2 dropdown-style">
-    <option selected hidden>
+    <option v-if="placeHolder" selected hidden>
       {{ placeHolder }}
     </option>
     <option v-for="(value, index) in item" :key="index" :value="value.value">
@@ -18,7 +18,7 @@ export default {
     },
     placeHolder: {
       type: String,
-      default: ''
+      default: null
     }
   }
 }
