@@ -22,6 +22,13 @@
             />
           </div>
           <div class="mb-8">
+            <InputFieldBasicInput
+              v-model="businessAddress"
+              label="Alamat Usaha"
+              placeholder="Masukkan Alamat Usaha Anda"
+            />
+          </div>
+          <div class="mb-8">
             <InputFieldPasswordInput
               v-model="passwordRegister"
               label="Kata Sandi"
@@ -90,6 +97,7 @@ export default {
       businessRegister: '',
       passwordRegister: '',
       passwordConfirmRegister: '',
+      businessAddress: '',
       passwordMatch: false,
       passwordLength: false,
       isDisabled: true,
@@ -170,7 +178,7 @@ export default {
             name: this.nameRegister,
             password: this.passwordRegister,
             company_name: this.businessRegister,
-            full_address: 'indonesia'
+            full_address: this.businessAddress,
           })
           .then((response) => {
             console.log(response)
