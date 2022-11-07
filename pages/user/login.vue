@@ -41,10 +41,14 @@
             </p>
           </div>
           <button-component
+            v-if="!isLoading"
             :text-fill="'Sign In'"
             class="w-full mb-8 py-3"
             :disabled="isDisabled"
           />
+          <div v-if="isLoading" class="flex justify-center mb-8 py-3">
+            <Loading />
+          </div>
           <p class="text-center font-bold">
             <a href="/user/register-email">
               Belum punya akun ?
@@ -72,7 +76,8 @@ export default {
       emailEror: false,
       paswdError: false,
       showPaswd: false,
-      isDisabled: true
+      isDisabled: true,
+      isLoading: false
     }
   },
   watch: {
@@ -97,16 +102,20 @@ export default {
     },
     async handleLogin () {
       try {
-        await this.$auth.loginWith('local', {
-          data: {
-            user: {
-              email: this.dataLogin.email,
-              password: this.dataLogin.password
+        this.isLoading = true
+        await this.$auth
+          .loginWith('local', {
+            data: {
+              user: {
+                email: this.dataLogin.email,
+                password: this.dataLogin.password
+              }
             }
-          }
-        }).then(response => console.log(response))
+          })
+          .then(() => (this.isLoading = false))
       } catch (error) {
         console.log(error.response)
+        this.isLoading = false
       }
     }
   }
