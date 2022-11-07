@@ -8,10 +8,6 @@
         <ButtonComponent class="p-2" :text-fill="'+ Cabang'" />
       </nuxt-link>
     </div>
-
-    <!-- <button @click="clicked">
-      Click
-    </button> -->
   </div>
 </template>
 
@@ -19,12 +15,6 @@
 import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
-  // async asyncData ({ params, $axios }) {
-  //   const tes = await $axios.$get(
-  //     'https://6289dd84e5e5a9ad321e3041.mockapi.io/test'
-  //   )
-  //   return { tes }
-  // },
   data () {
     return {
       dataCabang: '',

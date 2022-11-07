@@ -4,11 +4,6 @@
       <p class="font-semibold text-xl">
         {{ item.name }}
       </p>
-      <!-- <ButtonComponent
-        class="p-2"
-        text-fill="Buka"
-        @clicked="validateModal = true"
-      /> -->
       <ButtonGlobal
         v-if="!item.status"
         text="Buka"
@@ -71,7 +66,8 @@
 export default {
   props: {
     item: {
-      type: Object
+      type: Object,
+      default: null
     }
   },
   data () {
@@ -79,7 +75,8 @@ export default {
       validateModal: false,
       timestamp: '',
       inputKasir: false,
-      emit: 'click-button',
+      // emit: 'click-button',
+      pos: '',
       modalText: [
         {
           content: 'Yakin ingin Buka Toko Sekarang?',
@@ -96,6 +93,7 @@ export default {
   },
   created () {
     this.getDate()
+    // localStorage.removeItem('POS_DATA')
   },
   methods: {
     acceptBtn () {
@@ -122,8 +120,23 @@ export default {
       const dateTime = date
       this.timestamp = dateTime
     },
-    handleClose () {
-      console.log(this.item.id)
+    async handleClose () {
+      const temp = JSON.parse(localStorage.getItem('POS_DATA'))
+      // console.log(temp)
+      const posId = temp.find(el => el.branch_id === this.item.id).pos_id
+      await this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+
+      localStorage.setItem(
+        'POS_DATA',
+        JSON.stringify(temp.filter(el => el.branch_id !== this.item.id))
+      )
+      // console.log(localStorage.getItem('POS_DATA'))
+      // await this.$axios
+      //   .$get('branches')
+      //   .then(response => console.log(response.data))
+      this.validateModal = false
+      // this.key++
+      location.reload()
     }
   }
 }

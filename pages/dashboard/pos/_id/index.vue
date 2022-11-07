@@ -26,7 +26,12 @@
       </div>
       <div class="btn">
         <nuxt-link :to="`${$route.params.id}/detail`" class="flex">
-          <ButtonComponent class="w-full p-3" text-fill="Detail Order" />
+          <ButtonGlobal
+            text="Detail Order"
+            color="bg-primary"
+            padding="p-3"
+            class="w-full"
+          />
         </nuxt-link>
       </div>
     </div>
@@ -43,8 +48,7 @@ export default {
       // validate: false,
       // orderDetails: false,
       timestamp: '',
-      temp: 2,
-      emit: 'click-button'
+      orderData: ''
     }
   },
   created () {

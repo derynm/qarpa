@@ -55,7 +55,7 @@
 <script>
 export default {
   props: {
-    id: Number
+    id: { type: Number, default: null }
   },
   //   emits: ['close-modal']
   data () {
@@ -64,13 +64,13 @@ export default {
         nominal: null,
         catatan: ''
       },
-      temp: ''
+      pos: ''
     }
   },
   methods: {
     handleSubmit () {
-      console.log(this.modalKasir)
-      console.log(this.id)
+      // console.log(this.modalKasir)
+      // console.log(this.id)
       this.$axios
         .$post(`branches/pos/open?branch_id=${this.id}`, {
           pos: {
@@ -78,7 +78,21 @@ export default {
             notes: this.modalKasir.catatan
           }
         })
-        // .then(response => (this.temp = response.data))
+        .then((response) => {
+          // console.log(response.data)
+          const temp = {
+            branch_id: response.data.branch_id,
+            pos_id: response.data.pos_id
+          }
+          if (localStorage.getItem('POS_DATA') === null) {
+            localStorage.setItem('POS_DATA', '[]')
+          }
+          // this.pos.push(temp)
+          const tempPos = JSON.parse(localStorage.getItem('POS_DATA'))
+          tempPos.push(temp)
+          localStorage.setItem('POS_DATA', JSON.stringify(tempPos))
+          // localStorage.setItem('POS_DATA', JSON.stringify(this.pos))
+        })
         .then(this.$router.push(`pos/${this.id}`))
     }
   }

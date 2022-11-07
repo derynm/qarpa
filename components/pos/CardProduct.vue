@@ -10,17 +10,29 @@
         <p>Rp.15.000</p>
       </div>
       <div class="item-btn flex items-center gap-2" @click.stop="">
-        <ButtonComponent
+        <!-- <ButtonComponent
           class="w-8 h-8 sm:w-12 sm:h-12"
           text-fill="-"
           @clicked="tesClick2"
+        /> -->
+        <ButtonGlobal
+          text="-"
+          class="w-8 h-8 sm:w-12 sm:h-12"
+          :outlined="true"
+          @click="decreaseCount"
         />
-        <p>1</p>
-        <ButtonComponent
+        <p>{{ count }}</p>
+        <ButtonGlobal
+          text="+"
+          class="w-8 h-8 sm:w-12 sm:h-12"
+          color="bg-primary"
+          @click="count++"
+        />
+        <!-- <ButtonComponent
           class="w-8 h-8 sm:w-12 sm:h-12"
           text-fill="+"
           @clicked="tesClick2"
-        />
+        /> -->
       </div>
     </div>
   </div>
@@ -28,12 +40,19 @@
 
 <script>
 export default {
+  data () {
+    return {
+      count: 0
+    }
+  },
   methods: {
     tesClick () {
       console.log('click')
     },
-    tesClick2 () {
-      console.log('clickbutton')
+    decreaseCount () {
+      if (this.count > 0) {
+        this.count--
+      }
     }
   }
 }
