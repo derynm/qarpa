@@ -48,7 +48,7 @@
             Riwayat Presensi
           </h3>
           <div class="max-h-[190px] overflow-y-auto">
-            <attendance-card-riwayat-presesnsi
+            <presensi-card-riwayat-presesnsi
               v-for="(value, index) in 4"
               :key="index"
               date="11 Oktober 2022"
