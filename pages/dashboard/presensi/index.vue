@@ -31,14 +31,14 @@
                 padding="py-1 px-3"
                 color="bg-green-700"
                 text="Check In"
-                @click="getTimeNow"
+                @click="handleCheckIn"
               />
               <button-global
                 v-if="isCheckIn"
                 padding="py-1 px-3"
                 color="bg-red-700"
                 text="Check Out"
-                @click="checkOutModalShow = true"
+                @click="handleCheckOut"
               />
             </div>
           </div>
@@ -74,18 +74,24 @@
 </template>
 
 <script>
+import moment from 'moment'
 import AttendanceModal from '~/components/Modal/AttendanceModal.vue'
 
 export default {
   components: { AttendanceModal },
+  middleware: 'auth',
   data () {
     return {
       checkInModalShow: false,
       checkOutModalShow: false,
       isCheckIn: false,
       posLatitude: null,
-      posLongitude: null
+      posLongitude: null,
+      date: new Date()
     }
+  },
+  mounted () {
+    this.getLocation()
   },
   methods: {
     getLocation () {
@@ -98,9 +104,39 @@ export default {
         alert('Geolocation is not supported by this browser.')
       }
     },
-    getTimeNow () {
-      const current = new Date()
-      console.log(current)
+    handleCheckIn () {
+      try {
+        this.$axios
+          .$post('attendances/check_in', {
+            check_in: moment(this.date).format(
+              'DD MMM YYYY HH:mm:ss.SSSSSSSSS UTC Z'
+            ),
+            latitude: this.posLatitude,
+            longitude: this.posLongitude
+          })
+          .then(() => {
+            this.checkInModalShow = true
+            this.isCheckIn = true
+          })
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    handleCheckOut () {
+      try {
+        this.$axios
+          .$put('attendances/check_out', {
+            check_out: moment(this.date).format(
+              'DD MMM YYYY HH:mm:ss.SSSSSSSSS UTC Z'
+            )
+          })
+          .then(() => {
+            this.checkInModalShow = true
+            this.isCheckIn = false
+          })
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 }
