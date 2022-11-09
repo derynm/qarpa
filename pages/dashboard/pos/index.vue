@@ -1,6 +1,9 @@
 <template>
   <div class="container px-3 pb-8">
-    <div class="card-cabang grid grid-cols-1 gap-4">
+    <div v-if="isLoading" class="loading flex min-h-[65vh]">
+      <Loading class="m-auto" />
+    </div>
+    <div v-if="!isLoading" class="card-cabang grid grid-cols-1 gap-4">
       <PosCardCabang v-for="item in dataCabang" :key="item.id" :item="item" />
     </div>
     <div class="button flex justify-end pt-6">
@@ -22,17 +25,23 @@ export default {
         btn1: 'Tidak',
         btn2: 'Yakin'
       },
-      validate: false
+      validate: false,
+      isLoading: false
     }
   },
   created () {
     this.setPageTitle('Point of Sale')
   },
   mounted () {
+    this.isLoading = true
     this.$axios
       .$get('branches')
       // .then(response => console.log(response.data))
-      .then(response => (this.dataCabang = response.data))
+      .then((response) => {
+        this.dataCabang = response.data
+        this.isLoading = false
+      })
+    // .then(console.log(this.dataCabang))
   },
   methods: {
     ...mapMutations(['setPageTitle'])

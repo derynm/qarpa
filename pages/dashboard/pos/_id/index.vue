@@ -4,7 +4,7 @@
       <div class="date">
         <p>{{ timestamp }}</p>
       </div>
-      <nuxt-link to="pilih-customer">
+      <nuxt-link to="/dashboard/pelanggan/pilih-pelanggan">
         <button class="flex p-2 rounded-lg gap-2 border">
           <IconsProfile color="black" />
           <p>Pilih Pelanggan</p>
