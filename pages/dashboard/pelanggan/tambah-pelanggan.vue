@@ -5,7 +5,10 @@
         Lengkapi form dibawah ini dengan data yang valid
       </p>
     </div>
-    <form class="flex flex-col justify-between min-h-[70vh]">
+    <form
+      class="flex flex-col justify-between min-h-[70vh]"
+      @submit.prevent="handleSubmit"
+    >
       <div class="input">
         <InputFieldBasicInput
           v-model="dataCustomer.nama"
@@ -19,12 +22,13 @@
         />
         <InputFieldBasicInput
           v-model="dataCustomer.noHp"
+          type="number"
           label="Nomor Handphone"
           placeholder="..."
         />
         <InputFieldBasicInput
           v-model="dataCustomer.email"
-          label="email"
+          label="Email"
           type="email"
           placeholder="..."
         />
@@ -54,7 +58,19 @@ export default {
     this.setPageTitle('Tambah Pelanggan Baru')
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    handleSubmit () {
+      this.$axios
+        .$post('customers', {
+          customer: {
+            name: this.dataCustomer.nama,
+            phone: this.dataCustomer.noHp,
+            email: this.dataCustomer.email,
+            full_address: this.dataCustomer.alamat
+          }
+        })
+        .then(this.$router.push('/dashboard/pos/pilih-customer'))
+    }
   }
 }
 </script>
