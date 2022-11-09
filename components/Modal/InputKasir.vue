@@ -13,6 +13,7 @@
           <div class="nominal">
             <InputFieldBasicInput
               v-model="modalKasir.nominal"
+              type="number"
               label="Nominal"
               placeholder="Masukkan nominal kasir..."
             />

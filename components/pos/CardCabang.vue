@@ -1,23 +1,28 @@
 <template>
-  <div class="border-2 border-[#344397] rounded-md shadow-md p-4">
+  <div
+    class="border-2 border-[#344397] rounded-md shadow-md p-4"
+    @click="backToBranch"
+  >
     <div class="header flex justify-between items-center">
       <p class="font-semibold text-xl">
         {{ item.name }}
       </p>
-      <ButtonGlobal
-        v-if="!item.status"
-        text="Buka"
-        color="bg-primary"
-        padding="p-2"
-        @click="validateModal = true"
-      />
-      <ButtonGlobal
-        v-else
-        text="Tutup"
-        color="bg-red-700"
-        padding="p-2"
-        @click="validateModal = true"
-      />
+      <div class="btn" @click.stop="">
+        <ButtonGlobal
+          v-if="!item.status"
+          text="Buka"
+          color="bg-primary"
+          padding="p-2"
+          @click="validateModal = true"
+        />
+        <ButtonGlobal
+          v-else
+          text="Tutup"
+          color="bg-red-700"
+          padding="p-2"
+          @click="validateModal = true"
+        />
+      </div>
     </div>
     <div class="date py-2">
       <p>{{ timestamp }}</p>
@@ -40,25 +45,27 @@
         </p>
       </div>
     </div>
-    <ModalValidate
-      v-if="!item.status"
-      v-show="validateModal"
-      :text="modalText[0]"
-      @decline="validateModal = false"
-      @accept="acceptBtn"
-    />
-    <ModalValidate
-      v-else
-      v-show="validateModal"
-      :text="modalText[1]"
-      @decline="validateModal = false"
-      @accept="handleClose"
-    />
-    <ModalInputKasir
-      v-show="inputKasir"
-      :id="item.id"
-      @decline="inputKasir = false"
-    />
+    <div @click.stop="">
+      <ModalValidate
+        v-if="!item.status"
+        v-show="validateModal"
+        :text="modalText[0]"
+        @decline="validateModal = false"
+        @accept="acceptBtn"
+      />
+      <ModalValidate
+        v-else
+        v-show="validateModal"
+        :text="modalText[1]"
+        @decline="validateModal = false"
+        @accept="handleClose"
+      />
+      <ModalInputKasir
+        v-show="inputKasir"
+        :id="item.id"
+        @decline="inputKasir = false"
+      />
+    </div>
   </div>
 </template>
 
@@ -137,6 +144,11 @@ export default {
       this.validateModal = false
       // this.key++
       location.reload()
+    },
+    backToBranch () {
+      if (this.item.status === true) {
+        this.$router.push(`pos/${this.item.id}`)
+      }
     }
   }
 }
