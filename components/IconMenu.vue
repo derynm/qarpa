@@ -1,32 +1,23 @@
 <template>
-  <div class="icon-menu shadow-md border rounded-md">
-    <nuxt-link :to="item.url" class="cursor-pointer">
-      <div class="flex flex-col justify-center items-center py-2">
-        <!-- <IconsPosIcon /> -->
-        <IconsIconDashboardPos v-if="item.name === 'Point of Sale'" />
-        <IconsIconDashboardWom v-if="item.name === 'Work Order'" />
-        <IconsIconDashboardPresensi v-if="item.name === 'Presensi'" />
-        <IconsIconDashboardCuti v-if="item.name === 'Cuti'" />
-        <IconsIconDashboardPengiriman v-if="item.name === 'Pengiriman'" />
-        <IconsIconDashboardStok v-if="item.name === 'Stok Gudang'" />
-        <IconsIconDashboardKaryawan v-if="item.name === 'Karyawan'" />
-        <IconsIconDashboardKeuangan v-if="item.name === 'Keuangan'" />
-        <IconsIconDashboardAudit v-if="item.name === 'Audit'" />
-        <IconsIconDashboardSubscription v-if="item.name === 'Subscription'" />
-        <p class="text-sm text-[#354497]">
-          {{ item.name }}
-        </p>
-      </div>
-    </nuxt-link>
+  <div>
+    <IconsIconDashboardPos v-if="name === 'Point of Sale'" />
+    <IconsIconDashboardWom v-if="name === 'Work Order'" />
+    <IconsIconDashboardPresensi v-if="name === 'Presensi'" />
+    <IconsIconDashboardCuti v-if="name === 'Cuti'" />
+    <IconsIconDashboardPengiriman v-if="name === 'Pengiriman'" />
+    <IconsIconDashboardStok v-if="name === 'Stok Gudang'" />
+    <IconsIconDashboardKaryawan v-if="name === 'Karyawan'" />
+    <IconsIconDashboardKeuangan v-if="name === 'Keuangan'" />
+    <IconsIconDashboardAudit v-if="name === 'Audit'" />
+    <IconsIconDashboardSubscription v-if="name === 'Subscription'" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'NuxtIconMenu',
   props: {
-    item: {
-      type: Object,
+    name: {
+      type: String,
       required: true
     }
   }
