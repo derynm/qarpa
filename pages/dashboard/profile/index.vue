@@ -6,15 +6,18 @@
       >
         <IconsPosIcon class="rounded-full" />
         <p class="name">
-          Nadya Loppies
+          {{ user.name }}
         </p>
-        <p class="role">
+        <p v-if="user.role === 'owner'" class="role">
           Pemilik Usaha
+        </p>
+        <p v-if="user.role === 'karyawan'" class="role">
+          Karyawan
         </p>
         <div class="flex gap-1 items-center">
           <IconsMessageIcon color="white" />
           <p class="mail">
-            pemiliktoko@gmail.com
+            {{ user.email }}
           </p>
         </div>
       </div>
@@ -26,8 +29,8 @@
           <p>Toko Qarpa</p>
         </div>
         <div
-          v-if="role"
-          class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-2"
+          v-if="user.role === 'owner'"
+          class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-2 flex flex-col gap-3"
         >
           <div class="upgrade-btn flex justify-between">
             <p class="font-semibold">
@@ -61,7 +64,8 @@ export default {
   layout: 'navigation',
   data () {
     return {
-      role: true
+      role: true,
+      user: this.$auth.user
     }
   },
   created () {
