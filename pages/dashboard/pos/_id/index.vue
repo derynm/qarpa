@@ -39,52 +39,31 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
-
+  middleware: 'auth',
   data () {
     return {
-      // validate: false,
-      // orderDetails: false,
-      timestamp: '',
-      orderData: ''
+      orderData: '',
+      paramsId: this.$route.params.id
     }
+  },
+  async fetch ({ store, params }) {
+    await store.dispatch('pos/getCabangById', params.id)
+    console.log(this.paramsId)
+  },
+  computed: {
+    ...mapState(['timestamp']),
+    ...mapState('pos', ['cabangById'])
   },
   created () {
     this.setPageTitle('Penjualan')
-    this.getDate()
-  },
-  mounted () {
-    this.$axios
-      .$get(`branches/${this.$route.params.id}`)
-      .then(response => console.log(response.data))
+    this.setTimestamp()
   },
   methods: {
-    ...mapMutations(['setPageTitle']),
-    tesClick () {
-      console.log('click')
-    },
-    getDate () {
-      const today = new Date()
-      const month = [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Augustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ][today.getMonth()]
-      const date = today.getDate() + ' ' + month + ' ' + today.getFullYear()
-      const dateTime = date
-      this.timestamp = dateTime
-    }
+    ...mapMutations(['setPageTitle', 'setTimestamp']),
+    ...mapActions('pos', ['getCabangById'])
   }
 }
 </script>

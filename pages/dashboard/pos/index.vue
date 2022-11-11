@@ -15,36 +15,31 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions, mapState } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
-      dataCabang: '',
       modalText: {
         btn1: 'Tidak',
         btn2: 'Yakin'
       },
-      validate: false,
-      isLoading: false
+      validate: false
     }
+  },
+  async fetch ({ store }) {
+    await store.dispatch('pos/getDataCabang')
+  },
+  computed: {
+    ...mapState('pos', ['isLoading', 'dataCabang'])
   },
   created () {
     this.setPageTitle('Point of Sale')
   },
-  mounted () {
-    this.isLoading = true
-    this.$axios
-      .$get('branches')
-      // .then(response => console.log(response.data))
-      .then((response) => {
-        this.dataCabang = response.data
-        this.isLoading = false
-      })
-    // .then(console.log(this.dataCabang))
-  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['getDataCabang'])
   }
 }
 </script>

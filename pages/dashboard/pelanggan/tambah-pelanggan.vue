@@ -41,9 +41,10 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       dataCustomer: {
@@ -59,17 +60,11 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['postNewCustomer']),
     handleSubmit () {
-      this.$axios
-        .$post('customers', {
-          customer: {
-            name: this.dataCustomer.nama,
-            phone: this.dataCustomer.noHp,
-            email: this.dataCustomer.email,
-            full_address: this.dataCustomer.alamat
-          }
-        })
-        .then(this.$router.push('/dashboard/pos/pilih-customer'))
+      this.$store
+        .dispatch('pos/postNewCustomer', this.dataCustomer)
+        .then(this.$router.push('/dashboard/pelanggan/pilih-pelanggan'))
     }
   }
 }

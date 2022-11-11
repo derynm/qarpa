@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   layout: 'dashboard',
   middleware: 'auth',
@@ -99,35 +101,18 @@ export default {
         //   url: '/dashboard/audit'
         // }
       ],
-      timestamp: '',
       user: this.$auth.user
     }
   },
 
   created () {
-    this.getDate()
+    this.setTimestamp()
+  },
+  computed: {
+    ...mapState(['timestamp'])
   },
   methods: {
-    getDate () {
-      const today = new Date()
-      const month = [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Augustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ][today.getMonth()]
-      const date = today.getDate() + ' ' + month + ' ' + today.getFullYear()
-      const dateTime = date
-      this.timestamp = dateTime
-    }
+    ...mapMutations(['setTimestamp'])
   }
 }
 </script>

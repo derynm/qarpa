@@ -48,11 +48,12 @@
     </div>
     <div class="bot">
       <div class="logout-btn mt-5">
-        <nuxt-link to="user/login">
-          <button class="w-full bg-[#344397] text-white rounded-md py-2">
-            Keluar
-          </button>
-        </nuxt-link>
+        <button
+          class="w-full bg-[#344397] text-white rounded-md py-2"
+          @click="$auth.logout()"
+        >
+          Keluar
+        </button>
       </div>
     </div>
   </div>

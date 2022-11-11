@@ -27,16 +27,22 @@
         />
       </div>
       <div class="btn">
-        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+        <ButtonGlobal
+          text="Simpan Data"
+          class="w-full"
+          padding="py-2"
+          color="bg-primary"
+        />
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       dataCabang: {
@@ -51,16 +57,10 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['postNewCabang']),
     handleSubmit () {
-      console.log(this.dataCabang)
-      this.$axios
-        .$post('branches', {
-          branch: {
-            name: this.dataCabang.nama,
-            full_address: this.dataCabang.alamat,
-            phone: this.dataCabang.noHp
-          }
-        })
+      this.$store
+        .dispatch('pos/postNewCabang', this.dataCabang)
         .then(this.$router.push('/dashboard/pos'))
     }
   }

@@ -1,10 +1,14 @@
 <template>
   <div class="container p-4">
-    <SearchBar placeholder="Cari Pelanggan" class="mb-10" />
+    <SearchBar
+      v-model="searchValue"
+      placeholder="Cari Pelanggan"
+      class="mb-10"
+    />
     <div class="content min-h-[65vh] flex flex-col justify-between">
       <div v-if="!isLoading" class="customer-card flex flex-col gap-3">
         <PosCardCustomer
-          v-for="item in dataCustomer"
+          v-for="item in filteredList"
           :key="item.id"
           :item="item"
           @click="handleDelete"
@@ -23,47 +27,37 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   data () {
     return {
-      dataCustomer: '',
-      isLoading: false
+      searchValue: ''
     }
+  },
+  async fetch ({ store }) {
+    await store.dispatch('pos/getDataCustomer')
+  },
+  computed: {
+    filteredList () {
+      return this.dataCustomer.filter((post) => {
+        return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
+      })
+    },
+    ...mapState('pos', ['dataCustomer'])
   },
   created () {
     this.setPageTitle('Pilih Pelanggan')
   },
   mounted () {
-    this.handleGetData()
+    console.log(this.dataCustomer)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
     handleDelete (id) {
-      try {
-        this.isLoading = true
-        this.$axios.$delete(`customers/${id}`).then(() => {
-          this.handleGetData()
-          this.isLoading = false
-        })
-      } catch (error) {
-        this.isLoading = false
-        console.log(error)
-      }
-      // .then(location.reload())
-      // console.log(this.item.id)
+      this.$store.dispatch('pos/deleteCustomer', id)
     },
-    handleGetData () {
-      this.isLoading = true
-      this.$axios
-        .$get('customers')
-        // .then(response => console.log(response.data))
-        .then((response) => {
-          this.dataCustomer = response.data
-          this.isLoading = false
-        })
-    }
+    ...mapActions('pos', ['getDataCustomer', 'deleteCustomer'])
   }
 }
 </script>

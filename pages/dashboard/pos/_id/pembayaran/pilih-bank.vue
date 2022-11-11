@@ -1,7 +1,7 @@
 <template>
-  <div class="container px-4">
+  <div class="container px-4 mb-6">
     <nuxt-link
-      to="/dashboard/pos/tambah-bank"
+      to="tambah-bank"
       class="header flex items-center p-2 my-4 justify-between"
     >
       <div class="flex gap-2 items-center">
@@ -20,22 +20,33 @@
         <p>Pilih Rekning sesuai bank asal transfer pelangganmu</p>
       </div>
       <div class="content flex flex-col gap-2">
-        <PosCardBank bank="BRI" />
-        <PosCardBank bank="BCA" />
+        <PosCardBank v-for="item in dataBank" :key="item.id" :item="item" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
+  async fetch ({ store }) {
+    await store.dispatch('pos/getDataBank')
+  },
   created () {
     this.setPageTitle('Pembayaran Bank')
   },
+  mounted () {
+    console.log(this.dataBank)
+    // console.log(this.$route.params.id)
+  },
+  computed: {
+    ...mapState('pos', ['dataBank'])
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['getDataBank'])
   }
 }
 </script>

@@ -30,7 +30,7 @@
     <div class="content flex justify-around text-center pt-4">
       <div class="profit">
         <p>
-          {{ item.pendapatan }}
+          {{ item.total_incomes }}
         </p>
         <p class="font-semibold">
           Total Pendapatan
@@ -38,7 +38,7 @@
       </div>
       <div class="order">
         <p>
-          {{ item.order }}
+          {{ item.total_orders }}
         </p>
         <p class="font-semibold">
           Total Order
@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from 'vuex'
+
 export default {
   props: {
     item: {
@@ -80,9 +82,7 @@ export default {
   data () {
     return {
       validateModal: false,
-      timestamp: '',
       inputKasir: false,
-      // emit: 'click-button',
       pos: '',
       modalText: [
         {
@@ -99,33 +99,16 @@ export default {
     }
   },
   created () {
-    this.getDate()
+    this.setTimestamp()
     // localStorage.removeItem('POS_DATA')
+  },
+  computed: {
+    ...mapState(['timestamp'])
   },
   methods: {
     acceptBtn () {
       this.validateModal = false
       this.inputKasir = true
-    },
-    getDate () {
-      const today = new Date()
-      const month = [
-        'Januari',
-        'Februari',
-        'Maret',
-        'April',
-        'Mei',
-        'Juni',
-        'Juli',
-        'Augustus',
-        'September',
-        'Oktober',
-        'November',
-        'Desember'
-      ][today.getMonth()]
-      const date = today.getDate() + ' ' + month + ' ' + today.getFullYear()
-      const dateTime = date
-      this.timestamp = dateTime
     },
     async handleClose () {
       const temp = JSON.parse(localStorage.getItem('POS_DATA'))
@@ -137,19 +120,15 @@ export default {
         'POS_DATA',
         JSON.stringify(temp.filter(el => el.branch_id !== this.item.id))
       )
-      // console.log(localStorage.getItem('POS_DATA'))
-      // await this.$axios
-      //   .$get('branches')
-      //   .then(response => console.log(response.data))
       this.validateModal = false
-      // this.key++
       location.reload()
     },
     backToBranch () {
       if (this.item.status === true) {
         this.$router.push(`pos/${this.item.id}`)
       }
-    }
+    },
+    ...mapMutations(['setTimestamp'])
   }
 }
 </script>
