@@ -47,19 +47,21 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   data () {
     return {
-      timestamp: ''
+      // timestamp: ''
     }
   },
   created () {
     this.setPageTitle('Detail Order')
-    this.getDate()
+    this.setTimestamp()
   },
-
+  computed: {
+    ...mapState(['timestamp'])
+  },
   methods: {
     ...mapMutations(['setPageTitle']),
     getDate () {
@@ -81,7 +83,8 @@ export default {
       const date = today.getDate() + ' ' + month + ' ' + today.getFullYear()
       const dateTime = date
       this.timestamp = dateTime
-    }
+    },
+    ...mapMutations(['setTimestamp'])
   }
 }
 </script>

@@ -3,21 +3,24 @@
     <div class="content flex justify-between md:justify-start">
       <div class="text">
         <p class="font-semibold">
-          Aninda Azzahra Fauziah
+          {{ item.name }}
         </p>
         <div class="alamat flex gap-2">
           <p>Alamat :</p>
-          <p>Yogyakarta</p>
+          <p>{{ item.address }}</p>
         </div>
         <div class="kontak flex gap-2">
           <p>Kontak :</p>
-          <p>0878-8758-6851</p>
+          <p>{{ item.phone }}</p>
         </div>
       </div>
     </div>
     <div class="btn flex justify-center pt-2 md:pt-0">
       <!-- <ButtonComponent text-fill="Hapus" /> -->
-      <button class="p-2 border border-red-600 rounded-lg">
+      <button
+        class="p-2 border border-red-600 rounded-lg"
+        @click="$emit('click', item.id)"
+      >
         <IconsTrash />
       </button>
     </div>
@@ -25,7 +28,16 @@
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: null
+    }
+  },
+  emits: ['click'],
+  methods: {}
+}
 </script>
 
 <style></style>

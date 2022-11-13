@@ -9,10 +9,11 @@
         <p class="font-bold text-center pb-4 text-xl">
           Modal Kasir
         </p>
-        <form @submit.prevent="">
+        <form @submit.prevent="handleSubmit">
           <div class="nominal">
             <InputFieldBasicInput
               v-model="modalKasir.nominal"
+              type="number"
               label="Nominal"
               placeholder="Masukkan nominal kasir..."
             />
@@ -27,16 +28,24 @@
           </div>
           <div class="modal-button flex text-center pt-2 justify-center gap-5">
             <div class="w-full">
-              <ButtonComponent
+              <ButtonGlobal
+                type="button"
+                class="w-full"
+                text="Tidak"
                 :outlined="true"
-                class="w-full p-2"
-                text-fill="Tidak"
-                @clicked="$emit('decline')"
+                padding="py-2"
+                @click="$emit('decline')"
               />
             </div>
-            <nuxt-link class="w-full" :to="`pos/${id}`">
-              <ButtonComponent class="w-full p-2" text-fill="Yakin" />
-            </nuxt-link>
+            <!-- <nuxt-link class="w-full" :to="`pos/${id}`"> -->
+            <ButtonGlobal
+              type="submit"
+              class="w-full"
+              text="Yakin"
+              padding="py-2"
+              color="bg-primary"
+            />
+            <!-- </nuxt-link> -->
           </div>
         </form>
       </div>
@@ -47,15 +56,45 @@
 <script>
 export default {
   props: {
-    id: Number
+    id: { type: Number, default: null }
   },
   //   emits: ['close-modal']
   data () {
     return {
       modalKasir: {
-        nominal: '',
+        nominal: null,
         catatan: ''
-      }
+      },
+      pos: ''
+    }
+  },
+  methods: {
+    handleSubmit () {
+      // console.log(this.modalKasir)
+      // console.log(this.id)
+      this.$axios
+        .$post(`branches/pos/open?branch_id=${this.id}`, {
+          pos: {
+            fund: this.modalKasir.nominal,
+            notes: this.modalKasir.catatan
+          }
+        })
+        .then((response) => {
+          // console.log(response.data)
+          const temp = {
+            branch_id: response.data.branch_id,
+            pos_id: response.data.pos_id
+          }
+          if (localStorage.getItem('POS_DATA') === null) {
+            localStorage.setItem('POS_DATA', '[]')
+          }
+          // this.pos.push(temp)
+          const tempPos = JSON.parse(localStorage.getItem('POS_DATA'))
+          tempPos.push(temp)
+          localStorage.setItem('POS_DATA', JSON.stringify(tempPos))
+          // localStorage.setItem('POS_DATA', JSON.stringify(this.pos))
+        })
+        .then(this.$router.push(`pos/${this.id}`))
     }
   }
 }
