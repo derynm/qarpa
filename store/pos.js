@@ -43,11 +43,9 @@ export const actions = {
     })
   },
   getCabangById (ctx, id) {
-    console.log(id)
-    console.log(id)
     return this.$axios.$get(`branches/${id}`).then((response) => {
       ctx.commit('setCabangById', response.data)
-      console.log(response.data)
+      // console.log(response.data)
     })
   },
 
