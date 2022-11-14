@@ -1,17 +1,23 @@
 <template>
   <div class="container flex flex-col px-2">
     <div class="dropdown my-3">
-      <select id="" v-model="filterValue" class="border rounded-md p-2" name="">
-        <option value="">
+      <select
+        id=""
+        v-model="filterValue"
+        class="border rounded-md py-2 pl-2 pr-4"
+        name=""
+        @change="filterCard(filterValue)"
+      >
+        <option value="all" selected>
           Status Cuti
         </option>
-        <option value="Menunggu">
+        <option value="menunggu">
           Menunggu
         </option>
-        <option value="Ditolak">
+        <option value="ditolak">
           Ditolak
         </option>
-        <option value="Disetujui">
+        <option value="disetujui">
           Disetujui
         </option>
       </select>
@@ -19,75 +25,72 @@
     <div class="content flex flex-col justify-between">
       <div class="content-card">
         <CutiCardCuti
-          show-button="true"
-          filter="Menunggu"
-          :filter-value="filterValue"
-          jenis-izin="Liburan"
-          status="Menunggu"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
+          v-for="item in filteredList"
+          :key="item.id"
+          :item="item"
+          :show-button="true"
+          @approve="approveCuti"
+          @reject="rejectCuti"
         />
-        <CutiCardCuti
-          show-button="true"
-          filter="Disetujui"
-          :filter-value="filterValue"
-          jenis-izin="Sakit"
-          status="Disetujui"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        />
-        <CutiCardCuti
-          show-button="true"
-          filter="Ditolak"
-          :filter-value="filterValue"
-          jenis-izin="Izin"
-          status="Ditolak"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        />
-        <!-- <CutiCardCuti
-          v-for="item in listCuti" :key="item.id"
-
-            :jenis-izin="item.title"
-            status="Ditolak"
-            tgl-mulai="1/10/2022"
-            tgl-berakhir="5/10/2022"
-          /> -->
       </div>
-      <div class="btn flex justify-end my-5">
-        <nuxt-link to="cuti/ajukan-cuti">
-          <ButtonGlobal text="+ Cuti" color="bg-primary" padding="py-2 px-5" />
-        </nuxt-link>
-      </div>
-      {{ listCuti }}
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   middleware: 'auth',
   data () {
     return {
-      filterValue: '',
-      listCuti: ''
+      filteredList: [],
+      filterValue: 'all'
     }
+  },
+
+  async fetch ({ store }) {
+    await store.dispatch('cuti/getListCuti')
+  },
+  computed: {
+    ...mapState('cuti', ['isLoading', 'listCuti'])
   },
   created () {
     this.setPageTitle('Cuti')
   },
+
   mounted () {
-    this.$axios
-      .get('leave_managements')
-      // .then(response => (this.listCuti = response.data))
-      .then(response => console.log(response.data.data))
+    // console.log(this.listCuti)
+    this.filteredList = this.listCuti
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('cuti', ['getListCuti', 'setApprove', 'setReject']),
+    filterCard (ele) {
+      if (ele === 'all') {
+        return (this.filteredList = this.listCuti)
+      } else {
+        this.filteredList = this.listCuti.filter((e) => {
+          return e.status === ele
+        })
+      }
+    },
+    approveCuti (ele) {
+      this.$store.dispatch('cuti/setApprove', ele).then(location.reload())
+    },
+    rejectCuti (ele) {
+      this.$store.dispatch('cuti/setReject', ele).then(location.reload())
+    }
   }
 }
 </script>
 
-<style></style>
+<style>
+/* select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url(https://stackoverflow.com/favicon.ico) 96% / 15% no-repeat
+    #eee;
+} */
+</style>
