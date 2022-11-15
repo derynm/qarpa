@@ -53,8 +53,16 @@ export default {
   created () {
     this.setPageTitle('Total Stok')
   },
+  mounted () {
+    this.getDataStok()
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    getDataStok () {
+      this.$axios
+        .$get('inventory/products/suplai')
+        .then(response => console.log(response.data))
+    }
   }
 }
 </script>
