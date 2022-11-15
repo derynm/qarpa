@@ -30,7 +30,7 @@
       </div>
     </div>
     <div
-      v-if="role === 'karyawan'"
+      v-if="role === 'employee'"
       class="highlight-karyawan flex flex-col gap-2"
     >
       <div class="highlight-title text-center">
@@ -41,12 +41,12 @@
       <div class="highlight-content flex mx-auto gap-4">
         <div class="left bg-[#2d3a82] rounded-xl p-2">
           <p class="text-xl">
-            10 Selesai
+            {{ task.done }} Selesai
           </p>
         </div>
         <div class="right bg-[#2d3a82] rounded-xl p-2">
           <p class="text-xl">
-            0 Proses
+            {{ task.todo }} Proses
           </p>
         </div>
       </div>
@@ -69,6 +69,10 @@ export default {
     role: {
       type: String,
       default: 'karyawan'
+    },
+    task: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {

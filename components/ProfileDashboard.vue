@@ -12,7 +12,7 @@
           <p v-if="user.role === 'owner'" class="role">
             Pemilik Usaha
           </p>
-          <p v-if="user.role === 'karyawan'" class="role">
+          <p v-if="user.role === 'employee'" class="role">
             Karyawan
           </p>
         </div>
