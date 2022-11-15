@@ -1,93 +1,97 @@
 <template>
   <div class="container flex flex-col px-2">
     <div class="box-cuti flex gap-2 mx-auto">
-      <CutiBoxCuti color="bg-[#6db570]" :total="1" status="Disetujui" />
-      <CutiBoxCuti color="bg-[#f7b548]" :total="1" status="Menuggu" />
-      <CutiBoxCuti color="bg-[#d61c4e]" :total="1" status="Ditolak" />
+      <CutiBoxCuti
+        color="bg-[#6db570]"
+        :total="employeeCuti.disetujui"
+        status="Disetujui"
+      />
+      <CutiBoxCuti
+        color="bg-[#f7b548]"
+        :total="employeeCuti.menunggu"
+        status="Menuggu"
+      />
+      <CutiBoxCuti
+        color="bg-[#d61c4e]"
+        :total="employeeCuti.ditolak"
+        status="Ditolak"
+      />
     </div>
     <div class="dropdown my-3">
-      <select id="" v-model="filterValue" class="border rounded-md p-2" name="">
-        <option value="">
-          Jenis Izin
+      <select
+        id=""
+        v-model="filterValue"
+        class="border rounded-md py-2 pl-2 pr-4"
+        name=""
+        @change="filterCard(filterValue)"
+      >
+        <option value="all" selected>
+          Status Cuti
         </option>
-        <option value="Izin">
-          Izin
+        <option value="menunggu">
+          Menunggu
         </option>
-        <option value="Sakit">
-          Sakit
+        <option value="ditolak">
+          Ditolak
         </option>
-        <option value="Liburan">
-          Liburan
+        <option value="disetujui">
+          Disetujui
         </option>
       </select>
     </div>
     <div class="content flex flex-col justify-between">
       <div class="content-card">
         <CutiCardCuti
-          filter="Liburan"
-          :filter-value="filterValue"
-          jenis-izin="Liburan"
-          status="Menunggu"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
+          v-for="item in filteredList"
+          :key="item.id"
+          :item="item"
         />
-        <CutiCardCuti
-          filter="Sakit"
-          :filter-value="filterValue"
-          jenis-izin="Sakit"
-          status="Disetujui"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        />
-        <CutiCardCuti
-          filter="Izin"
-          :filter-value="filterValue"
-          jenis-izin="Izin"
-          status="Ditolak"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        />
-        <!-- <CutiCardCuti
-        v-for="item in listCuti" :key="item.id"
-
-          :jenis-izin="item.title"
-          status="Ditolak"
-          tgl-mulai="1/10/2022"
-          tgl-berakhir="5/10/2022"
-        /> -->
       </div>
       <div class="btn flex justify-end my-5">
         <nuxt-link to="cuti/ajukan-cuti">
           <ButtonGlobal text="+ Cuti" color="bg-primary" padding="py-2 px-5" />
         </nuxt-link>
       </div>
-      {{ listCuti }}
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   middleware: 'auth',
   data () {
     return {
-      filterValue: '',
-      listCuti: ''
+      filterValue: 'all',
+      filteredList: []
     }
+  },
+  async fetch ({ store }) {
+    await store.dispatch('cuti/getEmployeeCuti')
+  },
+  computed: {
+    ...mapState('cuti', ['isLoading', 'employeeCuti'])
   },
   created () {
     this.setPageTitle('Cuti')
   },
   mounted () {
-    this.$axios
-      .get('leave_managements')
-      // .then(response => (this.listCuti = response.data))
-      .then(response => console.log(response.data.data))
+    console.log(this.employeeCuti)
+    this.filteredList = this.employeeCuti.data
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('cuti', ['getEmployeeCuti']),
+    filterCard (ele) {
+      if (ele === 'all') {
+        return (this.filteredList = this.employeeCuti.data)
+      } else {
+        this.filteredList = this.employeeCuti.data.filter((e) => {
+          return e.leave_status === ele
+        })
+      }
+    }
   }
 }
 </script>

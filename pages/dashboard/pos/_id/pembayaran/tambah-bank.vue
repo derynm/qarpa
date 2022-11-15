@@ -5,10 +5,13 @@
         Lengkapi form dibawah ini dengan data yang valid
       </p>
     </div> -->
-    <form class="flex flex-col justify-between min-h-[70vh]">
+    <form
+      class="flex flex-col justify-between min-h-[70vh]"
+      @submit.prevent="handleSubmit"
+    >
       <div class="input">
         <InputFieldBasicInput
-          v-model="dataCustomer.nama"
+          v-model="dataBank.nama"
           label="Nama Pemilik Rekening"
           placeholder="..."
         />
@@ -19,24 +22,30 @@
             <legend class="ml-6 px-2 text-lg">
               Bank
             </legend>
-            <select id="" class="w-full rounded-xl px-3 pb-2" name="">
+            <select
+              id=""
+              v-model="dataBank.bank"
+              class="w-full rounded-xl px-3 pb-2"
+              name=""
+            >
               <option value="">
                 ...
               </option>
-              <option value="BRI">
+              <option value="bri">
                 BRI
               </option>
-              <option value="BCA">
+              <option value="bca">
                 BCA
               </option>
-              <option value="Mandiri">
+              <option value="mandiri">
                 Mandiri
               </option>
             </select>
           </fieldset>
         </div>
         <InputFieldBasicInput
-          v-model="dataCustomer.noHp"
+          v-model="dataBank.noRekening"
+          type="number"
           label="Nomor Rekening"
           placeholder="..."
         />
@@ -49,14 +58,14 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
   data () {
     return {
-      dataCustomer: {
+      dataBank: {
         nama: '',
-        alamat: '',
+        bank: '',
         noRekening: null
       }
     }
@@ -64,8 +73,21 @@ export default {
   created () {
     this.setPageTitle('Tambah Bank')
   },
+  mounted () {
+    console.log(this.$route.params.id)
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['postNewBank']),
+    handleSubmit () {
+      console.log(this.dataBank)
+      this.$store.dispatch('pos/postNewBank', this.dataBank).then(
+        this.$router.push(
+          `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
+        )
+        // this.$router.go(-1)
+      )
+    }
   }
 }
 </script>

@@ -38,4 +38,7 @@ input:focus {
 input {
   background-color: rgba(255, 255, 255, 0);
 }
+textarea {
+  outline: none;
+}
 </style>
