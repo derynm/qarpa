@@ -54,8 +54,16 @@ export default {
   created () {
     this.setPageTitle('Keuangan')
   },
+  mounted () {
+    this.getDataKeuangan()
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    getDataKeuangan () {
+      this.$axios
+        .$get('company/finance')
+        .then(response => console.log(response.data))
+    }
   }
 }
 </script>

@@ -11,7 +11,7 @@
 export default {
   props: {
     text: { type: String, default: '' },
-    money: { type: Number, default: null }
+    money: { type: String, default: null }
   }
 }
 </script>
