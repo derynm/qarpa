@@ -1,62 +1,11 @@
 <template>
   <div>
-    <div class="max-w-2xl mx-auto w-full h-screen">
-      <div class="bg-white h-full">
-        <div class="bg-primary h-[216px]">
-          <div class="h-[60px] flex items-center w-full px-3 justify-between">
-            <IconsBackIcon color-fill="white" />
-            <h3 class="font-semibold text-white text-xl">
-              Presensi
-            </h3>
-            <div />
-          </div>
-        </div>
-        <div class="flex w-full justify-center">
-          <div
-            class="min-h-[200px] min-w-[200px] md:min-h-[280px] md:min-w-[280px] rounded-full bg-warm flex items-center justify-center border-[6px] border-white -mt-[100px] md:-mt-[140px]"
-          >
-            <h1 class="text-3xl md:text-5xl font-semibold">
-              00 : 00 : 00
-            </h1>
-          </div>
-        </div>
-        <div class="flex justify-center">
-          <div class="items-center w-full my-3">
-            <h3 class="font-semibold text-lg text-center mx-auto mb-3">
-              Harry Styles
-            </h3>
-            <div class="flex justify-center">
-              <button-global
-                v-if="!isCheckIn"
-                padding="py-1 px-3"
-                color="bg-green-700"
-                text="Check In"
-                @click="handleCheckIn"
-              />
-              <button-global
-                v-if="isCheckIn"
-                padding="py-1 px-3"
-                color="bg-red-700"
-                text="Check Out"
-                @click="handleCheckOut"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="px-3">
-          <h3 class="font-bold mb-2">
-            Riwayat Presensi
-          </h3>
-          <div class="max-h-[190px] overflow-y-auto">
-            <presensi-card-riwayat-presesnsi
-              v-for="(value, index) in 4"
-              :key="index"
-              date="11 Oktober 2022"
-              time="12.30 - 16.30"
-            />
-          </div>
-        </div>
-      </div>
+    <div class="max-w-2xl mx-auto w-full bg-white min-h-screen">
+      <presensi-karyawan
+        @location="getLocation"
+        @checkIn="handleCheckIn"
+        @checkOut="handleCheckOut"
+      />
     </div>
     <attendance-modal
       v-if="checkInModalShow"
@@ -76,9 +25,10 @@
 <script>
 import moment from 'moment'
 import AttendanceModal from '~/components/Modal/AttendanceModal.vue'
+import PresensiKaryawan from '~/components/presensi/PresensiKaryawan.vue'
 
 export default {
-  components: { AttendanceModal },
+  components: { AttendanceModal, PresensiKaryawan },
   middleware: 'auth',
   data () {
     return {
@@ -90,9 +40,7 @@ export default {
       date: new Date()
     }
   },
-  mounted () {
-    this.getLocation()
-  },
+
   methods: {
     getLocation () {
       if (navigator.geolocation) {
@@ -131,7 +79,7 @@ export default {
             )
           })
           .then(() => {
-            this.checkInModalShow = true
+            this.checkOutModalShow = true
             this.isCheckIn = false
           })
       } catch (error) {
