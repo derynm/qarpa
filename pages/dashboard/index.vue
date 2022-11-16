@@ -82,7 +82,7 @@ export default {
         {
           name: 'Karyawan',
           access: ['owner'],
-          url: '/dashboard/employee'
+          url: '/dashboard/karyawan'
         },
         {
           name: 'Keuangan',
