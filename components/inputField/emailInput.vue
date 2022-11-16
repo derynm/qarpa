@@ -13,6 +13,7 @@
       class="w-full px-3 pb-2"
       required
       @input="updateValue($event.target.value)"
+      :autocomplete="autocomplete"
     >
   </fieldset>
 </template>
@@ -22,7 +23,8 @@ export default {
   props: {
     label: { type: String, default: null },
     placeholder: { type: String, default: null },
-    value: { type: String, default: '' }
+    value: { type: String, default: '' },
+    autocomplete: { type: String, default: 'off' }
   },
   methods: {
     updateValue (value) {

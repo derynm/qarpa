@@ -178,7 +178,7 @@ export default {
             name: this.nameRegister,
             password: this.passwordRegister,
             company_name: this.businessRegister,
-            full_address: this.businessAddress,
+            full_address: this.businessAddress
           })
           .then((response) => {
             console.log(response)

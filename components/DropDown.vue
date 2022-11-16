@@ -1,5 +1,8 @@
 <template>
-  <select class="p-3 shadow-md rounded-md border-2 dropdown-style">
+  <select
+    class="p-3 shadow-md rounded-md border-2 dropdown-style"
+    @input="updateValue($event.target.value)"
+  >
     <option v-if="placeHolder" selected hidden>
       {{ placeHolder }}
     </option>
@@ -19,6 +22,11 @@ export default {
     placeHolder: {
       type: String,
       default: null
+    }
+  },
+  methods: {
+    updateValue (value) {
+      this.$emit('input', value)
     }
   }
 }
