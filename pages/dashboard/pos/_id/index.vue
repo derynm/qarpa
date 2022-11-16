@@ -1,5 +1,14 @@
 <template>
   <div class="px-2">
+    <button @click="setSession">
+      Click session
+    </button>
+    <button @click="deleteSession">
+      remove session
+    </button>
+    <button @click="getSession">
+      get session
+    </button>
     <div class="header flex justify-between items-center px-2">
       <div class="date">
         <p>{{ timestamp }}</p>
@@ -19,7 +28,6 @@
             <p>Daftar Produk</p>
           </div>
           <div class="product-item mt-4 grid grid-cols-1 gap-4">
-            <PosCardProduct />
             <PosCardProduct />
           </div>
         </div>
@@ -63,7 +71,16 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
-    ...mapActions('pos', ['getCabangById'])
+    ...mapActions('pos', ['getCabangById']),
+    setSession () {
+      sessionStorage.setItem('tes', JSON.stringify(this.order))
+    },
+    getSession () {
+      console.log(JSON.parse(sessionStorage.getItem('tes')))
+    },
+    deleteSession () {
+      sessionStorage.removeItem('tes')
+    }
   }
 }
 </script>
