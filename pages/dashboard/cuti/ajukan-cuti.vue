@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
   data () {
@@ -82,17 +82,11 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
+    ...mapActions('cuti', ['postNewCuti']),
     handleSubmit () {
       console.log(this.dataCuti)
-      this.$axios
-        .$post('leave_managements', {
-          leave_management: {
-            title: this.dataCuti.jenisIzin,
-            notes: this.dataCuti.catatan,
-            start_at: this.dataCuti.tglMulai,
-            end_at: this.dataCuti.tglBerakhir
-          }
-        })
+      this.$store
+        .dispatch('cuti/postNewCuti', this.dataCuti)
         .then(this.$router.push('/dashboard/cuti'))
     }
   }

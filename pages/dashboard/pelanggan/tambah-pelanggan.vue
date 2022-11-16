@@ -5,7 +5,10 @@
         Lengkapi form dibawah ini dengan data yang valid
       </p>
     </div>
-    <form class="flex flex-col justify-between min-h-[70vh]">
+    <form
+      class="flex flex-col justify-between min-h-[70vh]"
+      @submit.prevent="handleSubmit"
+    >
       <div class="input">
         <InputFieldBasicInput
           v-model="dataCustomer.nama"
@@ -19,27 +22,35 @@
         />
         <InputFieldBasicInput
           v-model="dataCustomer.noHp"
+          type="number"
           label="Nomor Handphone"
           placeholder="..."
         />
         <InputFieldBasicInput
           v-model="dataCustomer.email"
-          label="email"
+          label="Email"
           type="email"
           placeholder="..."
         />
       </div>
       <div class="btn">
-        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+        <ButtonGlobal
+          text="Simpan Data"
+          padding="py-2"
+          class="w-full"
+          type="submit"
+          color="bg-primary"
+        />
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       dataCustomer: {
@@ -54,7 +65,13 @@ export default {
     this.setPageTitle('Tambah Pelanggan Baru')
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['postNewCustomer']),
+    handleSubmit () {
+      this.$store
+        .dispatch('pos/postNewCustomer', this.dataCustomer)
+        .then(this.$router.push('/dashboard/pelanggan/pilih-pelanggan'))
+    }
   }
 }
 </script>
