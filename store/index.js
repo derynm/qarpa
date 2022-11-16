@@ -2,7 +2,8 @@ export const state = () => ({
   pageTitle: '',
   timestamp: '',
   taskAmount: {},
-  isLoading: false
+  isLoading: false,
+  branchDropdown: []
 })
 
 export const mutations = {
@@ -34,6 +35,9 @@ export const mutations = {
   },
   setIsLoading (state, value) {
     state.isLoading = value
+  },
+  setBranchDropdown (state, value) {
+    state.branchDropdown = value
   }
 }
 
@@ -46,5 +50,10 @@ export const actions = {
         commit('setTaskAmount', response.data)
         commit('setIsLoading', false)
       })
+  },
+  getBranchDropdown ({ commit }) {
+    return this.$axios
+      .$get('branches')
+      .then(response => commit('setBranchDropdown', response.data))
   }
 }

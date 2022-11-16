@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   middleware: 'auth',
@@ -71,10 +71,10 @@ export default {
     }
   },
   async fetch ({ store }) {
-    await store.dispatch('karyawan/getBranchDropdown')
+    await store.dispatch('getBranchDropdown')
   },
   computed: {
-    ...mapState('karyawan', ['branchDropdown'])
+    ...mapState(['branchDropdown'])
   },
   created () {
     this.setPageTitle('Karyawan')
@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    ...mapActions('karyawan', ['getBranchDropdown', ['postNewEmployee']]),
     handleSubmit () {
       this.$store
         .dispatch('karyawan/postNewEmployee', this.dataKaryawan)
