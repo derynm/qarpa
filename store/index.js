@@ -2,7 +2,7 @@ export const state = () => ({
   pageTitle: '',
   timestamp: '',
   taskAmount: {},
-  employee: []
+  isLoading: false
 })
 
 export const mutations = {
@@ -32,20 +32,19 @@ export const mutations = {
   setTaskAmount (state, value) {
     state.taskAmount = value
   },
-  setEmployee (state, value) {
-    state.employee = value
+  setIsLoading (state, value) {
+    state.isLoading = value
   }
 }
 
 export const actions = {
-  getTaskAmount (ctx) {
+  getTaskAmount ({ commit }) {
+    commit('setIsLoading', true)
     return this.$axios
       .$get('employee/management_works/amount')
-      .then(response => ctx.commit('setTaskAmount', response))
-  },
-  getEmployee (ctx) {
-    return this.$axios
-      .$get('users/get_all')
-      .then(response => ctx.commit('setEmployee', response))
+      .then((response) => {
+        commit('setTaskAmount', response.data)
+        commit('setIsLoading', false)
+      })
   }
 }

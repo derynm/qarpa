@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div class="min-h-screen">
+    <div v-if="isLoading" class="loading flex min-h-screen">
+      <Loading class="m-auto" />
+    </div>
+    <div v-if="!isLoading" class="min-h-screen">
       <div
         class="nav flex justify-between py-10 items-center px-2 bg-[#f8c46c] rounded-b-xl"
       >
@@ -18,7 +21,7 @@
       </div>
       <div class="content px-3">
         <ProfileDashboard :user="user" />
-        <HighlightDashboard :role="user.role" />
+        <HighlightDashboard :role="user.role" :task="taskAmount" />
         <div class="service border shadow-md py-4 rounded-xl">
           <div class="title">
             <p class="text-center pb-2 text-xl">
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState, mapActions } from 'vuex'
 
 export default {
   layout: 'dashboard',
@@ -53,37 +56,37 @@ export default {
       itemMenu: [
         {
           name: 'Point of Sale',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/pos'
         },
         {
           name: 'Work Order',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/wom'
         },
         {
           name: 'Cuti',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/cuti'
         },
         {
           name: 'Pengiriman',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/pengiriman'
         },
         {
           name: 'Stok Gudang',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/stok'
         },
         {
           name: 'Karyawan',
           access: ['owner'],
-          url: '/dashboard/karyawan'
+          url: '/dashboard/employee'
         },
         {
           name: 'Keuangan',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/keuangan'
         },
         {
@@ -93,7 +96,7 @@ export default {
         },
         {
           name: 'Presensi',
-          access: ['owner', 'karyawan'],
+          access: ['owner', 'employee'],
           url: '/dashboard/presensi'
         }
         // {
@@ -104,15 +107,23 @@ export default {
       user: this.$auth.user
     }
   },
-
+  // async fetch ({ store }) {
+  //   await store.dispatch('getTaskAmount')
+  // },
   created () {
     this.setTimestamp()
   },
+  mounted () {
+    if (this.user.role === 'employee') {
+      this.$store.dispatch('getTaskAmount')
+    }
+  },
   computed: {
-    ...mapState(['timestamp'])
+    ...mapState(['timestamp', 'taskAmount', 'isLoading'])
   },
   methods: {
-    ...mapMutations(['setTimestamp'])
+    ...mapMutations(['setTimestamp']),
+    ...mapActions(['getTaskAmount'])
   }
 }
 </script>

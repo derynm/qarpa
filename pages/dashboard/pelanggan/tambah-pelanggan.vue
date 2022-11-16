@@ -34,7 +34,13 @@
         />
       </div>
       <div class="btn">
-        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+        <ButtonGlobal
+          text="Simpan Data"
+          padding="py-2"
+          class="w-full"
+          type="submit"
+          color="bg-primary"
+        />
       </div>
     </form>
   </div>
