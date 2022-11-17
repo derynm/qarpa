@@ -13,36 +13,36 @@
           <h4 class="font-semibold">
             Tugas
           </h4>
-          <p>Melakukan Penjualan di POS</p>
+          <p>{{ detailTask.task }}</p>
         </div>
         <div class="mb-3">
           <h4 class="font-semibold">
             Deskripsi
           </h4>
           <p>
-            Silahkan buka toko hari ini. Kamu menangani transaksi penjualan di
-            POS Cabang 1. Saya ke Toko nanti sore.
+            {{ detailTask.description }}
           </p>
         </div>
         <div class="mb-3">
           <h4 class="font-semibold">
             Durasi Mulai
           </h4>
-          <p>20 Oktober 2022</p>
+          <p>{{ detailTask.start_at }}</p>
         </div>
         <div class="mb-3">
           <h4 class="font-semibold">
             Durasi Berakhir
           </h4>
-          <p>22 Oktober 2022</p>
+          <p>{{ detailTask.end_at }}</p>
         </div>
       </div>
-      <div class="flex">
+      <div class="flex my-3">
         <button-global
           color="bg-warm"
-          padding="py-1 px-2"
+          padding="py-1 px-4"
           text="Tandai Selesai"
           class="mx-auto"
+          @click="taskDone"
         />
       </div>
     </div>
@@ -50,8 +50,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  layout: 'navigation'
+  layout: 'navigation',
+  middleware: 'auth',
+  async fetch ({ store, params }) {
+    await store.dispatch('wom/getDetailTask', params.idTask)
+  },
+  computed: {
+    ...mapState('wom', ['detailTask'])
+  },
+  methods: {
+    taskDone () {
+      this.$store.dispatch('wom/updateTaskDone', this.detailTask.id)
+      this.$router.push('/dashboard/wom')
+    }
+  }
 }
 </script>
 

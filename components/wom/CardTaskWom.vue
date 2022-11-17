@@ -1,20 +1,28 @@
 <template>
   <div
-    class="flex flex-col justify-between bg-white shadow-md rounded-md border-2 p-3"
+    class="flex flex-col justify-between bg-white shadow-md rounded-md border-2 p-3 mb-2"
   >
-    <div class="flex justify-between">
-      <p>Harry Styles</p>
-      <p class="text-xs">10 Oktober 2022 ( 3 hari )</p>
+    <div class="flex justify-between mb-3">
+      <p class="font-semibold">
+        {{ item.name }}
+      </p>
+      <p class="text-xs flex items-center">
+        {{ item.end_at + ' ( ' + item.number_of_days + ' hari )' }}
+      </p>
     </div>
-    <div class="flex justify-between">
-      <p>Atur pengiriman untuk cabang</p>
-      <wom-status-bar />
+    <div class="flex justify-between items-center">
+      <p>{{ item.task }}</p>
+      <wom-status-bar :status="item.status" />
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    item: { type: Object, default: () => ({}) }
+  }
+}
 </script>
 
 <style></style>

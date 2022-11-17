@@ -14,6 +14,7 @@
               v-model="dataLogin.email"
               label="Email"
               placeholder="Masukkan Email Anda"
+              autocomplete="on"
             />
             <div v-if="emailEror" class="pl-3 flex">
               <IconsWarningIcon />

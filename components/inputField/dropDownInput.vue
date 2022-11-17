@@ -5,11 +5,14 @@
     <legend class="ml-6 px-2 text-lg">
       {{ label }}
     </legend>
-    <select class="w-full rounded-xl px-3 pb-2">
+    <select
+      class="w-full rounded-xl px-3 pb-2"
+      @input="updateValue($event.target.value)"
+    >
       <option selected hidden>
         {{ placeHolder }}
       </option>
-      <option v-for="(value, index) in item" :key="index" :value="value.value">
+      <option v-for="(value, index) in item" :key="index" :value="value.id">
         {{ value.value }}
       </option>
     </select>
@@ -30,6 +33,11 @@ export default {
     label: {
       type: String,
       default: ''
+    }
+  },
+  methods: {
+    updateValue (value) {
+      this.$emit('input', value)
     }
   }
 }
