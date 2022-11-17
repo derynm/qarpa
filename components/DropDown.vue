@@ -6,6 +6,9 @@
     <option v-if="placeHolder" selected hidden>
       {{ placeHolder }}
     </option>
+    <option v-if="showAll" value="Semua">
+      Semua
+    </option>
     <option v-for="(value, index) in item" :key="index" :value="value.value">
       {{ value.value }}
     </option>
@@ -22,6 +25,10 @@ export default {
     placeHolder: {
       type: String,
       default: null
+    },
+    showAll: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

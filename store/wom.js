@@ -26,16 +26,19 @@ export const actions = {
     return this.$axios
       .$get('management_works')
       .then(response => ctx.commit('setAllTask', response))
+      .catch(err => console.log(err.response.data))
   },
   getTaskEmployee (ctx) {
     return this.$axios
       .$get('employee/management_works')
       .then(response => ctx.commit('setTaskEmployee', response.data))
+      .catch(err => console.log(err.response.data))
   },
   getDetailTask (ctx, id) {
     return this.$axios
       .$get(`management_works/${id}`)
       .then(response => ctx.commit('setDetailTask', response.data))
+      .catch(err => console.log(err.response.data))
   },
   updateTaskDone (ctx, id) {
     ctx.commit('showModal', true)
