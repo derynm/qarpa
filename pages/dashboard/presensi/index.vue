@@ -7,6 +7,7 @@
         @checkOut="handleCheckOut"
       />
     </div>
+
     <attendance-modal
       v-if="checkInModalShow"
       text-button="Lanjutkan"
@@ -40,7 +41,15 @@ export default {
       date: new Date()
     }
   },
-
+  async fetch ({ store }) {
+    await store.dispatch('presensi/getPresensiStatus')
+    await store.dispatch('presensi/getAllPresensiEmployee')
+  },
+  created () {
+    if (this.$auth.user.role === 'owner') {
+      this.$router.push('/dashboard/presensi/presensi-owner')
+    }
+  },
   methods: {
     getLocation () {
       if (navigator.geolocation) {
@@ -56,15 +65,14 @@ export default {
       try {
         this.$axios
           .$post('attendances/check_in', {
-            check_in: moment(this.date).format(
-              'DD MMM YYYY HH:mm:ss.SSSSSSSSS UTC Z'
-            ),
+            check_in: moment(this.date).format('DD-MM-YYYY HH:mm:ss.SSSSSSSSS'),
             latitude: this.posLatitude,
             longitude: this.posLongitude
           })
           .then(() => {
             this.checkInModalShow = true
             this.isCheckIn = true
+            window.location.reload()
           })
       } catch (error) {
         console.log(error)
@@ -74,13 +82,12 @@ export default {
       try {
         this.$axios
           .$put('attendances/check_out', {
-            check_out: moment(this.date).format(
-              'DD MMM YYYY HH:mm:ss.SSSSSSSSS UTC Z'
-            )
+            check_out: moment(this.date).format('DD-MM-YYYY HH:mm:ss.SSSSSSSSS')
           })
           .then(() => {
             this.checkOutModalShow = true
             this.isCheckIn = false
+            window.location.reload()
           })
       } catch (error) {
         console.log(error)
