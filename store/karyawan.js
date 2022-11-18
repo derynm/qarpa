@@ -1,15 +1,11 @@
 export const state = () => ({
   dataEmployee: [],
-  branchDropdown: [],
   isLoading: false
 })
 
 export const mutations = {
   setDataEmployee (state, value) {
     state.dataEmployee = value
-  },
-  setBranchDropdown (state, value) {
-    state.branchDropdown = value
   },
   setIsLoading (state, value) {
     state.isLoading = value
@@ -33,10 +29,5 @@ export const actions = {
         branch_id: employee.cabang
       }
     })
-  },
-  getBranchDropdown ({ commit }) {
-    return this.$axios
-      .$get('branches')
-      .then(response => commit('setBranchDropdown', response.data))
   }
 }
