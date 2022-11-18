@@ -1,17 +1,23 @@
 export const state = () => ({
-  stokBarang: []
+  stokBarang: [],
+  isLoading: false
 })
 
 export const mutations = {
   setStokBarang (state, value) {
     state.stokBarang = value
+  },
+  setIsLoading (state, value) {
+    state.isLoading = value
   }
 }
 
 export const actions = {
   getStokBarang ({ commit }) {
+    commit('setIsLoading', true)
     return this.$axios.$get('inventory/products/suplai').then((response) => {
       commit('setStokBarang', response.data)
+      commit('setIsLoading', false)
     })
   },
   postNewStok (ctx, stokBarang) {
@@ -22,5 +28,8 @@ export const actions = {
     data.append('quantity', stokBarang.stok)
     data.append('category', stokBarang.tipe)
     return this.$axios.$post('inventory/products', data, { headers })
+  },
+  deleteStok (ctx, id) {
+    return this.$axios.$delete(`inventory/products/${id}`)
   }
 }
