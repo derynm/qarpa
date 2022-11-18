@@ -1,6 +1,6 @@
 <template>
   <div
-    class="search-bar flex items-center shadow-md py-3 px-8 rounded-md justify-between"
+    class="search-bar flex items-center shadow-md py-3 px-8 rounded-md justify-between border-2"
   >
     <input
       class="p-1 w-full"
