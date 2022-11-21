@@ -6,8 +6,10 @@
     <IconsPosIcon class="rouded-lg" />
     <div class="item-detail pl-3 flex justify-between w-full">
       <div class="item-text">
-        <p>Cappucinno</p>
-        <p>Rp.15.000</p>
+        <p class="capitalize">
+          {{ item.name }}
+        </p>
+        <p>Rp. {{ formatPrice }}</p>
       </div>
       <div class="item-btn flex items-center gap-2" @click.stop="">
         <ButtonGlobal
@@ -21,7 +23,7 @@
           text="+"
           class="w-8 h-8 sm:w-12 sm:h-12"
           color="bg-primary"
-          @click="count++"
+          @click="increaseCount"
         />
       </div>
     </div>
@@ -30,18 +32,41 @@
 
 <script>
 export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
-      count: 0
+      count: 0,
+      temp: this.item
     }
+  },
+  computed: {
+    formatPrice () {
+      return new Intl.NumberFormat(['ban', 'id']).format(this.item.price)
+    }
+    // countQty () {
+    //   this.temp.qty = this.count
+    //   return this.temp
+    // }
   },
   methods: {
     tesClick () {
       console.log('click')
     },
+    increaseCount () {
+      this.count++
+      this.temp.qty = this.count
+      return this.$emit('plusQty', this.temp)
+    },
     decreaseCount () {
       if (this.count > 0) {
         this.count--
+        this.temp.qty = this.count
+        return this.$emit('minQty', this.temp)
       }
     }
   }
