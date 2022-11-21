@@ -5,35 +5,40 @@
         class="total-stok text-center shadow-md py-5 mb-4 flex flex-col gap-4"
       >
         <p class="font-semibold text-6xl">
-          80
+          {{ totalQtyStok }}
         </p>
         <p class="font-semibold text-xl">
           Total Stok Gudang
         </p>
       </div>
       <div class="kelola-stok">
-        <div class="dropdown">
-          <fieldset
-            class="my-2 rounded-md border-2 border-solid border-black bg-white"
+        <div class="dropdown my-4">
+          <select
+            id=""
+            v-model="kategori"
+            class="w-full rounded-lg px-3 py-2 border-2 border-black"
+            name=""
           >
-            <select id="" class="w-full rounded-xl px-3 py-2" name="">
-              <option value="">
-                Semua
-              </option>
-              <option value="">
-                Minuman
-              </option>
-              <option value="">
-                Makanan
-              </option>
-            </select>
-          </fieldset>
+            <option value="all">
+              All
+            </option>
+            <option
+              v-for="item in getCategory"
+              :key="item.category"
+              :value="item.category"
+              class="capitalize"
+            >
+              {{ item.category }}
+            </option>
+          </select>
         </div>
         <div class="content">
           <div class="dynamic-component flex flex-col gap-5">
-            <StokCardBarang />
-            <StokCardBarang />
-            <StokCardBarang />
+            <StokCardBarang
+              v-for="item in filteredStok"
+              :key="item.id"
+              :item="item"
+            />
           </div>
           <div class="btn flex justify-end my-4">
             <nuxt-link to="stok/tambah-produk">
@@ -47,22 +52,54 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
+  data () {
+    return {
+      // stokBarang: {},
+      kategori: 'all'
+    }
+  },
+  async fetch ({ store }) {
+    await store.dispatch('stok/getStokBarang')
+  },
+  computed: {
+    ...mapState('stok', ['stokBarang']),
+    getCategory () {
+      return this.stokBarang
+        .map(({ category }) => ({ category }))
+        .filter(
+          (value, index, self) =>
+            index ===
+            self.findIndex(
+              t => t.place === value.place && t.category === value.category
+            )
+        )
+    },
+    filteredStok () {
+      if (this.kategori !== 'all') {
+        return this.stokBarang.filter(e => e.category === this.kategori)
+      } else {
+        return this.stokBarang
+      }
+    },
+    totalQtyStok () {
+      return this.stokBarang.map(e => e.quantity).reduce((a, b) => a + b, 0)
+    }
+  },
   created () {
     this.setPageTitle('Total Stok')
   },
   mounted () {
-    this.getDataStok()
+    // console.log(this.totalQtyStok)
+  },
+  updated () {
+    // console.log(this.filteredStok)
   },
   methods: {
-    ...mapMutations(['setPageTitle']),
-    getDataStok () {
-      this.$axios
-        .$get('inventory/products/suplai')
-        .then(response => console.log(response.data))
-    }
+    ...mapMutations(['setPageTitle'])
   }
 }
 </script>
