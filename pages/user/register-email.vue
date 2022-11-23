@@ -1,6 +1,6 @@
 <template>
-  <div class="container mx-auto flex h-screen items-center">
-    <div class="mx-auto max-w-lg">
+  <div class="max-w-2xl mx-auto w-full bg-white min-h-screen">
+    <div class="mx-auto min-h-screen max-w-lg flex flex-col justify-center">
       <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 my-7 text-center">
           <p>Halo Usahawan, ayo bergabung bersama Qarpa!</p>

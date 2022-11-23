@@ -9,6 +9,12 @@
           <p>Masuk dulu yuk untuk kerja bareng di Qarpa</p>
         </div>
         <form @submit.prevent="handleLogin">
+          <div v-if="loginError" class="flex">
+            <IconsWarningIcon />
+            <p class="ml-1 text-danger text-[10px] font-semibold">
+              Cek kembali email dan password anda
+            </p>
+          </div>
           <div class="mb-8">
             <InputFieldEmailInput
               v-model="dataLogin.email"
@@ -29,12 +35,6 @@
               label="Kata Sandi"
               placeholder="Masukkan Kata Sandi Anda"
             />
-            <div v-if="paswdError" class="pl-3 flex">
-              <IconsWarningIcon />
-              <p class="ml-1 text-danger text-[10px] font-semibold">
-                Kata Sandi Anda salah
-              </p>
-            </div>
           </div>
           <div class="flex justify-center mb-8">
             <p class="text-center text-blue-700">
@@ -67,6 +67,7 @@ import ButtonComponent from '~/components/ButtonComponent.vue'
 export default {
   components: { ButtonComponent },
   layout: 'dashboard',
+  middleware: ['toDashboard'],
   data () {
     return {
       isFocus: false,
@@ -75,8 +76,8 @@ export default {
         password: ''
       },
       emailEror: false,
-      paswdError: false,
       showPaswd: false,
+      loginError: false,
       isDisabled: true,
       isLoading: false
     }
@@ -117,6 +118,7 @@ export default {
       } catch (error) {
         console.log(error.response)
         this.isLoading = false
+        this.loginError = true
       }
     }
   }
