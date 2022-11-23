@@ -3,7 +3,8 @@ export const state = () => ({
   isLoading: false,
   cabangById: {},
   dataCustomer: [],
-  dataBank: []
+  dataBank: [],
+  dataProduct: []
 })
 
 export const mutations = {
@@ -21,6 +22,9 @@ export const mutations = {
   },
   setCabangById (state, value) {
     state.cabangById = value
+  },
+  setDataProduct (state, value) {
+    state.dataProduct = value
   }
 }
 
@@ -91,5 +95,16 @@ export const actions = {
         account_number: bank.noRekening
       }
     })
+  },
+
+  // API PRODUCT
+  getDataProduct (ctx, id) {
+    ctx.commit('setIsLoading', true)
+    return this.$axios
+      .$get(`inventory/products/onbranch/${id}`)
+      .then((reponse) => {
+        ctx.commit('setDataProduct', reponse.data)
+        ctx.commit('setIsLoading', false)
+      })
   }
 }

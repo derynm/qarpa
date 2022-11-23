@@ -1,7 +1,10 @@
 <template>
-  <div class="card flex justify-between items-center shadow-md border p-2">
+  <div
+    class="card flex justify-between items-center shadow-md border p-2"
+    @click="$emit('getPelanggan', item.name, item.id)"
+  >
     <div class="content flex justify-between md:justify-start">
-      <div class="text">
+      <div class="text text-left">
         <p class="font-semibold">
           {{ item.name }}
         </p>
@@ -16,7 +19,6 @@
       </div>
     </div>
     <div class="btn flex justify-center pt-2 md:pt-0">
-      <!-- <ButtonComponent text-fill="Hapus" /> -->
       <button
         class="p-2 border border-red-600 rounded-lg"
         @click="$emit('click', item.id)"

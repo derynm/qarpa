@@ -1,0 +1,85 @@
+<template>
+  <div
+    class="modal-overlay fixed top-0 bottom-0 right-0 left-0 flex justify-center bg-gray-400/40"
+  >
+    <div
+      class="modal text-center bg-white h-[90%] w-[90%] md:w-[500px] p-2 my-auto rounded-md"
+    >
+      <div class="header-text px-6 my-6">
+        <p class="text-center">
+          Lengkapi form dibawah ini dengan data yang valid
+        </p>
+      </div>
+      <form
+        class="flex flex-col justify-between min-h-[70vh] px-2 text-left"
+        @submit.prevent="handleSubmit"
+      >
+        <div class="input">
+          <InputFieldBasicInput
+            v-model="dataCustomer.nama"
+            label="Nama Pelanggan"
+            placeholder="..."
+          />
+          <InputFieldBasicInput
+            v-model="dataCustomer.alamat"
+            label="Alamat"
+            placeholder="..."
+          />
+          <InputFieldBasicInput
+            v-model="dataCustomer.noHp"
+            type="number"
+            label="Nomor Handphone"
+            placeholder="..."
+          />
+          <InputFieldBasicInput
+            v-model="dataCustomer.email"
+            label="Email"
+            type="email"
+            placeholder="..."
+          />
+        </div>
+        <div class="btn">
+          <ButtonGlobal
+            text="Simpan Data"
+            padding="py-2"
+            class="w-full"
+            type="submit"
+            color="bg-primary"
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+</template>
+
+<script>
+import { mapActions, mapMutations } from 'vuex'
+export default {
+  layout: 'navigation',
+  middleware: 'auth',
+  data () {
+    return {
+      dataCustomer: {
+        nama: '',
+        alamat: '',
+        email: '',
+        noHp: null
+      }
+    }
+  },
+  created () {
+    this.setPageTitle('Tambah Pelanggan Baru')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle']),
+    ...mapActions('pos', ['postNewCustomer']),
+    handleSubmit () {
+      this.$store
+        .dispatch('pos/postNewCustomer', this.dataCustomer)
+        .then(this.$emit('closeModal'))
+    }
+  }
+}
+</script>
+
+<style></style>
