@@ -44,6 +44,7 @@
               text="Yakin"
               padding="py-2"
               color="bg-primary"
+              :disabled="isDisabled"
             />
             <!-- </nuxt-link> -->
           </div>
@@ -65,12 +66,18 @@ export default {
         nominal: null,
         catatan: ''
       },
-      pos: ''
+      pos: '',
+      isDisabled: true
+    }
+  },
+  watch: {
+    'modalKasir.nominal' () {
+      this.disableButton()
     }
   },
   methods: {
     handleSubmit () {
-      // console.log(this.modalKasir)
+      console.log(this.modalKasir)
       // console.log(this.id)
       this.$axios
         .$post(`branches/pos/open?branch_id=${this.id}`, {
@@ -95,6 +102,13 @@ export default {
           // localStorage.setItem('POS_DATA', JSON.stringify(this.pos))
         })
         .then(this.$router.push(`pos/${this.id}`))
+    },
+    disableButton () {
+      if (this.modalKasir.nominal >= 1000) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
     }
   }
 }

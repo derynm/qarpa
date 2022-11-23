@@ -25,7 +25,22 @@ export default {
         btn1: 'Tidak',
         btn2: 'Yakin'
       },
-      validate: false
+      validate: false,
+      order: {
+        customer_id: 1,
+        pos_id: 1,
+        discount: '',
+        items: [
+          {
+            product_id: 1,
+            qty: 10
+          },
+          {
+            product_id: 2,
+            qty: 4
+          }
+        ]
+      }
     }
   },
   async fetch ({ store }) {
@@ -37,6 +52,9 @@ export default {
   created () {
     this.setPageTitle('Point of Sale')
   },
+  // mounted () {
+
+  // },
   methods: {
     ...mapMutations(['setPageTitle']),
     ...mapActions('pos', ['getDataCabang'])
