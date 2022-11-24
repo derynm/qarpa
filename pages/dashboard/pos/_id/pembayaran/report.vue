@@ -6,7 +6,7 @@
       </p>
       <div class="icon flex flex-col gap-2 items-center">
         <IconsPosReport />
-        <p>05 Okt 2022, 17:56</p>
+        <p>{{ timeNow }}</p>
       </div>
     </div>
     <div class="content">
@@ -18,26 +18,76 @@
           <p>Jenis Pembayaran</p>
           <p>Total Tagihan</p>
           <p>Diterima</p>
-          <p>Total Tagihan</p>
+          <p>Kembalian</p>
         </div>
         <div class="right flex flex-col gap-1 font-semibold text-right">
-          <p>Tunai</p>
-          <p>Rp.101.000</p>
-          <p>Rp.150.000</p>
-          <p>Rp.49.000</p>
+          <p>{{ order.payment === 'cash' ? 'Tunai' : 'Transfer Bank' }}</p>
+          <p>Rp. {{ order.totalStr }}</p>
+          <p>Rp. {{ getPayment }}</p>
+          <p>Rp. {{ getChange }}</p>
         </div>
       </div>
     </div>
     <div class="btn pt-8 flex flex-col gap-4">
-      <ButtonComponent class="w-full p-2" text-fill="Transaksi Baru" />
-      <ButtonComponent class="w-full p-2" text-fill="Kirim Receipt" />
+      <ButtonGlobal
+        text="Transaksi Baru"
+        class="w-full"
+        padding="p-2"
+        color="bg-primary"
+        @click="newTransaction"
+      />
+      <ButtonGlobal
+        text="Kirim Receipt"
+        class="w-full"
+        padding="p-2"
+        color="bg-primary"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
-  layout: 'dashboard'
+  layout: 'dashboard',
+  middleware: 'auth',
+  data () {
+    return {
+      order: {}
+    }
+  },
+  computed: {
+    timeNow () {
+      return moment(new Date()).format('DD MMM YYYY, HH:mm')
+    },
+    getPayment () {
+      return new Intl.NumberFormat(['ban', 'id']).format(this.order.pay)
+    },
+    getChange () {
+      const temp = this.order.pay - this.order.totalInt
+      return new Intl.NumberFormat(['ban', 'id']).format(temp)
+    }
+  },
+  mounted () {
+    this.getOrder()
+  },
+  methods: {
+    getOrder () {
+      this.order = this.$cookies.get('order')
+    },
+    newTransaction () {
+      this.$cookies.remove('order')
+      // this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
+      if (this.order.payment === 'cash') {
+        this.$router.go(-4)
+      } else {
+        this.$router.go(-5)
+      }
+    }
+  }
 }
 </script>
 

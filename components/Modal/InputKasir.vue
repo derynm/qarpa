@@ -78,28 +78,10 @@ export default {
   methods: {
     handleSubmit () {
       console.log(this.modalKasir)
-      // console.log(this.id)
-      this.$axios
-        .$post(`branches/pos/open?branch_id=${this.id}`, {
-          pos: {
-            fund: this.modalKasir.nominal,
-            notes: this.modalKasir.catatan
-          }
-        })
-        .then((response) => {
-          // console.log(response.data)
-          const temp = {
-            branch_id: response.data.branch_id,
-            pos_id: response.data.pos_id
-          }
-          if (localStorage.getItem('POS_DATA') === null) {
-            localStorage.setItem('POS_DATA', '[]')
-          }
-          // this.pos.push(temp)
-          const tempPos = JSON.parse(localStorage.getItem('POS_DATA'))
-          tempPos.push(temp)
-          localStorage.setItem('POS_DATA', JSON.stringify(tempPos))
-          // localStorage.setItem('POS_DATA', JSON.stringify(this.pos))
+      this.$store
+        .dispatch('pos/openBranch', {
+          modal: this.modalKasir,
+          id: this.id
         })
         .then(this.$router.push(`pos/${this.id}`))
     },
