@@ -15,8 +15,8 @@ export const mutations = {
 export const actions = {
   getStokBarang ({ commit }) {
     commit('setIsLoading', true)
-    return this.$axios.$get('inventory/products/suplai').then((response) => {
-      commit('setStokBarang', response.data)
+    return this.$axios.$get('inventory/products').then((response) => {
+      commit('setStokBarang', response)
       commit('setIsLoading', false)
     })
   },

@@ -6,7 +6,10 @@
       class="modal text-center bg-white h-[150px] w-[85%] md:w-[500px] p-2 my-auto rounded-md flex flex-col justify-center gap-4"
     >
       <div class="modal-text">
-        <p class="font-bold text-lg">
+        <p v-if="total !== ''" class="font-bold text-lg">
+          {{ text.content + total }}
+        </p>
+        <p v-else class="font-bold text-lg">
           {{ text.content }}
         </p>
       </div>
@@ -30,7 +33,8 @@
 <script>
 export default {
   props: {
-    text: Object
+    text: { type: Object, default: () => {} },
+    total: { type: String, default: '' }
   },
   emits: ['accept, decline']
 }

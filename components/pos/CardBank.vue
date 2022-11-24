@@ -1,6 +1,7 @@
 <template>
   <div
-    class="card-bank p-4 flex justify-between border shadow-md rounded-md items-center"
+    class="card-bank p-4 flex justify-between border shadow-md rounded-md items-center cursor-pointer"
+    @click="$emit('payment', item.bank.toUpperCase())"
   >
     <div class="left">
       <p>{{ item.username }}</p>

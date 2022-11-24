@@ -1,17 +1,46 @@
 <template>
   <div class="card flex justify-between border-b px-3 py-2">
     <div class="left">
-      <p>Cappucino</p>
-      <p>Rp.20.000 x 3</p>
+      <p>{{ item.name }}</p>
+      <p>Rp. {{ formatPrice + ' x ' + item.qty }}</p>
     </div>
     <div class="right flex items-end">
-      <p>Rp.60.000</p>
+      <p>Rp. {{ formatPriceTotal }}</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props: {
+    item: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data () {
+    return {
+      total: null
+    }
+  },
+  computed: {
+    formatPrice () {
+      return new Intl.NumberFormat(['ban', 'id']).format(this.item.price)
+    },
+    formatPriceTotal () {
+      return new Intl.NumberFormat(['ban', 'id']).format(this.total)
+    }
+  },
+  mounted () {
+    this.getTotal()
+    this.$emit('getSubTotal', this.total)
+  },
+  methods: {
+    getTotal () {
+      this.total = this.item.price * this.item.qty
+    }
+  }
+}
 </script>
 
 <style></style>

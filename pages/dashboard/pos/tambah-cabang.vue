@@ -61,7 +61,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewCabang', this.dataCabang)
-        .then(this.$router.push('/dashboard/pos'))
+        .then(this.$router.replace('/dashboard/pos'))
     }
   }
 }

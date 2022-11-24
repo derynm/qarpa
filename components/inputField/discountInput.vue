@@ -7,7 +7,7 @@
     </legend>
     <IconsDiscountIcon />
     <input
-      type="email"
+      type="number"
       :placeholder="placeholder"
       :value="value"
       class="w-full px-3 pb-2"

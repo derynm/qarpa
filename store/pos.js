@@ -4,12 +4,16 @@ export const state = () => ({
   cabangById: {},
   dataCustomer: [],
   dataBank: [],
-  dataProduct: []
+  dataProduct: [],
+  cabangEmployee: []
 })
 
 export const mutations = {
   setDataCabang (state, value) {
     state.dataCabang = value
+  },
+  setCabangEmployee (state, value) {
+    state.cabangEmployee = value
   },
   setDataCustomer (state, value) {
     state.dataCustomer = value
@@ -37,6 +41,13 @@ export const actions = {
       commit('setIsLoading', false)
     })
   },
+  getCabangEmployee ({ commit }) {
+    commit('setIsLoading', true)
+    return this.$axios.$get('employee/branches').then((response) => {
+      commit('setCabangEmployee', response.data)
+      commit('setIsLoading', false)
+    })
+  },
   postNewCabang (ctx, dataCabang) {
     return this.$axios.$post('branches', {
       branch: {
@@ -49,7 +60,14 @@ export const actions = {
   getCabangById (ctx, id) {
     return this.$axios.$get(`branches/${id}`).then((response) => {
       ctx.commit('setCabangById', response.data)
-      // console.log(response.data)
+    })
+  },
+  openBranch (ctx, { modal, id }) {
+    return this.$axios.$post(`branches/pos/open?branch_id=${id}`, {
+      pos: {
+        fund: modal.nominal,
+        notes: modal.catatan
+      }
     })
   },
 
@@ -106,5 +124,18 @@ export const actions = {
         ctx.commit('setDataProduct', reponse.data)
         ctx.commit('setIsLoading', false)
       })
+  },
+
+  // API ORDER
+  postNewOrder (ctx, order) {
+    return this.$axios.$post('orders', {
+      order: {
+        customer_id: order.customer_id,
+        pos_id: order.pos_id,
+        discount: order.discount,
+        payment: order.payment,
+        items: order.items
+      }
+    })
   }
 }

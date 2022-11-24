@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card flex justify-between items-center shadow-md border p-2"
+    class="card flex justify-between items-center shadow-md border p-2 cursor-pointer"
     @click="$emit('getPelanggan', item.name, item.id)"
   >
     <div class="content flex justify-between md:justify-start">
