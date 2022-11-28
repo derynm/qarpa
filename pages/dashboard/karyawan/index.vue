@@ -12,7 +12,7 @@
           v-if="dataEmployee.length <= 0"
           class="empty flex flex-col items-center text-center mt-10"
         >
-          <IconsKaryawanKosong />
+          <IconsKosong />
           <p class="font-semibold">
             Kamu belum punya karyawan, nih?
           </p>

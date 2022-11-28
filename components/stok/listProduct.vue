@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <div class="dropdown my-4">
+      <select
+        id=""
+        v-model="dropdownValue"
+        class="w-full rounded-lg px-3 py-2 border-2 border-black"
+        name=""
+        @change="setDropdown"
+      >
+        <option value="all">
+          {{ role === 'owner' ? 'Pilih Cabang' : 'Pilih Kategori' }}
+        </option>
+        <option
+          v-for="item in filteredDropdown"
+          :key="role === 'owner' ? item.id : item.category"
+          :value="role === 'owner' ? item.id : item.category"
+          class="capitalize"
+        >
+          {{ role === 'owner' ? item.name : item.category }}
+        </option>
+      </select>
+    </div>
+    <div class="content min-h-[70vh] flex flex-col justify-between">
+      <div v-if="isLoading" />
+      <div v-if="isLoading" class="loading flex">
+        <Loading class="m-auto" />
+      </div>
+      <div v-if="!isLoading">
+        <div
+          v-if="dropdownValue === 'all' && role === 'owner'"
+          class="empty flex flex-col items-center text-center mt-10"
+        >
+          <IconsKosong />
+          <p class="font-semibold">
+            Belum ada cabang yang dipilih nih
+          </p>
+          <p>
+            Kamu perlu pilih cabang dulu, untuk melihat stok produk terkini dari
+            cabangmu
+          </p>
+        </div>
+        <div
+          v-if="dropdownValue !== 'all' && role === 'owner'"
+          class="dynamic-component flex flex-col gap-5"
+        >
+          <StokCardBarang
+            v-for="item in filteredStok"
+            :key="item.id"
+            :item="item"
+          />
+        </div>
+        <div
+          v-if="role === 'employee'"
+          class="dynamic-component flex flex-col gap-5"
+        >
+          <StokCardBarang
+            v-for="item in filteredStok"
+            :key="item.id"
+            :item="item"
+          />
+        </div>
+      </div>
+      <div class="btn flex justify-end my-4">
+        <nuxt-link to="stok/tambah-produk">
+          <ButtonComponent class="p-2" text-fill="+ Produk" />
+        </nuxt-link>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    filteredDropdown: {
+      type: Array,
+      default: () => []
+    },
+    filteredStok: {
+      type: Array,
+      default: () => []
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data () {
+    return {
+      dropdownValue: 'all',
+      role: this.$auth.user.role
+    }
+  },
+  methods: {
+    setDropdown () {
+      this.$emit('filter', this.dropdownValue)
+    }
+  }
+}
+</script>
+
+<style></style>
