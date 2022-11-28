@@ -1,6 +1,7 @@
 export const state = () => ({
   stokBarang: [],
-  isLoading: false
+  isLoading: false,
+  stokByBranch: []
 })
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
   },
   setIsLoading (state, value) {
     state.isLoading = value
+  },
+  setStokByBranch (state, value) {
+    state.stokByBranch = value
   }
 }
 
@@ -31,5 +35,14 @@ export const actions = {
   },
   deleteStok (ctx, id) {
     return this.$axios.$delete(`inventory/products/${id}`)
+  },
+  getStokByBranch (ctx, id) {
+    ctx.commit('setIsLoading', true)
+    return this.$axios
+      .$get(`inventory/products/onbranch/${id}`)
+      .then((response) => {
+        ctx.commit('setStokByBranch', response.data)
+        ctx.commit('setIsLoading', false)
+      })
   }
 }
