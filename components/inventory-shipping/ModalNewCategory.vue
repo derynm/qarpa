@@ -1,19 +1,51 @@
 <template>
   <div class="modal-overlay" @click="$emit('closeModal')">
     <div class="modal-body" @click.stop="">
-      <h3 class="font-semibold text-xl">Kategori</h3>
-      <input-field-basic-input label="Kategori Baru" placeholder="Kategori Baru" />
+      <h3 class="font-semibold text-xl">
+        Kategori
+      </h3>
+      <input-field-basic-input
+        v-model="form.name"
+        label="Kategori Baru"
+        placeholder="Kategori Baru"
+      />
 
       <div class="flex justify-center">
         <button-global outlined padding="p-3" text="Batal" class="mr-3" />
-        <button-global color="bg-primary" padding="p-3" text="Yakin" />
+        <button-global
+          color="bg-primary"
+          padding="p-3"
+          text="Yakin"
+          @click="NewCategories"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapActions, mapMutations } from 'vuex'
+export default {
+  data () {
+    return {
+      form: {
+        name: null
+      }
+    }
+  },
+  methods: {
+    ...mapActions('shipping', ['postNewCategories']),
+    ...mapMutations('shipping', ['setIsLoading']),
+    NewCategories () {
+      this.postNewCategories(this.form)
+        .then(() => this.$emit('closeModal'))
+        .catch((err) => {
+          console.log(err)
+          this.setIsLoading(false)
+        })
+    }
+  }
+}
 </script>
 
 <style lang="postcss" scoped>

@@ -1,11 +1,11 @@
 <template>
   <div class="flex flex-col bg-white px-4 w-full">
-    <drop-down
+    <!-- <drop-down
       v-model="sort"
       :item="dataSort"
       class="w-full mb-3"
       place-holder="Riwayat Pengiriman"
-    />
+    /> -->
     <h3 class="font-semibold mb-2">
       Riwayat Pengiriman
     </h3>
@@ -32,6 +32,7 @@
         text="Kirim Barang"
         color="bg-primary"
         padding="py-3"
+        @click="toNewShipping"
       />
       <button-global
         class="w-full mb-3"
@@ -51,7 +52,10 @@ export default {
     this.setPageTitle('Pengiriman')
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    toNewShipping () {
+      this.$router.push('/dashboard/pengiriman/pengiriman-baru')
+    }
   }
 }
 </script>

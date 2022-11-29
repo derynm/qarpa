@@ -6,7 +6,7 @@
       </h2>
 
       <div>
-        <p>pelanggan</p>
+        <p>{{ penerima }}</p>
       </div>
     </div>
     <div class="mb-2">
@@ -26,6 +26,7 @@
       color="bg-warm"
       padding="p-2"
       text="Tandai Selesai"
+      @click="$emit('done')"
     />
   </div>
 </template>
@@ -39,7 +40,8 @@ export default {
     dikirim: { type: String, default: null },
     diterima: { type: String, default: null },
     button: { type: Boolean, default: false }
-  }
+  },
+  emits: ['done']
 }
 </script>
 

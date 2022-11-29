@@ -37,22 +37,30 @@
 </template>
 <script>
 export default {
+  /* eslint-disable */
   props: {
     item: {
       type: Object,
       default: () => ({})
     }
   },
+  emits: ['incQty', 'decQty'],
   data () {
     return {
-      count: 0
+      count: 0,
+      temp: this.item
     }
   },
   computed: {
     toRupiah () {
       return new Intl.NumberFormat('id-ID', {
         currency: 'IDR'
-      }).format(this.item.price)
+      }).format(this.item.selling_price)
+    }
+  },
+  mounted () {
+    if (this.item.qty_product) {
+      this.count = this.item.qty_product
     }
   },
   methods: {
@@ -62,11 +70,15 @@ export default {
     decreaseCount () {
       if (this.count > 0) {
         this.count--
+        this.temp.qty_product = this.count
+        this.$emit('decQty', this.temp)
       }
     },
     incrementCount () {
-      if (this.count < this.item.quantity) {
+      if (this.count < this.item.qty) {
         this.count++
+        this.temp.qty_product = this.count
+        this.$emit('incQty', this.temp)
       }
     }
   }
