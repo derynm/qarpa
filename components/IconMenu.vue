@@ -1,15 +1,15 @@
 <template>
   <div>
-    <IconsIconDashboardPos v-if="name === 'Point of Sale'" />
-    <IconsIconDashboardWom v-if="name === 'Work Order'" />
-    <IconsIconDashboardPresensi v-if="name === 'Presensi'" />
+    <IconsIconDashboardAudit v-if="name === 'Audit'" />
     <IconsIconDashboardCuti v-if="name === 'Cuti'" />
-    <IconsIconDashboardPengiriman v-if="name === 'Pengiriman'" />
-    <IconsIconDashboardStok v-if="name === 'Stok Gudang'" />
     <IconsIconDashboardKaryawan v-if="name === 'Karyawan'" />
     <IconsIconDashboardKeuangan v-if="name === 'Keuangan'" />
-    <IconsIconDashboardAudit v-if="name === 'Audit'" />
+    <IconsIconDashboardPengiriman v-if="name === 'Pengiriman'" />
+    <IconsIconDashboardPos v-if="name === 'Point of Sale'" />
+    <IconsIconDashboardPresensi v-if="name === 'Presensi'" />
+    <IconsIconDashboardStok v-if="name === 'Stok Gudang'" />
     <IconsIconDashboardSubscription v-if="name === 'Subscription'" />
+    <IconsIconDashboardWom v-if="name === 'Work Order'" />
   </div>
 </template>
 
