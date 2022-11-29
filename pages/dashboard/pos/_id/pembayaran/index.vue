@@ -5,7 +5,7 @@
         Total Pembayaran
       </p>
       <p class="text-3xl">
-        Rp.101.000
+        Rp. {{ order.totalStr }}
       </p>
     </div>
     <div class="content my-10 flex flex-col gap-4">
@@ -16,7 +16,7 @@
         <p>Pilih sesuai metode pembayaran yang digunakan pelangganmu</p>
       </div>
       <div class="option flex flex-col gap-4">
-        <nuxt-link to="pembayaran/tunai">
+        <div class="cursor-pointer" @click="handleTunai">
           <div
             class="tunai rounded-lg shadow-md flex justify-between border px-2 py-4 font-semibold"
           >
@@ -27,8 +27,8 @@
               <IconsArrowRight color="black" />
             </div>
           </div>
-        </nuxt-link>
-        <nuxt-link to="pembayaran/pilih-bank">
+        </div>
+        <div class="cursor-pointer" @click="handleBank">
           <div
             class="bank rounded-lg shadow-md flex justify-between border font-semibold px-2 py-4"
           >
@@ -42,7 +42,7 @@
               <IconsArrowRight color="black" />
             </div>
           </div>
-        </nuxt-link>
+        </div>
       </div>
     </div>
   </div>
@@ -50,13 +50,56 @@
 
 <script>
 import { mapMutations } from 'vuex'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
   layout: 'navigation',
+  middleware: 'auth',
+  data () {
+    return {
+      order: {},
+      newOrder: {}
+    }
+  },
+  computed: {
+    getItemsOrder () {
+      return this.order.items.map(({ name, price, ...item }) => item)
+    },
+    getNewOrder () {
+      const { totalInt, totalStr, items, ...item } = this.order
+      item.items = this.getItemsOrder
+      return item
+    }
+  },
   created () {
     this.setPageTitle('Pembayaran')
   },
+  mounted () {
+    this.getOrder()
+    console.log(this.order)
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    getOrder () {
+      this.order = this.$cookies.get('order')
+    },
+    handleTunai () {
+      this.getNewOrder.payment = 'cash'
+      this.$cookies.set('order', this.getNewOrder)
+      console.log(this.getNewOrder)
+      this.$store
+        .dispatch('pos/postNewOrder', this.getNewOrder)
+        .then(this.$router.push('pembayaran/tunai'))
+    },
+    handleBank () {
+      this.getNewOrder.payment = 'transfer'
+      this.$cookies.set('order', this.getNewOrder)
+      console.log(this.getNewOrder)
+      this.$store
+        .dispatch('pos/postNewOrder', this.getNewOrder)
+        .then(this.$router.push('pembayaran/pilih-bank'))
+    }
   }
 }
 </script>

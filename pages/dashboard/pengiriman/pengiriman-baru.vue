@@ -1,18 +1,27 @@
 <template>
   <div class="px-3">
     <SearchBar placeholder="Cari Produk" class="my-5" />
+    <drop-down
+      v-model="dataBranch"
+      place-holder="Cabang Asal"
+      :item="branch"
+      :use-id="true"
+    />
     <h3 class="font-semibold text-lg my-4">
       Daftar Produk
     </h3>
     <div class="flex flex-col">
-      <div class="min-h-[40vh]">
+      <div v-if="!isLoading" class="min-h-[40vh]">
         <card-product
-          v-for="(value, index) in stokBarang"
+          v-for="(value, index) in stokByBranch"
           :key="index"
           :item="value"
           @incQty="increamentItemShipping"
           @decQty="decreaseItemShipping"
         />
+      </div>
+      <div v-else>
+        <loading />
       </div>
       <div class="flex flex-col mb-3">
         <hr class="my-3">
@@ -46,20 +55,18 @@ export default {
       dataPengiriman: {
         produk: []
       },
-      dataDropdownTujuanPengiriman: [
-        {
-          value: 'Cabang'
-        },
-        {
-          value: 'Pelanggan'
-        }
-      ],
+      dataBranch: null,
       tujuanPengiriman: null,
       totalProduk: 0
     }
   },
   async fetch ({ store }) {
-    await store.dispatch('stok/getStokBarang')
+    await store.dispatch('dropdown/getBranchDropdown')
+  },
+  watch: {
+    dataBranch () {
+      this.$store.dispatch('stok/getStokByBranch', this.dataBranch)
+    }
   },
   methods: {
     increamentItemShipping (item) {
@@ -99,7 +106,8 @@ export default {
     }
   },
   computed: {
-    ...mapState('stok', ['stokBarang'])
+    ...mapState('stok', ['stokByBranch', 'isLoading']),
+    ...mapState('dropdown', ['branch'])
   }
 }
 </script>

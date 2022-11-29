@@ -20,10 +20,11 @@
           <div class="dropdown">
             <select
               id=""
+              v-model="dataKaryawan.cabang"
               class="w-full rounded-sm px-3 my-2 border-2 border-solid border-[#344397] !bg-white overflow-y-auto"
               name=""
             >
-              <option value="">
+              <option value="null">
                 Pilih Outlet
               </option>
               <option
@@ -87,7 +88,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('karyawan/postNewEmployee', this.dataKaryawan)
-        .then(this.$router.push('/dashboard/karyawan'))
+        .then(this.$router.replace('/dashboard/karyawan'))
     }
   }
 }

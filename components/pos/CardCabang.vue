@@ -1,10 +1,10 @@
 <template>
   <div
-    class="border-2 border-[#344397] rounded-md shadow-md p-4"
+    class="border-2 rounded-md shadow-md p-4 cursor-pointer"
     @click="backToBranch"
   >
     <div class="header flex justify-between items-center">
-      <p class="font-semibold text-xl">
+      <p class="font-semibold text-2xl">
         {{ item.name }}
       </p>
       <div class="btn" @click.stop="">
@@ -24,10 +24,22 @@
         />
       </div>
     </div>
-    <div class="date py-2">
-      <p>{{ timestamp }}</p>
+    <div class="info py-2">
+      <p class="text-gray-600">
+        Informasi Cabang
+      </p>
     </div>
-    <div class="content flex justify-around text-center pt-4">
+    <div class="detail text-primary font-semibold">
+      <div class="address flex gap-1 items-center">
+        <IconsPosAddress />
+        <p>{{ item.address }}</p>
+      </div>
+      <div class="phone flex gap-1 items-center">
+        <IconsPosPhone />
+        <p>{{ item.phone }}</p>
+      </div>
+    </div>
+    <!-- <div class="content flex justify-around text-center pt-4">
       <div class="profit">
         <p>
           {{ item.total_incomes }}
@@ -44,7 +56,7 @@
           Total Order
         </p>
       </div>
-    </div>
+    </div> -->
     <div @click.stop="">
       <ModalValidate
         v-if="!item.status"
@@ -70,8 +82,6 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
-
 export default {
   props: {
     item: {
@@ -83,7 +93,7 @@ export default {
     return {
       validateModal: false,
       inputKasir: false,
-      pos: '',
+      pos: [],
       modalText: [
         {
           content: 'Yakin ingin Buka Toko Sekarang?',
@@ -98,28 +108,17 @@ export default {
       ]
     }
   },
-  created () {
-    this.setTimestamp()
-    // localStorage.removeItem('POS_DATA')
-  },
-  computed: {
-    ...mapState(['timestamp'])
-  },
   methods: {
     acceptBtn () {
       this.validateModal = false
       this.inputKasir = true
     },
-    async handleClose () {
-      const temp = JSON.parse(localStorage.getItem('POS_DATA'))
-      // console.log(temp)
-      const posId = temp.find(el => el.branch_id === this.item.id).pos_id
-      await this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
-
-      localStorage.setItem(
-        'POS_DATA',
-        JSON.stringify(temp.filter(el => el.branch_id !== this.item.id))
-      )
+    handleClose () {
+      this.$axios.$get('owner/branches').then((response) => {
+        this.pos = response.data
+        const posId = this.pos.find(e => e.id === this.item.id).pos_id
+        this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+      })
       this.validateModal = false
       location.reload()
     },
@@ -127,8 +126,7 @@ export default {
       if (this.item.status === true) {
         this.$router.push(`pos/${this.item.id}`)
       }
-    },
-    ...mapMutations(['setTimestamp'])
+    }
   }
 }
 </script>

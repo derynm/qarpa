@@ -24,31 +24,35 @@
     </div>
     <div class="container px-2 md:px-8 flex flex-col justify-between h-[75vh]">
       <div class="content">
-        <SearchBar placeholder="Cari Produk" class="my-5" />
+        <SearchBar
+          v-model="searchValue"
+          placeholder="Cari Produk"
+          class="my-5"
+        />
         <div class="product">
           <div class="product-title py-4 font-semibold">
             <p>Daftar Produk</p>
           </div>
           <div class="product-item mt-4 grid grid-cols-1 gap-4">
-            <!-- <PosCardProduct
-              v-for="item in dataProduct"
+            <PosCardProduct
+              v-for="item in filteredList"
               :key="item.id"
               :item="item"
               @plusQty="increaseQty"
               @minQty="decreaseQty"
-            /> -->
+            />
           </div>
         </div>
       </div>
       <div class="btn">
-        <nuxt-link :to="`${$route.params.id}/detail`" class="flex">
-          <ButtonGlobal
-            text="Detail Order"
-            color="bg-primary"
-            padding="p-3"
-            class="w-full"
-          />
-        </nuxt-link>
+        <ButtonGlobal
+          text="Detail Order"
+          color="bg-primary"
+          padding="p-3"
+          class="w-full"
+          :disabled="!pelanggan.nama ? true : false"
+          @click="setOrder"
+        />
       </div>
     </div>
     <modalPilihPelanggan
@@ -65,6 +69,9 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
   layout: 'navigation',
   middleware: 'auth',
@@ -77,20 +84,45 @@ export default {
       pelanggan: {
         nama: null,
         id: null
-      }
+      },
+      order: {
+        customer_id: null,
+        pos_id: null,
+        discount: null,
+        payment: ''
+      },
+      searchValue: ''
     }
   },
-  // async fetch ({ store, params }) {
-  //   await store.dispatch('pos/getCabangById', params.id)
-  //   await store.dispatch('pos/getDataProduct', params.id)
-  // },
+  async fetch ({ store, params }) {
+    await store.dispatch('pos/getCabangById', params.id)
+    await store.dispatch('pos/getDataProduct', params.id)
+  },
   computed: {
     ...mapState(['timestamp']),
-    ...mapState('pos', ['cabangById', 'dataProduct'])
+    ...mapState('pos', ['cabangById', 'dataProduct']),
+    getItems () {
+      const temp = this.orderData.map(a => ({
+        product_shared_id: a.id,
+        name: a.name,
+        price: a.price,
+        qty: a.qty
+      }))
+      return temp
+    },
+    filteredList () {
+      return this.dataProduct.filter((post) => {
+        return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
+      })
+    }
   },
   created () {
     this.setPageTitle('Penjualan')
     this.setTimestamp()
+  },
+  mounted () {
+    this.getPosId()
+    console.log(this.getItems)
   },
   methods: {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
@@ -124,6 +156,21 @@ export default {
     changeModal () {
       this.modalPilihPelanggan = false
       this.modalTambahPelanggan = true
+    },
+    getPosId () {
+      this.$axios.$get('owner/branches').then((response) => {
+        const temp = response.data
+        this.order.pos_id = temp.find(
+          e => e.id === this.cabangById.id
+        ).pos_id[0]
+      })
+    },
+    setOrder () {
+      this.order.customer_id = this.pelanggan.id
+      this.order.items = this.getItems
+      this.$cookies.set('order', this.order)
+      console.log(this.$cookies.get('order'))
+      this.$router.push(`${this.$route.params.id}/detail`)
     }
   }
 }

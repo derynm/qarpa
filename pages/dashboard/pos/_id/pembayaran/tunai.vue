@@ -5,7 +5,7 @@
       <div>
         <p>Total Tagihan</p>
         <p class="font-semibold text-xl">
-          Rp.101.000
+          Rp. {{ order.totalStr }}
         </p>
       </div>
       <div>
@@ -15,7 +15,11 @@
         </p>
       </div>
     </div>
-    <InputFieldBasicInput label="Uang Diterima" placeholder="..." />
+    <InputFieldBasicInput
+      v-model="uang"
+      label="Uang Diterima"
+      placeholder="..."
+    />
     <div class="btn">
       <ButtonComponent
         class="p-2 w-full"
@@ -23,28 +27,52 @@
         @clicked="validate = true"
       />
     </div>
-    <ModalValidate v-show="validate" :text="temp" @decline="validate = false" />
+    <ModalValidate
+      v-show="validate"
+      :text="temp"
+      :total="order.totalStr"
+      @decline="validate = false"
+      @accept="handlePayment"
+    />
   </div>
 </template>
 
 <script>
 import { mapMutations } from 'vuex'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
   layout: 'navigation',
-  created () {
-    this.setPageTitle('Pembayaran Tunai')
-  },
-  methods: {
-    ...mapMutations(['setPageTitle'])
-  },
+  middleware: 'auth',
   data () {
     return {
       validate: false,
       temp: {
-        content: 'Pembayaran Sesuai? Rp.101.000',
+        content: 'Pembayaran Sesuai? ',
         btn1: 'Tidak',
         btn2: 'Sesuai'
-      }
+      },
+      order: {},
+      uang: null
+    }
+  },
+  created () {
+    this.setPageTitle('Pembayaran Tunai')
+  },
+  mounted () {
+    this.getOrder()
+    console.log(this.order)
+  },
+  methods: {
+    ...mapMutations(['setPageTitle']),
+    getOrder () {
+      this.order = this.$cookies.get('order')
+    },
+    handlePayment () {
+      this.order.pay = this.uang
+      this.$cookies.set('order', this.order)
+      this.$router.push('report')
     }
   }
 }

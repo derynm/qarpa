@@ -82,7 +82,7 @@ export default {
     handleSubmit () {
       console.log(this.dataBank)
       this.$store.dispatch('pos/postNewBank', this.dataBank).then(
-        this.$router.push(
+        this.$router.replace(
           `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
         )
         // this.$router.go(-1)

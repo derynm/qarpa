@@ -20,17 +20,30 @@
         <p>Pilih Rekning sesuai bank asal transfer pelangganmu</p>
       </div>
       <div class="content flex flex-col gap-2">
-        <PosCardBank v-for="item in dataBank" :key="item.id" :item="item" />
+        <PosCardBank
+          v-for="item in dataBank"
+          :key="item.id"
+          :item="item"
+          @payment="handlePayment"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
   layout: 'navigation',
   middleware: 'auth',
+  data () {
+    return {
+      order: {}
+    }
+  },
   async fetch ({ store }) {
     await store.dispatch('pos/getDataBank')
   },
@@ -38,15 +51,21 @@ export default {
     this.setPageTitle('Pembayaran Bank')
   },
   mounted () {
-    console.log(this.dataBank)
-    // console.log(this.$route.params.id)
+    this.getOrder()
   },
   computed: {
     ...mapState('pos', ['dataBank'])
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    ...mapActions('pos', ['getDataBank'])
+    getOrder () {
+      this.order = this.$cookies.get('order')
+    },
+    handlePayment (e) {
+      this.order.bank = e
+      this.$cookies.set('order', this.order)
+      this.$router.push('bank')
+    }
   }
 }
 </script>

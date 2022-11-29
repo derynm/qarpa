@@ -31,7 +31,9 @@ export default {
   },
   computed: {
     formatPrice () {
-      return new Intl.NumberFormat(['ban', 'id']).format(this.item.price)
+      return new Intl.NumberFormat(['ban', 'id']).format(
+        this.item.selling_price
+      )
     }
   },
   methods: {

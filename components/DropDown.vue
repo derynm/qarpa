@@ -9,7 +9,11 @@
     <option v-if="showAll" value="Semua">
       Semua
     </option>
-    <option v-for="(value, index) in item" :key="index" :value="value.value">
+    <option
+      v-for="(value, index) in item"
+      :key="index"
+      :value="useId ? value.id : value.value"
+    >
       {{ value.value }}
     </option>
   </select>
@@ -21,6 +25,10 @@ export default {
     item: {
       type: Array,
       default: () => []
+    },
+    useId: {
+      type: Boolean,
+      default: false
     },
     placeHolder: {
       type: String,
