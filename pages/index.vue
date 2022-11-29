@@ -1,26 +1,31 @@
 <template>
   <div>
     <div
-      class="navbar p-6 sticky top-0 bg-gray-200 mx-auto flex flex-wrap md:flex-nowrap justify-center md:justify-between gap-4"
+      class="navbar p-6 sticky top-0 bg-[#f5f5f5] mx-auto flex flex-wrap md:flex-nowrap justify-center md:justify-between gap-4"
     >
       <div class="navbar-title font-bold text-xl md:text-3xl">
         QARPA
       </div>
       <div class="navbar-button flex gap-1 items-stretch">
         <nuxt-link to="/user/login">
-          <ButtonComponent class="coverage" :text-fill="'Masuk'" />
+          <ButtonGlobal text="Masuk" padding="p-2" :outlined="true" />
         </nuxt-link>
         <nuxt-link to="/user/register">
-          <ButtonComponent :text-fill="'Daftar Sekarang'" />
+          <ButtonGlobal
+            text="Daftar"
+            padding="p-2"
+            color="bg-primary"
+            class="border-2 border-primary"
+          />
         </nuxt-link>
       </div>
     </div>
     <div class="jumbotron">
       <div
-        class="flex flex-wrap-reverse md:flex-nowrap justify-center items-center p-5 max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
+        class="flex flex-wrap-reverse text-center md:text-left md:flex-nowrap justify-center items-center p-5 max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto gap-10"
       >
         <div class="jumbotron-text">
-          <p class="font-semibold text-xl lg:text-3xl">
+          <p class="font-bold text-xl lg:text-4xl">
             Dapatkan Layanan Manajemen Terbaik Dalam Satu Aplikasi
           </p>
           <p>
@@ -30,7 +35,7 @@
         <div class="jumbotron-image">
           <img
             src="https://cdn.discordapp.com/attachments/1024706945304760320/1029671504666959962/Data_extraction-amico_1_1.png"
-            class="w-60 md:w-72"
+            class="w-60 md:w-[500px]"
             alt=""
           >
         </div>
@@ -41,55 +46,33 @@
     >
       <div class="product py-4 my-16">
         <div class="product-title pt-4 pb-9">
-          <p class="text-2xl lgx:text-5xl text-center font-semibold">
+          <p class="text-2xl lg:text-5xl text-center font-bold">
             Kami memiliki layanan terbaik untuk memudahkan bisnis anda
           </p>
         </div>
-        <div class="product-content grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Point Of Sales
+        <div
+          class="product-content grid grid-cols-1 md:grid-cols-3 gap-8 mt-10"
+        >
+          <div
+            v-for="item in services"
+            :key="item.name"
+            class="product-item shadow-md p-6"
+          >
+            <div class="svg flex justify-center">
+              <IconMenu :name="item.icon" />
+            </div>
+            <p class="font-semibold text-center">
+              {{ item.name }}
             </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Work Order Management
-            </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Attendace
-            </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Cuti
-            </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Report Audit
-            </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-          </div>
-          <div class="product-item shadow-md p-6">
-            <p class="font-semibold">
-              Inventory
-            </p>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
           </div>
         </div>
       </div>
     </div>
     <div
-      class="footer bg-gray-400 grid grid-cols-1 md:grid-cols-6 text-white p-8 md:p-14 gap-3"
+      class="footer bg-primary grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 text-white p-10 lg:p-14 gap-3"
     >
       <div class="content-footer md:col-span-2">
-        <p class="text-black text-3xl font-bold pb-4">
+        <p class="text-3xl font-bold pb-4">
           QARPA
         </p>
         <P>
@@ -98,7 +81,7 @@
         </P>
       </div>
       <div class="content-footer">
-        <p class="text-black pb-2">
+        <p class="pb-2 font-semibold">
           PERUSAHAAN
         </p>
         <ul>
@@ -109,18 +92,15 @@
         </ul>
       </div>
       <div class="content-footer">
-        <p class="text-black pb-2">
+        <p class="pb-2 font-semibold">
           PRODUCT
         </p>
         <ul>
-          <li>Tips</li>
           <li>Upgrade</li>
-          <li>Education</li>
-          <li>Find Accountant</li>
         </ul>
       </div>
       <div class="content-footer">
-        <p class="text-black pb-2">
+        <p class="pb-2 font-semibold">
           OFFICE
         </p>
         <ul>
@@ -131,7 +111,7 @@
         </ul>
       </div>
       <div class="content-footer">
-        <p class="text-black pb-2">
+        <p class="pb-2 font-semibold">
           APLIKASI
         </p>
         <img
@@ -145,8 +125,24 @@
 
 <script>
 export default {
-  name: 'LandingPage'
+  name: 'LandingPage',
+  data () {
+    return {
+      services: [
+        { name: 'Point Of Sales', icon: 'Point of Sale' },
+        { name: 'Work Order Management', icon: 'Work Order' },
+        { name: 'Attendace', icon: 'Presensi' },
+        { name: 'Timeoff', icon: 'Cuti' },
+        { name: 'Report Audit', icon: 'Audit' },
+        { name: 'Inventory', icon: 'Stok Gudang' }
+      ]
+    }
+  }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+li {
+  margin: 8px 0px;
+}
+</style>
