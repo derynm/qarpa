@@ -5,8 +5,8 @@
         {{ destinasi }}
       </h2>
 
-      <div class="relative">
-        <inventory-shipping-small-menu class=""/>
+      <div>
+        <p>{{ penerima }}</p>
       </div>
     </div>
     <div class="mb-2">
@@ -17,10 +17,17 @@
         Kondisi : <span class="font-semibold text-warm">{{ kondisi }}</span>
       </p>
     </div>
-    <div>
+    <div class="mb-3">
       <p>{{ 'Dikirim : ' + dikirim }}</p>
       <p>{{ 'Diterima : ' + diterima }}</p>
     </div>
+    <button-global
+      v-if="button"
+      color="bg-warm"
+      padding="p-2"
+      text="Tandai Selesai"
+      @click="$emit('done')"
+    />
   </div>
 </template>
 
@@ -31,8 +38,10 @@ export default {
     status: { type: String, default: null },
     kondisi: { type: String, default: null },
     dikirim: { type: String, default: null },
-    diterima: { type: String, default: null }
-  }
+    diterima: { type: String, default: null },
+    button: { type: Boolean, default: false }
+  },
+  emits: ['done']
 }
 </script>
 

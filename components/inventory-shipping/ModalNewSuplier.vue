@@ -1,25 +1,78 @@
 <template>
   <div class="modal-overlay" @click="$emit('closeModal')">
     <div class="modal-body" @click.stop="">
-      <h3 class="font-semibold text-xl">Suplier</h3>
-      <input-field-basic-input label="Nama Suplier" placeholder="Nama" />
-      <input-field-basic-input label="Alamat" placeholder="Alamat" />
-      <input-field-basic-input
-        label="Nomor Handphone"
-        placeholder="Nomor Handphone"
-        type="number"
-      />
-      <input-field-basic-input label="Email" placeholder="Email" />
-      <div class="flex justify-center">
-        <button-global outlined padding="p-3" text="Batal" class="mr-3" />
-        <button-global color="bg-primary" padding="p-3" text="Yakin" />
-      </div>
+      <h3 class="font-semibold text-xl">
+        Suplier
+      </h3>
+      <form>
+        <input-field-basic-input
+          v-model="form.name"
+          label="Nama Suplier"
+          placeholder="Nama"
+        />
+        <input-field-basic-input
+          v-model="form.address"
+          label="Alamat"
+          placeholder="Alamat"
+        />
+        <input-field-basic-input
+          v-model="form.phone"
+          label="Nomor Handphone"
+          placeholder="Nomor Handphone"
+          type="number"
+        />
+        <input-field-email-input
+          v-model="form.email"
+          label="Email"
+          placeholder="Email"
+        />
+        <div class="flex justify-center">
+          <button-global
+            outlined
+            padding="p-3"
+            text="Batal"
+            class="mr-3"
+            @click="$emit('closeModal')"
+          />
+          <button-global
+            color="bg-primary"
+            padding="p-3"
+            text="Simpan"
+            @click="NewSupplier"
+          />
+        </div>
+      </form>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+import { mapActions, mapMutations } from 'vuex'
+export default {
+  emits: ['submit', 'closeModal'],
+  data () {
+    return {
+      form: {
+        name: null,
+        address: null,
+        phone: null,
+        email: null
+      }
+    }
+  },
+  methods: {
+    ...mapActions('shipping', ['postNewSupplier']),
+    ...mapMutations('shipping', ['setIsLoading']),
+    NewSupplier () {
+      this.postNewSupplier(this.form)
+        .then(() => this.$emit('closeModal'))
+        .catch((err) => {
+          console.log(err)
+          this.setIsLoading(false)
+        })
+    }
+  }
+}
 </script>
 
 <style lang="postcss" scoped>

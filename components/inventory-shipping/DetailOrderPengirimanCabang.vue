@@ -2,7 +2,12 @@
   <div>
     <div class="flex justify-between w-full">
       <p>05 Oktober 2022</p>
-      <drop-down place-holder="Pilih Cabang" :item="cabang" />
+      <drop-down
+        v-model="cabang"
+        place-holder="Pilih Cabang"
+        :item="branch"
+        class="max-w-[200px]"
+      />
     </div>
     <div class="flex flex-col">
       <div class="flex">
@@ -23,12 +28,12 @@
       <p class="font-semibold my-5">
         Daftar Produk
       </p>
-      <inventory-shipping-card-product-shipping
-        v-for="(product, index) in dummyProduct"
+      <card-product
+        v-for="(value, index) in dataOrder.produk"
         :key="index"
-        :product_name="product.product_name"
-        :price="product.price"
-        :stock="product.stock"
+        :item="value"
+        @incQty="increamentItemShipping"
+        @decQty="decreaseItemShipping"
       />
     </div>
     <div class="flex flex-col mb-3">
@@ -37,7 +42,7 @@
         <p class="font-semibold">
           Total Produk :
         </p>
-        <p>40</p>
+        <p>{{ totalOrder }}</p>
       </div>
       <button-global text="Detail Order" color="bg-primary" padding="py-3" />
     </div>
@@ -45,27 +50,59 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import Vue from 'vue'
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
 export default {
   props: { data: { type: Object, default: null } },
   data () {
     return {
-      cabang: [
-        { id: 1, value: 'cabang 1' },
-        { id: 2, value: 'cabang 2' },
-        { id: 3, value: 'cabang 2' }
-      ],
-      dummyProduct: [
-        {
-          product_name: 'cappuccino',
-          stock: '120',
-          price: '15000'
-        },
-        {
-          product_name: 'Bacon & Egg Toast',
-          stock: '190',
-          price: '20000'
-        }
-      ]
+      cabang: null,
+      dataOrder: {
+        produk: []
+      },
+      totalOrder: 0
+    }
+  },
+  mounted () {
+    this.$store.dispatch('dropdown/getBranchDropdown')
+    this.dataOrder = this.$cookies.get('order_pengiriman')
+    this.totalOrder = this.dataOrder.total_produk
+  },
+  computed: {
+    ...mapState('dropdown', ['branch'])
+  },
+  methods: {
+    increamentItemShipping (item) {
+      const tempId = this.dataOrder.produk.find(val => val.id === item.id)
+      if (!tempId) {
+        this.dataOrder.produk.push(item)
+      } else {
+        tempId.qty_product = item.qty_product
+      }
+      this.setTotalOrder()
+    },
+    decreaseItemShipping (item) {
+      const tempId = this.dataOrder.produk.find(val => val.id === item.id)
+      if (item.qty !== 0) {
+        tempId.qty_product = item.qty_product
+      } else {
+        this.dataOrder.produk = this.dataOrder.produk.filter(
+          val => val.id !== item.id
+        )
+      }
+      this.setTotalOrder()
+    },
+    setTotalOrder () {
+      if (this.dataOrder.produk.length !== 0) {
+        this.totalOrder = this.dataOrder.produk.reduce(
+          (sum, cur) => sum + cur.qty_product,
+          0
+        )
+      } else {
+        this.totalOrder = 0
+      }
     }
   }
 }

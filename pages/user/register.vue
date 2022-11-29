@@ -183,6 +183,7 @@ export default {
           .then((response) => {
             console.log(response)
             this.isLoading = false
+            this.$router.push('/user/login')
           })
           .catch((error) => {
             console.log(error)
