@@ -78,7 +78,7 @@ export default {
     handleSubmit () {
       this.isLoading = true
       this.$axios
-        .$post('users/auth/signup', { email: this.emailCheck })
+        .$post('users/password/forgot', { email: this.emailCheck })
         .then((response) => {
           this.isLoading = false
           this.$router.push({

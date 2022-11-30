@@ -33,30 +33,36 @@ export const actions = {
     return this.$axios
       .$get('users/dropdown')
       .then(response => ctx.commit('setEmployee', response.data))
+      .catch(err => console.log(err.response.status))
   },
   getSupplierDropdown (ctx) {
     return this.$axios
       .$get('dropdown/suppliers')
       .then(response => ctx.commit('setSupplier', response.data))
+      .catch(err => console.log(err.response.status))
   },
   getCategoriesDropdown (ctx) {
     return this.$axios
       .$get('categories')
       .then(response => ctx.commit('setCategories', response.data))
+      .catch(err => console.log(err.response.status))
   },
   getConditionDropdown (ctx) {
     return this.$axios
       .$get('dropdown/conditions/products')
       .then(response => ctx.commit('setCondition', response.data))
+      .catch(err => console.log(err.response.status))
   },
   getUnitDropdown (ctx) {
     return this.$axios
       .$get('dropdown/units/products')
       .then(response => ctx.commit('setUnit', response.data))
+      .catch(err => console.log(err.response.status))
   },
   getBranchDropdown (ctx) {
     return this.$axios
       .$get('dropdown/branches')
       .then(response => ctx.commit('setBranch', response.data))
+      .catch(err => console.log(err.response.status))
   }
 }
