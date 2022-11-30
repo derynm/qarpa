@@ -1,7 +1,7 @@
 <template>
   <div
     class="item flex border rounded-lg shadow-md py-5 px-3 items-center"
-    @click="tesClick"
+    @click="clickCard"
   >
     <div>
       <img
@@ -17,20 +17,28 @@
         <p>{{ item.name }}</p>
         <p>Rp. {{ toRupiah }}</p>
       </div>
-      <div class="item-btn flex items-center gap-2" @click.stop="">
-        <ButtonGlobal
-          text="-"
-          class="w-8 h-8 sm:w-12 sm:h-12"
-          :outlined="true"
-          @click="decreaseCount"
-        />
-        <p>{{ count }}</p>
-        <ButtonGlobal
-          text="+"
-          class="w-8 h-8 sm:w-12 sm:h-12"
-          color="bg-primary"
-          @click="incrementCount"
-        />
+      <div class="detail" @click.stop="">
+        <div v-if="showStok" class="stok">
+          <p class="font-semibold">
+            Stok
+          </p>
+          <p>{{ item.qty }}</p>
+        </div>
+        <div v-else class="button item-btn flex items-center gap-2">
+          <ButtonGlobal
+            text="-"
+            class="w-8 h-8 sm:w-12 sm:h-12"
+            :outlined="true"
+            @click="decreaseCount"
+          />
+          <p>{{ count }}</p>
+          <ButtonGlobal
+            text="+"
+            class="w-8 h-8 sm:w-12 sm:h-12"
+            color="bg-primary"
+            @click="incrementCount"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -42,39 +50,45 @@ export default {
     item: {
       type: Object,
       default: () => ({})
+    },
+    showStok: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['incQty', 'decQty'],
-  data () {
+  data() {
     return {
       count: 0,
       temp: this.item
     }
   },
   computed: {
-    toRupiah () {
+    toRupiah() {
       return new Intl.NumberFormat('id-ID', {
         currency: 'IDR'
       }).format(this.item.selling_price)
     }
   },
-  mounted () {
+  mounted() {
     if (this.item.qty_product) {
       this.count = this.item.qty_product
     }
   },
   methods: {
-    tesClick () {
-      console.log('click')
+    clickCard() {
+      if (this.showStok) {
+        this.$router.push(`stok/edit-produk/${this.item.id}`)
+      }
     },
-    decreaseCount () {
+    decreaseCount() {
       if (this.count > 0) {
         this.count--
         this.temp.qty_product = this.count
         this.$emit('decQty', this.temp)
       }
     },
-    incrementCount () {
+    incrementCount() {
       if (this.count < this.item.qty) {
         this.count++
         this.temp.qty_product = this.count

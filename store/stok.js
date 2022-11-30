@@ -1,7 +1,8 @@
 export const state = () => ({
   stokBarang: [],
   isLoading: false,
-  stokByBranch: []
+  stokByBranch: [],
+  productById: {}
 })
 
 export const mutations = {
@@ -13,6 +14,9 @@ export const mutations = {
   },
   setStokByBranch (state, value) {
     state.stokByBranch = value
+  },
+  setProductById (state, value) {
+    state.productById = value
   }
 }
 
@@ -29,8 +33,9 @@ export const actions = {
     const data = new FormData()
     data.append('name', stokBarang.nama)
     data.append('price', stokBarang.harga)
-    data.append('quantity', stokBarang.stok)
-    data.append('category', stokBarang.tipe)
+    data.append('qty', stokBarang.stok)
+    data.append('category_id', stokBarang.tipe)
+    data.append('branch_id', stokBarang.cabangId)
     return this.$axios.$post('inventory/products', data, { headers })
   },
   deleteStok (ctx, id) {
@@ -44,5 +49,12 @@ export const actions = {
         ctx.commit('setStokByBranch', response.data)
         ctx.commit('setIsLoading', false)
       })
+  },
+  getProductById (ctx, id) {
+    ctx.commit('setIsLoading', true)
+    return this.$axios.$get(`inventory/products/${id}`).then((response) => {
+      ctx.commit('setProductById', response.data)
+      ctx.commit('setIsLoading', false)
+    })
   }
 }

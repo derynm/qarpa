@@ -8,6 +8,7 @@
           "
           :filtered-dropdown="role === 'owner' ? branchDropdown : getCategory"
           :is-loading="isLoading"
+          :branch-id="dropdownValue"
           @filter="setValueDropdown"
         />
       </div>
@@ -22,7 +23,7 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      dropdownValue: 'all',
+      dropdownValue: 0,
       role: this.$auth.user.role
     }
   },

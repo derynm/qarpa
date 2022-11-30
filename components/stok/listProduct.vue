@@ -44,10 +44,11 @@
           v-if="dropdownValue !== 'all' && role === 'owner'"
           class="dynamic-component flex flex-col gap-5"
         >
-          <StokCardBarang
+          <CardProduct
             v-for="item in filteredStok"
             :key="item.id"
             :item="item"
+            :show-stok="true"
           />
         </div>
         <div
@@ -62,8 +63,14 @@
         </div>
       </div>
       <div class="btn flex justify-end my-4">
-        <nuxt-link to="stok/tambah-produk">
-          <ButtonComponent class="p-2" text-fill="+ Produk" />
+        <nuxt-link
+          :to="{ path: 'stok/tambah-produk', query: { cabang: branchId } }"
+        >
+          <ButtonComponent
+            class="p-2"
+            :disabled="branchId === 'all' ? true : false"
+            text-fill="+ Produk"
+          />
         </nuxt-link>
       </div>
     </div>
@@ -84,6 +91,10 @@ export default {
     isLoading: {
       type: Boolean,
       default: false
+    },
+    branchId: {
+      type: Number,
+      default: null
     }
   },
   data () {

@@ -2,7 +2,7 @@
   <div class="container px-4">
     <div class="header-text px-6 my-4 flex flex-col items-center gap-2">
       <IconsPosIcon />
-      <ButtonGlobal padding="p-2" text="upload gambar" color="bg-primary" />
+      <!-- <ButtonGlobal padding="p-2" text="upload gambar" color="bg-primary" /> -->
     </div>
     <form
       class="flex flex-col justify-between min-h-[60vh]"
@@ -34,14 +34,12 @@
             <option value="" selected>
               Pilih Kategori
             </option>
-            <option value="minuman">
-              Minuman
-            </option>
-            <option value="makanan">
-              Makanan
-            </option>
-            <option value="berhala">
-              Berhala
+            <option
+              v-for="(item, index) in categories"
+              :key="index"
+              :value="item.id"
+            >
+              {{ item.value }}
             </option>
           </select>
         </div>
@@ -59,21 +57,28 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 export default {
   layout: 'navigation',
   data () {
     return {
       stokBarang: {
         nama: '',
-        harga: '',
+        harga: null,
         stok: null,
-        tipe: ''
+        tipe: null,
+        cabangId: parseInt(this.$route.query.cabang)
       }
     }
   },
+  async fetch ({ store }) {
+    await store.dispatch('dropdown/getCategoriesDropdown')
+  },
   created () {
     this.setPageTitle('Tambah Produk')
+  },
+  computed: {
+    ...mapState('dropdown', ['categories'])
   },
   methods: {
     ...mapMutations(['setPageTitle']),
