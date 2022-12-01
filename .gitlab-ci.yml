@@ -6,12 +6,9 @@ deploy:
   image: node:latest
   tags:
     - cd
-  # environment:
-  #   name: staging
-  #   url: https://staging.qarpa.netlify.app/
   only:
     - staging
   script:
     - npm i
     - npm run build
-    - npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+    - npx netlify-cli deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
