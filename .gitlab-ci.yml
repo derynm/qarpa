@@ -10,7 +10,7 @@ deploy:
   #   name: production
   #   url: https://tescicd.netlify.app/
   only:
-    - main
+    - develop
   script:
     - npm i
     - npm run build
