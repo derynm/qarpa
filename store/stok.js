@@ -24,7 +24,7 @@ export const actions = {
   getStokBarang ({ commit }) {
     commit('setIsLoading', true)
     return this.$axios.$get('inventory/products').then((response) => {
-      commit('setStokBarang', response)
+      commit('setStokBarang', response.data)
       commit('setIsLoading', false)
     })
   },
@@ -32,7 +32,7 @@ export const actions = {
     const headers = { 'Content-Type': 'multipart/form-data' }
     const data = new FormData()
     data.append('name', stokBarang.nama)
-    data.append('price', stokBarang.harga)
+    data.append('selling_price', stokBarang.harga)
     data.append('qty', stokBarang.stok)
     data.append('category_id', stokBarang.tipe)
     data.append('branch_id', stokBarang.cabangId)
@@ -56,5 +56,15 @@ export const actions = {
       ctx.commit('setProductById', response.data)
       ctx.commit('setIsLoading', false)
     })
+  },
+  updateProduct (ctx, { product, params }) {
+    const headers = { 'Content-Type': 'multipart/form-data' }
+    const data = new FormData()
+    data.append('name', product.nama)
+    data.append('selling_price', product.harga)
+    data.append('qty', product.stok)
+    data.append('category_id', product.tipe)
+    data.append('branch_id', product.cabangId)
+    return this.$axios.$put(`inventory/products/${params}`, data, { headers })
   }
 }

@@ -4,7 +4,10 @@
       <IconsPosIcon />
       <!-- <ButtonComponent class="p-2" text-fill="upload gambar" /> -->
     </div>
-    <form class="flex flex-col justify-between min-h-[60vh]">
+    <form
+      class="flex flex-col justify-between min-h-[60vh]"
+      @submit.prevent="handleUpdate"
+    >
       <div class="input">
         <InputFieldBasicInput
           v-model="stokBarang.nama"
@@ -28,9 +31,6 @@
             class="w-full rounded-md px-3 py-4 border-2 border-black"
             name=""
           >
-            <option value="" selected>
-              Pilih Kategori
-            </option>
             <option
               v-for="(item, index) in categories"
               :key="index"
@@ -77,7 +77,8 @@ export default {
         nama: '',
         harga: null,
         tipe: null,
-        stok: null
+        stok: null,
+        cabangId: parseInt(this.$route.query.cabang)
       },
       deleteModal: false,
       modalText: {
@@ -96,10 +97,11 @@ export default {
   },
   mounted () {
     console.log(this.$route.params.id)
-    // this.$store.dispatch('stok/getProductById', this.params)
     this.stokBarang.nama = this.productById.name
     this.stokBarang.harga = this.productById.selling_price
     this.stokBarang.stok = this.productById.qty
+    this.stokBarang.tipe = this.productById.category
+    // this.stokBarang.cabangId = parseInt(this.$route.query.cabang)
   },
   computed: {
     ...mapState('stok', ['productById']),
@@ -110,7 +112,15 @@ export default {
     handleDelete (id) {
       this.$store
         .dispatch('stok/deleteStok', id)
-        .then(this.$router.push('/dashboard/stok'))
+        .then(this.$router.replace('/dashboard/stok'))
+    },
+    handleUpdate () {
+      this.$store
+        .dispatch('stok/updateProduct', {
+          product: this.stokBarang,
+          params: this.params
+        })
+        .then(this.$router.replace('/dashboard/stok'))
     }
   }
 }

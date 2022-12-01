@@ -54,6 +54,10 @@ export default {
     showStok: {
       type: Boolean,
       default: false
+    },
+    idCabang: {
+      type: Number,
+      default: null
     }
   },
   emits: ['incQty', 'decQty'],
@@ -78,7 +82,13 @@ export default {
   methods: {
     clickCard() {
       if (this.showStok) {
-        this.$router.push(`stok/edit-produk/${this.item.id}`)
+        this.$router.push(
+          // `stok/edit-produk/${this.item.id}`
+          {
+            path: `stok/edit-produk/${this.item.id}`,
+            query: { cabang: this.idCabang }
+          }
+        )
       }
     },
     decreaseCount() {

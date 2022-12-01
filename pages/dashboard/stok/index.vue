@@ -45,7 +45,7 @@ export default {
         )
     },
     getFilteredStokByCategory () {
-      if (this.dropdownValue !== 'all') {
+      if (this.dropdownValue !== 0) {
         return this.stokBarang.filter(e => e.category === this.dropdownValue)
       } else {
         return this.stokBarang
@@ -63,7 +63,7 @@ export default {
     ...mapMutations(['setPageTitle']),
     setValueDropdown (e) {
       this.dropdownValue = e
-      if (this.dropdownValue !== 'all' && this.role === 'owner') {
+      if (this.dropdownValue !== 0 && this.role === 'owner') {
         this.$store.dispatch('stok/getStokByBranch', this.dropdownValue)
       }
     }

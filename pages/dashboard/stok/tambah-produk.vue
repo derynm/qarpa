@@ -31,7 +31,7 @@
             class="w-full rounded-md px-3 py-4 border-2 border-black"
             name=""
           >
-            <option value="" selected>
+            <option :value="null" selected>
               Pilih Kategori
             </option>
             <option

@@ -49,6 +49,7 @@
             :key="item.id"
             :item="item"
             :show-stok="true"
+            :id-cabang="branchId"
           />
         </div>
         <div
@@ -68,7 +69,7 @@
         >
           <ButtonComponent
             class="p-2"
-            :disabled="branchId === 'all' ? true : false"
+            :disabled="branchId === 0 ? true : false"
             text-fill="+ Produk"
           />
         </nuxt-link>
