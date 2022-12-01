@@ -60,7 +60,7 @@ export default {
     }
   },
   async fetch ({ store }) {
-    await store.dispatch('getEmployee')
+    // await store.dispatch('getEmployee')
     await store.dispatch('dropdown/getEmployeeDropdown')
   },
   created () {
@@ -72,11 +72,12 @@ export default {
     ...mapState('wom', ['modal'])
   },
   methods: {
-    ...mapMutations(['setPageTitle', 'showModal']),
+    ...mapMutations(['setPageTitle']),
+    ...mapMutations('wom', ['showModal']),
     ...mapActions('wom', ['newTask']),
     modalHandle () {
       this.showModal(false)
-      this.$router.push('/dashboard/wom')
+      this.$router.replace('/dashboard/wom')
     }
   }
 }
