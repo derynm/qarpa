@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link to="dashboard/profile">
+  <nuxt-link to="/dashboard/profile">
     <div
       class="profile bg-[#354497] flex justify-between text-white items-center rounded-xl mt-[-30px]"
     >
