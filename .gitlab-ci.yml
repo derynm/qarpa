@@ -6,9 +6,9 @@ deploy:
   image: node:latest
   tags:
     - cd
-  # environment:
-  #   name: production
-  #   url: https://tescicd.netlify.app/
+  environment:
+    name: production
+    url: https://qarpa.netlify.app/
   only:
     - develop
   script:
