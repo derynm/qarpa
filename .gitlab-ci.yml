@@ -1,14 +1,32 @@
 ---
+image: node:latest
 stages:
+  - setup
+  - build
   - deploy
-deploy:
-  stage: deploy
-  image: node:latest
-  tags:
-    - cd
+setup:
+  stage: setup
+  script:
+    - npm ci
   only:
     - staging
+build:
+  stage: build
   script:
-    - npm i
     - npm run build
-    - npx netlify-cli deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+  artifacts:
+    paths:
+      - dist
+  only:
+    - staging
+deploy:
+  stage: deploy
+  tags:
+    - cd
+  script:
+    - npm i -g netlify-cli
+    - netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN --prod
+  dependencies:
+    - build
+  only:
+    - staging
