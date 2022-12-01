@@ -7,12 +7,12 @@ deploy:
   tags:
     - cd
   environment:
-    name: production
+    name: staging
     url: https://qarpa.netlify.app/
   only:
     - develop
   script:
     - npm i
     - npm run build
-    - npx netlify-cli deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
+    - npx netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_AUTH_TOKEN
       --prod
