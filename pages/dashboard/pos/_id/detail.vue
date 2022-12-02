@@ -6,7 +6,7 @@
       </div>
       <button class="flex p-2 rounded-lg gap-2 border">
         <IconsProfile color="black" />
-        <p>{{ customer.name }}</p>
+        <p>{{ order.customer_id === 0 ? 'Guest' : customer.name }}</p>
       </button>
     </div>
     <div class="content-input my-4 flex flex-col justify-between min-h-[50vh]">
@@ -100,9 +100,12 @@ export default {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
     getOrder () {
       this.order = this.$cookies.get('order')
-      this.$axios
-        .$get(`customers/${this.order.customer_id}`)
-        .then(response => (this.customer = response.data))
+      console.log(this.order)
+      if (this.order.customer_id > 0) {
+        this.$axios
+          .$get(`customers/${this.order.customer_id}`)
+          .then(response => (this.customer = response.data))
+      }
     },
     subTotal (ele) {
       this.stokPrice.push(ele)

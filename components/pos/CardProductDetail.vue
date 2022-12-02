@@ -2,7 +2,7 @@
   <div class="card flex justify-between border-b px-3 py-2">
     <div class="left">
       <p>{{ item.name }}</p>
-      <p>Rp. {{ formatPrice + ' x ' + item.qty }}</p>
+      <p>Rp. {{ formatPrice + ' x ' + item.qty_product }}</p>
     </div>
     <div class="right flex items-end">
       <p>Rp. {{ formatPriceTotal }}</p>
@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     getTotal () {
-      this.total = this.item.price * this.item.qty
+      this.total = this.item.price * this.item.qty_product
     }
   }
 }
