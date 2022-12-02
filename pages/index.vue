@@ -34,15 +34,10 @@
         </div>
         <div class="jumbotron-image">
           <img
-            src="https://cdn.discordapp.com/attachments/1024706945304760320/1047939162524880978/854049991865401374.gif"
-            class="w-60 md:w-[500px]"
-            alt=""
-          >
-          <!-- <img
             src="https://cdn.discordapp.com/attachments/1024706945304760320/1029671504666959962/Data_extraction-amico_1_1.png"
             class="w-60 md:w-[500px]"
             alt=""
-          > -->
+          >
         </div>
       </div>
     </div>
