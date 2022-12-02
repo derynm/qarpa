@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="isLoading" class="loading">
-      <Loading />
+    <div v-if="isLoading" class="loading flex min-h-screen">
+      <Loading class="m-auto" />
     </div>
     <div
       v-if="!isLoading"
@@ -30,6 +30,7 @@
               v-for="item in dataEmployee"
               :key="item.id"
               :item="item"
+              @delete="deleteKaryawan"
             />
           </div>
         </div>
@@ -64,7 +65,10 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    ...mapActions('karyawan', ['getDataEmployee'])
+    ...mapActions('karyawan', ['getDataEmployee']),
+    deleteKaryawan (id) {
+      this.$store.dispatch('karyawan/deleteEmployee', id)
+    }
   }
 }
 </script>

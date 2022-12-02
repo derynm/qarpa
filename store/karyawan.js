@@ -29,5 +29,12 @@ export const actions = {
         branch_id: employee.cabang
       }
     })
+  },
+  deleteEmployee (ctx, id) {
+    ctx.commit('setIsLoading', true)
+    return this.$axios.$delete(`users/delete/${id}`).then(() => {
+      ctx.dispatch('getDataEmployee')
+      ctx.commit('setIsLoading', false)
+    })
   }
 }
