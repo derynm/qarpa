@@ -5,11 +5,13 @@
         {{ title }}
       </h3>
       <p>{{ text }}</p>
-      <button-component
-        class="w-full"
-        :text-fill="textButton"
-        @clicked="$emit('closeModal')"
-      />
+      <div class="flex justify-center">
+        <button-component
+          class="max-w-[100px] w-full py-3 flex justify-center"
+          :text-fill="textButton"
+          @clicked="$emit('closeModal')"
+        />
+      </div>
     </div>
   </div>
 </template>

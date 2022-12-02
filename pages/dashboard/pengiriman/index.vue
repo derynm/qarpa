@@ -39,6 +39,7 @@
         text="Terima Barang"
         padding="py-3"
         :outlined="true"
+        @click="toTerimaBarang"
       />
     </div>
   </div>
@@ -55,6 +56,9 @@ export default {
     ...mapMutations(['setPageTitle']),
     toNewShipping () {
       this.$router.push('/dashboard/pengiriman/pengiriman-baru')
+    },
+    toTerimaBarang () {
+      this.$router.push('/dashboard/pengiriman/terima-barang')
     }
   }
 }

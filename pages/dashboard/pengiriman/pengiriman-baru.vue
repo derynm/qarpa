@@ -102,7 +102,10 @@ export default {
     handleInput () {
       this.dataPengiriman.total_produk = this.totalProduk
       this.$cookies.set('order_pengiriman', this.dataPengiriman)
-      this.$router.push('/dashboard/pengiriman/detail-order')
+      this.$router.push({
+        path: '/dashboard/pengiriman/detail-order',
+        query: { origin_branch: this.dataBranch }
+      })
     }
   },
   computed: {

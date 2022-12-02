@@ -6,10 +6,11 @@
         v-model="cabang"
         place-holder="Pilih Cabang"
         :item="branch"
+        :use-id="true"
         class="max-w-[200px]"
       />
     </div>
-    <div class="flex flex-col">
+    <div v-if="branchAddress" class="flex flex-col">
       <div class="flex">
         <icons-icons-shipping-location-point />
         <h3 class="text-xl font-semibold">
@@ -17,11 +18,10 @@
         </h3>
       </div>
       <p class="text-lg font-semibold">
-        Kontak : 08123883839
+        Kontak : {{ branchAddress.phone }}
       </p>
       <p class="text-sm max-w-[85%] md:max-w-[50%]">
-        Toko Cabang 1 Jalan Sukun No.62, RT.2/RW.14, Condongcatur, Depok (dekat
-        laundry), KAB. SLEMAN - DEPOK, DI YOGYAKARTA, ID 55283
+        {{ branchAddress.address }}
       </p>
     </div>
     <div>
@@ -44,7 +44,12 @@
         </p>
         <p>{{ totalOrder }}</p>
       </div>
-      <button-global text="Detail Order" color="bg-primary" padding="py-3" />
+      <button-global
+        text="Kirim Barang"
+        color="bg-primary"
+        padding="py-3"
+        @click="postPengiriman"
+      />
     </div>
   </div>
 </template>
@@ -59,10 +64,16 @@ export default {
   data () {
     return {
       cabang: null,
+      cabangAsal: this.$route.query.origin_branch,
       dataOrder: {
         produk: []
       },
       totalOrder: 0
+    }
+  },
+  watch: {
+    cabang () {
+      this.$store.dispatch('getAddressBrach', this.cabang)
     }
   },
   mounted () {
@@ -71,7 +82,8 @@ export default {
     this.totalOrder = this.dataOrder.total_produk
   },
   computed: {
-    ...mapState('dropdown', ['branch'])
+    ...mapState('dropdown', ['branch']),
+    ...mapState(['branchAddress'])
   },
   methods: {
     increamentItemShipping (item) {
@@ -103,6 +115,20 @@ export default {
       } else {
         this.totalOrder = 0
       }
+    },
+    postPengiriman () {
+      /* eslint-disable */
+      const dataBarang = this.dataOrder.produk.map(({ id, qty_product }) => ({
+        product_id: id,
+        quantity: qty_product
+      }))
+      this.$store.dispatch('shipping/postShippingToBranch', {
+        shipping: {
+          origin_id: parseInt(this.cabangAsal), // branch asal
+          destination_id: parseInt(this.cabang), // branch tujuan
+          items: dataBarang
+        }
+      })
     }
   }
 }
