@@ -6,6 +6,9 @@
       class="modal text-center bg-white h-[90%] w-[90%] md:w-[500px] p-2 my-auto rounded-md"
     >
       <div class="container p-4">
+        <div class="close-btn flex justify-end mb-3">
+          <IconsClose class="cursor-pointer" @close="closeModal" />
+        </div>
         <SearchBar
           v-model="searchValue"
           placeholder="Cari Pelanggan"
@@ -77,6 +80,9 @@ export default {
     },
     setPelanggan (name, id) {
       this.$emit('getPelanggan', name, id)
+    },
+    closeModal () {
+      this.$emit('close')
     }
   }
 }

@@ -5,6 +5,9 @@
     <div
       class="modal text-center bg-white h-[90%] w-[90%] md:w-[500px] p-2 my-auto rounded-md"
     >
+      <div class="close-btn flex justify-end mb-3">
+        <IconsClose class="cursor-pointer" @close="closeModal" />
+      </div>
       <div class="header-text px-6 my-6">
         <p class="text-center">
           Lengkapi form dibawah ini dengan data yang valid
@@ -77,6 +80,9 @@ export default {
       this.$store
         .dispatch('pos/postNewCustomer', this.dataCustomer)
         .then(this.$emit('closeModal'))
+    },
+    closeModal () {
+      this.$emit('close')
     }
   }
 }
