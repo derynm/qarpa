@@ -49,6 +49,7 @@
         class="w-full"
         type="submit"
         color="bg-primary"
+        :disabled="isDisabled"
         @click="handleSubmit"
       />
     </div>
@@ -63,12 +64,13 @@ export default {
   data () {
     return {
       dataKaryawan: {
-        nama: '',
-        email: '',
-        password: '',
+        nama: null,
+        email: null,
+        password: null,
         cabang: null
       },
-      size: 1
+      size: 1,
+      isDisabled: true
     }
   },
   async fetch ({ store }) {
@@ -77,11 +79,22 @@ export default {
   computed: {
     ...mapState(['branchDropdown'])
   },
+  watch: {
+    'dataKaryawan.nama' () {
+      this.disabledButton()
+    },
+    'dataKaryawan.email' () {
+      this.disabledButton()
+    },
+    'dataKaryawan.password' () {
+      this.disabledButton()
+    },
+    'dataKaryawan.cabang' () {
+      this.disabledButton()
+    }
+  },
   created () {
     this.setPageTitle('Karyawan')
-  },
-  mounted () {
-    console.log(this.branchDropdown)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
@@ -89,6 +102,18 @@ export default {
       this.$store
         .dispatch('karyawan/postNewEmployee', this.dataKaryawan)
         .then(this.$router.replace('/dashboard/karyawan'))
+    },
+    disabledButton () {
+      if (
+        this.dataKaryawan.nama &&
+        this.dataKaryawan.email &&
+        this.dataKaryawan.password &&
+        this.dataKaryawan.cabang !== null
+      ) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
     }
   }
 }
