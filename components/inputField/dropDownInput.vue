@@ -12,7 +12,11 @@
       <option selected hidden>
         {{ placeHolder }}
       </option>
-      <option v-for="(value, index) in item" :key="index" :value="value.id">
+      <option
+        v-for="(value, index) in item"
+        :key="index"
+        :value="useName ? value.value : value.id"
+      >
         {{ value.value }}
       </option>
     </select>
@@ -29,6 +33,10 @@ export default {
     placeHolder: {
       type: String,
       default: ''
+    },
+    useName: {
+      type: Boolean,
+      default: false
     },
     label: {
       type: String,
