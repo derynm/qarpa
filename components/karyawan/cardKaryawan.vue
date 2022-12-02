@@ -12,7 +12,10 @@
       </div>
     </div>
     <div class="right btn flex justify-center pt-2 md:pt-0">
-      <button class="p-2 border border-red-600 rounded-lg">
+      <button
+        class="p-2 border border-red-600 rounded-lg"
+        @click="handleDelete"
+      >
         <IconsTrash />
       </button>
     </div>
@@ -23,7 +26,13 @@
 export default {
   props: {
     item: {
-      type: Object
+      type: Object,
+      default: () => {}
+    }
+  },
+  methods: {
+    handleDelete () {
+      this.$emit('delete', this.item.id)
     }
   }
 }
