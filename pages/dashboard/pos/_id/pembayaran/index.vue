@@ -63,38 +63,47 @@ export default {
     }
   },
   computed: {
-    getItemsOrder () {
-      return this.order.items.map(({ name, price, ...item }) => item)
+    /* eslint-disable */
+    getItemsOrder() {
+      const temp = this.order.items.map(
+        ({ product_shared_id, qty_product }) => ({
+          product_shared_id,
+          qty: qty_product
+        })
+      )
+      return temp
     },
-    getNewOrder () {
+    getNewOrder() {
       const { totalInt, totalStr, items, ...item } = this.order
       item.items = this.getItemsOrder
       return item
     }
   },
-  created () {
+  created() {
     this.setPageTitle('Pembayaran')
   },
-  mounted () {
+  mounted() {
     this.getOrder()
     console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    getOrder () {
+    getOrder() {
       this.order = this.$cookies.get('order')
     },
-    handleTunai () {
+    handleTunai() {
       this.getNewOrder.payment = 'cash'
-      this.$cookies.set('order', this.getNewOrder)
+      this.order.payment = 'cash'
+      this.$cookies.set('order', this.order)
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
         .then(this.$router.push('pembayaran/tunai'))
     },
-    handleBank () {
+    handleBank() {
       this.getNewOrder.payment = 'transfer'
-      this.$cookies.set('order', this.getNewOrder)
+      this.order.payment = 'transfer'
+      this.$cookies.set('order', this.order)
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)

@@ -34,12 +34,12 @@
             <p>Daftar Produk</p>
           </div>
           <div class="product-item mt-4 grid grid-cols-1 gap-4">
-            <PosCardProduct
+            <CardProduct
               v-for="item in filteredList"
               :key="item.id"
               :item="item"
-              @plusQty="increaseQty"
-              @minQty="decreaseQty"
+              @incQty="increaseQty"
+              @decQty="decreaseQty"
             />
           </div>
         </div>
@@ -50,7 +50,6 @@
           color="bg-primary"
           padding="p-3"
           class="w-full"
-          :disabled="!pelanggan.nama ? true : false"
           @click="setOrder"
         />
       </div>
@@ -59,10 +58,12 @@
       v-if="modalPilihPelanggan"
       @getPelanggan="setPelanggan"
       @showModal="changeModal"
+      @close="modalPilihPelanggan = false"
     />
     <ModalTambahPelanggan
       v-if="modalTambahPelanggan"
       @closeModal="closeModal"
+      @close="modalTambahPelanggan = false"
     />
   </div>
 </template>
@@ -86,7 +87,7 @@ export default {
         id: null
       },
       order: {
-        customer_id: null,
+        customer_id: 0,
         pos_id: null,
         discount: null,
         payment: ''
@@ -105,8 +106,8 @@ export default {
       const temp = this.orderData.map(a => ({
         product_shared_id: a.id,
         name: a.name,
-        price: a.price,
-        qty: a.qty
+        price: a.selling_price,
+        qty_product: a.qty_product
       }))
       return temp
     },
@@ -131,13 +132,13 @@ export default {
       if (!tempId) {
         this.orderData.push(elemen)
       } else {
-        tempId.qty = elemen.qty
+        tempId.qty_product = elemen.qty_product
       }
     },
     decreaseQty (elemen) {
       const tempId = this.orderData.find(e => e.id === elemen.id)
-      if (elemen.qty !== 0) {
-        tempId.qty = elemen.qty
+      if (elemen.qty_product !== 0) {
+        tempId.qty_product = elemen.qty_product
       } else {
         this.orderData = this.orderData.filter(e => e.id !== elemen.id)
       }
@@ -166,7 +167,12 @@ export default {
       })
     },
     setOrder () {
-      this.order.customer_id = this.pelanggan.id
+      if (this.pelanggan.id) {
+        this.order.customer_id = this.pelanggan.id
+      } else {
+        this.order.customer_id = 0
+      }
+      console.log(this.order.customer_id)
       this.order.items = this.getItems
       this.$cookies.set('order', this.order)
       console.log(this.$cookies.get('order'))
