@@ -81,7 +81,7 @@ export default {
       // console.log(this.stokBarang)
       this.$store
         .dispatch('stok/postNewStok', this.stokBarang)
-        .then(this.$router.push('/dashboard/stok'))
+        .then(this.$router.replace('/dashboard/stok'))
     }
   }
 }
