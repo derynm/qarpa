@@ -49,6 +49,7 @@
 import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   created () {
     this.setPageTitle('Pengiriman')
   },

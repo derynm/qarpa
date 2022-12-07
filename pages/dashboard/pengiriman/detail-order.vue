@@ -1,15 +1,22 @@
 <template>
-  <div class="px-4 ">
+  <div class="px-4">
     <inventory-shipping-detail-order-pengiriman-cabang />
     <!-- <inventory-shipping-detail-order-pengiriman-costumer /> -->
-
   </div>
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 export default {
   name: 'DetailOrder',
-  layout: 'navigation'
+  layout: 'navigation',
+  middleware: 'auth',
+  created () {
+    this.setPageTitle('Detail Order')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
+  }
 }
 </script>
 

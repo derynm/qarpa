@@ -11,8 +11,15 @@
       />
 
       <div class="flex justify-center">
-        <button-global outlined padding="p-3" text="Batal" class="mr-3" />
         <button-global
+          outlined
+          padding="p-3"
+          text="Batal"
+          class="mr-3"
+          @click="$emit('closeModal')"
+        />
+        <button-global
+          :disabled="isDisable"
           color="bg-primary"
           padding="p-3"
           text="Yakin"
@@ -29,8 +36,14 @@ export default {
   data () {
     return {
       form: {
-        name: null
-      }
+        name: ''
+      },
+      isDisable: true
+    }
+  },
+  watch: {
+    'form.name' () {
+      this.handleButton()
     }
   },
   methods: {
@@ -43,6 +56,13 @@ export default {
           console.log(err)
           this.setIsLoading(false)
         })
+    },
+    handleButton () {
+      if (this.form.name === null || this.form.name === '') {
+        this.isDisable = true
+      } else {
+        this.isDisable = false
+      }
     }
   }
 }
