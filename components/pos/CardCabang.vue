@@ -39,24 +39,7 @@
         <p>{{ item.phone }}</p>
       </div>
     </div>
-    <!-- <div class="content flex justify-around text-center pt-4">
-      <div class="profit">
-        <p>
-          {{ item.total_incomes }}
-        </p>
-        <p class="font-semibold">
-          Total Pendapatan
-        </p>
-      </div>
-      <div class="order">
-        <p>
-          {{ item.total_orders }}
-        </p>
-        <p class="font-semibold">
-          Total Order
-        </p>
-      </div>
-    </div> -->
+
     <div @click.stop="">
       <ModalValidate
         v-if="!item.status"
@@ -105,7 +88,8 @@ export default {
           btn1: 'Tidak',
           btn2: 'Yakin'
         }
-      ]
+      ],
+      role: this.$auth.user.role
     }
   },
   methods: {
@@ -114,11 +98,19 @@ export default {
       this.inputKasir = true
     },
     handleClose () {
-      this.$axios.$get('owner/branches').then((response) => {
-        this.pos = response.data
-        const posId = this.pos.find(e => e.id === this.item.id).pos_id
-        this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
-      })
+      if (this.role === 'owner') {
+        this.$axios.$get('owner/branches').then((response) => {
+          this.pos = response.data
+          const posId = this.pos.find(e => e.id === this.item.id).pos_id
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+        })
+      } else {
+        this.$axios.$get('employee/branches').then((response) => {
+          this.pos = response.data
+          const posId = this.pos.find(e => e.id === this.item.id).pos_id
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+        })
+      }
       this.validateModal = false
       location.reload()
     },
