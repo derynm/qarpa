@@ -8,7 +8,7 @@
         :item="supplier"
       />
       <p
-        class="text-primary font-semibold ml-6"
+        class="text-primary font-semibold ml-6 cursor-pointer"
         @click="handleModalNewSupplier"
       >
         + Tambah Suplier Baru
@@ -33,12 +33,13 @@
           :item="unit"
         />
       </div>
-      <input-field-drop-down-input
+      <!-- <input-field-drop-down-input
         v-model="form.kondisi"
         place-holder="Kondisi Barang"
         label="Kondisi Barang"
         :item="condition"
-      />
+        :use-name="true"
+      /> -->
       <input-field-drop-down-input
         v-model="form.kategori"
         place-holder="Kategori"
@@ -46,10 +47,10 @@
         :item="categories"
       />
       <p
-        class="text-primary font-semibold ml-6"
+        class="text-primary font-semibold ml-6 cursor-pointer"
         @click="handleModalNewCategories"
       >
-        + Tambah Suplier Baru
+        + Tambah Kategori Baru
       </p>
       <input-field-basic-input
         v-model="form.hargaBarang"
@@ -70,12 +71,22 @@
         :item="branch"
         :use-id="true"
       />
+      <div
+        v-if="$auth.user.role === 'employee'"
+        class="border-2 outline outline-2 mb-5 rounded-md"
+      >
+        <p class="py-2 px-3">
+          cabang default <b>{{ $auth.user.branch_id }}</b>
+        </p>
+      </div>
     </div>
     <button-global
       text="Terima Barang"
       color="bg-primary"
       padding="py-3"
       class="mb-3"
+      :disabled="isDisable"
+      @click="handleInput"
     />
     <inventory-shipping-modal-new-suplier
       v-if="showNewSupplierModal"
@@ -98,16 +109,16 @@ export default {
       showNewSupplierModal: false,
       showNewCategoriesModal: false,
       form: {
-        supplier: null,
-        namaProduk: null,
-        jumlah: null,
-        satuan: null,
-        kondisi: null,
-        kategori: null,
-        hargaBarang: null,
-        totalHarga: null,
-        cabang: null
-      }
+        supplier: '',
+        namaProduk: '',
+        jumlah: '',
+        satuan: '',
+        kategori: '',
+        hargaBarang: '',
+        totalHarga: '',
+        cabang: this.$auth.user.branch_id ?? ''
+      },
+      isDisable: true
     }
   },
   async fetch ({ store }) {
@@ -126,12 +137,29 @@ export default {
       'branch'
     ])
   },
+  watch: {
+    form: {
+      deep: true,
+      handler () {
+        this.checkInput()
+      }
+    }
+  },
   methods: {
     handleModalNewSupplier () {
       this.showNewSupplierModal = !this.showNewSupplierModal
     },
     handleModalNewCategories () {
       this.showNewCategoriesModal = !this.showNewCategoriesModal
+    },
+    checkInput () {
+      this.isDisable = !Object.keys(this.form).every(e => this.form[e] !== '')
+    },
+    handleInput () {
+      this.$store
+        .dispatch('shipping/postReciveItem', this.form)
+        .then(() => this.$router.replace('/dashboard/pengiriman'))
+        .catch(() => alert('Input gagal'))
     }
   }
 }

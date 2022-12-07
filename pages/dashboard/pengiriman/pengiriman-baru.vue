@@ -1,7 +1,8 @@
 <template>
   <div class="px-3">
-    <SearchBar placeholder="Cari Produk" class="my-5" />
+    <SearchBar v-model="searchValue" placeholder="Cari Produk" class="my-5" />
     <drop-down
+      v-if="$auth.user.role === 'owner'"
       v-model="dataBranch"
       place-holder="Cabang Asal"
       :item="branch"
@@ -13,8 +14,9 @@
     <div class="flex flex-col">
       <div v-if="!isLoading" class="min-h-[40vh]">
         <card-product
-          v-for="(value, index) in stokByBranch"
+          v-for="(value, index) in filteredList"
           :key="index"
+          class="mb-3"
           :item="value"
           @incQty="increamentItemShipping"
           @decQty="decreaseItemShipping"
@@ -35,6 +37,7 @@
           text="Detail Order"
           color="bg-primary"
           padding="py-3"
+          :disabled="isDisabled"
           @click="handleInput"
         />
       </div>
@@ -43,7 +46,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
@@ -55,20 +58,49 @@ export default {
       dataPengiriman: {
         produk: []
       },
-      dataBranch: null,
+      dataBranch: this.$auth.user.branch_id ?? '',
       tujuanPengiriman: null,
-      totalProduk: 0
+      totalProduk: 0,
+      searchValue: '',
+      isDisabled: true
     }
   },
   async fetch ({ store }) {
     await store.dispatch('dropdown/getBranchDropdown')
   },
-  watch: {
-    dataBranch () {
+  mounted () {
+    if (this.$auth.user.role === 'employee') {
       this.$store.dispatch('stok/getStokByBranch', this.dataBranch)
     }
   },
+
+  computed: {
+    ...mapState('stok', ['stokByBranch', 'isLoading']),
+    ...mapState('dropdown', ['branch']),
+    filteredList () {
+      return this.stokByBranch.filter((post) => {
+        return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
+      })
+    }
+  },
+  watch: {
+    dataBranch () {
+      this.$store.dispatch('stok/getStokByBranch', this.dataBranch)
+    },
+    totalProduk () {
+      if (this.totalProduk > 0) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
+    }
+  },
+  created () {
+    this.setPageTitle('Kirim Barang')
+  },
   methods: {
+    ...mapMutations(['setPageTitle']),
+
     increamentItemShipping (item) {
       const tempId = this.dataPengiriman.produk.find(val => val.id === item.id)
       if (!tempId) {
@@ -107,10 +139,6 @@ export default {
         query: { origin_branch: this.dataBranch }
       })
     }
-  },
-  computed: {
-    ...mapState('stok', ['stokByBranch', 'isLoading']),
-    ...mapState('dropdown', ['branch'])
   }
 }
 </script>
