@@ -34,11 +34,11 @@
         <div class="card flex flex-col gap-3">
           <KeuanganCardLaporan
             text="Total Penjualan Produk"
-            :money="dataKeuangan.incomes"
+            :money="`Rp. ${toRupiah}`"
           />
           <KeuanganCardLaporan
             text="Total Transaksi Produk"
-            :money="dataKeuangan.total_transaction"
+            :money="dataKeuangan.total_transactions"
           />
           <KeuanganCardLaporan
             text="Total Penjualan Produk"
@@ -89,6 +89,11 @@ export default {
       } else {
         return null
       }
+    },
+    toRupiah () {
+      return new Intl.NumberFormat('id-ID', {
+        currency: 'IDR'
+      }).format(this.dataKeuangan.incomes)
     }
   },
   created () {

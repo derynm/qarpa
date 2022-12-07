@@ -1,57 +1,21 @@
 <template>
   <div>
-    <div v-if="isEmpty" class="isEmpty px-2">
-      <ButtonComponent
-        class="p-2"
-        text-fill="Click"
-        @clicked="isEmpty = !isEmpty"
-      />
+    <div class="isEmpty px-2">
       <div class="btn mb-6">
-        <div class="dropdown">
-          <select id="" class="rounded-md p-2 border-2" name="">
-            <option value="1">
-              Cabang 1
-            </option>
-            <option value="2">
-              Cabang 2
-            </option>
-          </select>
+        <div class="input">
+          <input
+            v-model="tgl"
+            type="date"
+            class="border-2 p-2 rounded-lg"
+            @change="test(tgl)"
+          >
         </div>
       </div>
       <div class="container text-center min-h-[65vh] flex items-center">
-        <p>
-          Belum ada cabang yang dipilih Silahkan pilih cabang terlebih dahulu
+        <p class="mx-[15%]">
+          Belum ada tanggal yang dipilih Silahkan pilih tanggal terlebih dahulu
           untuk melihat rekapan kas
         </p>
-      </div>
-    </div>
-    <div v-if="!isEmpty" class="!isEmpty px-2">
-      <ButtonComponent
-        class="p-2"
-        text-fill="Click"
-        @clicked="isEmpty = !isEmpty"
-      />
-      <div class="btn mb-6 flex gap-2">
-        <button class="border-2 p-2 rounded-md flex items-center gap-2">
-          <p>All</p>
-          <IconsCalender />
-        </button>
-        <div class="dropdown rounded-md border-2">
-          <fieldset class="bg-white">
-            <select id="" class="rounded-xl p-2" name="">
-              <option value="1">
-                Cabang 1
-              </option>
-              <option value="2">
-                Cabang 2
-              </option>
-            </select>
-          </fieldset>
-        </div>
-      </div>
-      <div class="container flex flex-col gap-3">
-        <AuditCardAudit />
-        <AuditCardAudit />
       </div>
     </div>
   </div>
@@ -63,14 +27,27 @@ export default {
   layout: 'navigation',
   data () {
     return {
-      isEmpty: true
+      btn: null,
+      temp: {},
+      tgl: null
     }
   },
   created () {
     this.setPageTitle('Audit')
   },
+  mounted () {
+    this.getSummary()
+  },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    getSummary () {
+      this.$axios
+        .$get('company/expenses_incomes')
+        .then(response => response.data)
+    },
+    test (id) {
+      this.$router.push(`${this.$route.path}/${id}`)
+    }
   }
 }
 </script>
