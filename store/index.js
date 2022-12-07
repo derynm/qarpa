@@ -4,7 +4,8 @@ export const state = () => ({
   taskAmount: {},
   isLoading: false,
   branchDropdown: [],
-  branchAddress: null
+  branchAddress: null,
+  summaryOwner: {}
 })
 
 export const mutations = {
@@ -42,6 +43,9 @@ export const mutations = {
   },
   setBranchAddress (state, value) {
     state.branchAddress = value
+  },
+  setSummaryOwner (state, value) {
+    state.summaryOwner = value
   }
 }
 
@@ -65,5 +69,12 @@ export const actions = {
       .$get(`branches/${id}`)
       .then(response => ctx.commit('setBranchAddress', response.data))
       .catch(err => console.log(err))
+  },
+  getSummaryOwner ({ commit }) {
+    commit('setIsLoading', true)
+    return this.$axios.$get('company/expenses_incomes').then((response) => {
+      commit('setSummaryOwner', response.data)
+      commit('setIsLoading', false)
+    })
   }
 }
