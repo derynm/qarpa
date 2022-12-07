@@ -5,7 +5,7 @@
       <drop-down
         v-model="cabang"
         place-holder="Pilih Cabang"
-        :item="branch"
+        :item="branchDropdown"
         :use-id="true"
         class="max-w-[200px]"
       />
@@ -48,6 +48,7 @@
         text="Kirim Barang"
         color="bg-primary"
         padding="py-3"
+        :disabled="isDisabled"
         @click="postPengiriman"
       />
     </div>
@@ -68,22 +69,33 @@ export default {
       dataOrder: {
         produk: []
       },
-      totalOrder: 0
+      totalOrder: 0,
+      isDisabled: true
     }
   },
   watch: {
     cabang () {
       this.$store.dispatch('getAddressBrach', this.cabang)
+      if (this.cabang) {
+        this.isDisabled = false
+      }
     }
   },
   mounted () {
     this.$store.dispatch('dropdown/getBranchDropdown')
-    this.dataOrder = this.$cookies.get('order_pengiriman')
-    this.totalOrder = this.dataOrder.total_produk
+    if (!this.$cookies.get('order_pengiriman')) {
+      this.$router.replace('/dashboard/pengiriman/pengiriman-baru')
+    } else {
+      this.dataOrder = this.$cookies.get('order_pengiriman')
+      this.totalOrder = this.dataOrder.total_produk
+    }
   },
   computed: {
     ...mapState('dropdown', ['branch']),
-    ...mapState(['branchAddress'])
+    ...mapState(['branchAddress']),
+    branchDropdown () {
+      return this.branch.filter(e => e.id !== parseInt(this.cabangAsal))
+    }
   },
   methods: {
     increamentItemShipping (item) {
@@ -119,16 +131,23 @@ export default {
     postPengiriman () {
       /* eslint-disable */
       const dataBarang = this.dataOrder.produk.map(({ id, qty_product }) => ({
-        product_id: id,
-        quantity: qty_product
+        product_shared_id: id,
+        qty: qty_product
       }))
-      this.$store.dispatch('shipping/postShippingToBranch', {
-        shipping: {
+      this.$store
+        .dispatch('shipping/postShippingToBranch', {
           origin_id: parseInt(this.cabangAsal), // branch asal
           destination_id: parseInt(this.cabang), // branch tujuan
           items: dataBarang
-        }
-      })
+        })
+        .then(() => {
+          this.$cookies.set('order_done', this.totalOrder, '180s')
+          this.$cookies.remove('order_pengiriman')
+          this.$router.replace({
+            path: '/dashboard/pengiriman/shipping-succes',
+            query: { destination_branch: this.cabang }
+          })
+        })
     }
   }
 }
