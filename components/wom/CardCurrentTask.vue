@@ -38,7 +38,7 @@ export default {
       this.$store.dispatch('wom/updateTaskDone', this.item.id)
     },
     toDetailTask () {
-      this.$router.push(`/dashboard/wom/${this.item.id}/detail-tugas`)
+      this.$router.replace(`/dashboard/wom/${this.item.id}/detail-tugas`)
     }
   }
 }

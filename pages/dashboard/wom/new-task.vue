@@ -32,6 +32,7 @@
           padding="py-3"
           color="bg-primary"
           class="w-full"
+          :disabled="isDisable"
         />
       </div>
     </form>
@@ -56,12 +57,21 @@ export default {
         durasi_mulai: '',
         durasi_akhir: '',
         karyawan: ''
-      }
+      },
+      isDisable: true
     }
   },
   async fetch ({ store }) {
     // await store.dispatch('getEmployee')
     await store.dispatch('dropdown/getEmployeeDropdown')
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler () {
+        this.checkInput()
+      }
+    }
   },
   created () {
     this.setPageTitle('Buat Tugas Baru')
@@ -78,6 +88,9 @@ export default {
     modalHandle () {
       this.showModal(false)
       this.$router.replace('/dashboard/wom')
+    },
+    checkInput () {
+      this.isDisable = !Object.keys(this.form).every(e => this.form[e] !== '')
     }
   }
 }
