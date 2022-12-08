@@ -63,7 +63,7 @@ export default {
   methods: {
     taskDone () {
       this.$store.dispatch('wom/updateTaskDone', this.detailTask.id)
-      this.$router.push('/dashboard/wom')
+      this.$router.replace('/dashboard/wom')
     }
   }
 }
