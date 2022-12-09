@@ -48,8 +48,14 @@
         padding="py-3"
         color="bg-primary"
         class="mb-3"
+        @click="toPengiriman"
       />
-      <button-global text="Lihat Pengiriman" :outlined="true" padding="py-3" />
+      <button-global
+        text="Lihat Pengiriman"
+        :outlined="true"
+        padding="py-3"
+        @click="toIndex"
+      />
     </div>
   </div>
 </template>
@@ -80,6 +86,14 @@ export default {
   },
   computed: {
     ...mapState(['branchAddress'])
+  },
+  methods: {
+    toPengiriman () {
+      this.$router.replace('/dashboard/pengiriman/pengiriman-baru')
+    },
+    toIndex () {
+      this.$router.replace('/dashboard/pengiriman')
+    }
   }
 }
 </script>

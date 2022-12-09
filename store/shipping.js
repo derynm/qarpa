@@ -1,15 +1,29 @@
 export const state = () => ({
   shippingData: [],
+  shippingHistory: [],
   isLoading: false
 })
 
 export const mutations = {
   setIsLoading (state, value) {
     state.isLoading = value
+  },
+  setShippingHistory (state, value) {
+    state.shippingHistory = value
   }
 }
 
 export const actions = {
+  getShippingHistory (ctx) {
+    ctx.commit('setIsloading', true)
+    return this.$axios
+      .$get('shipping/history')
+      .then((response) => {
+        ctx.commit('setShippingHistory', response.data)
+        ctx.commit('setIsloading', true)
+      })
+      // .catch(() => alert('error'))
+  },
   postNewSupplier (ctx, data) {
     ctx.commit('setIsloading', true)
     return this.$axios
