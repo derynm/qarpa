@@ -47,7 +47,7 @@
 
           <button-component
             v-if="!isLoading"
-            text-fill="Daftar Akun"
+            text-fill="Ubah Kata Sandi"
             class="w-full mb-8 py-3"
             :disabled="isDisabled"
           />
