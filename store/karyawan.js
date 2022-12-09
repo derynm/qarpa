@@ -1,6 +1,8 @@
 export const state = () => ({
   dataEmployee: [],
-  isLoading: false
+  isLoading: false,
+  errorStatus: false,
+  errorMsg: ''
 })
 
 export const mutations = {
@@ -9,6 +11,12 @@ export const mutations = {
   },
   setIsLoading (state, value) {
     state.isLoading = value
+  },
+  setErrorStatus (state, value) {
+    state.errorStatus = value
+  },
+  setErrorMsg (state, value) {
+    state.errorMsg = value
   }
 }
 
@@ -21,14 +29,21 @@ export const actions = {
     })
   },
   postNewEmployee (ctx, employee) {
-    return this.$axios.$post('users/create', {
-      user: {
-        name: employee.nama,
-        email: employee.email,
-        password: employee.password,
-        branch_id: employee.cabang
-      }
-    })
+    this.$axios
+      .$post('users/create', {
+        user: {
+          name: employee.nama,
+          email: employee.email,
+          password: employee.password,
+          branch_id: employee.cabang
+        }
+      })
+      .then(() => this.$router.replace('/dashboard/karyawan'))
+      .catch((error) => {
+        console.log(error.response.data.message)
+        ctx.commit('setErrorStatus', true)
+        ctx.commit('setErrorMsg', error.response.data.message)
+      })
   },
   deleteEmployee (ctx, id) {
     ctx.commit('setIsLoading', true)
