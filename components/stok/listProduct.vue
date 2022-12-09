@@ -17,7 +17,7 @@
           :value="role === 'owner' ? item.id : item.id"
           class="capitalize"
         >
-          {{ role === 'owner' ? item.name : item.value }}
+          {{ role === 'owner' ? item.value : item.value }}
         </option>
       </select>
     </div>
