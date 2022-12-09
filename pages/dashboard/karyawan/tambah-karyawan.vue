@@ -27,12 +27,8 @@
               <option value="null">
                 Pilih Outlet
               </option>
-              <option
-                v-for="item in branchDropdown"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
+              <option v-for="item in branch" :key="item.id" :value="item.id">
+                {{ item.value }}
               </option>
             </select>
           </div>
@@ -74,10 +70,10 @@ export default {
     }
   },
   async fetch ({ store }) {
-    await store.dispatch('getBranchDropdown')
+    await store.dispatch('dropdown/getBranchDropdown')
   },
   computed: {
-    ...mapState(['branchDropdown'])
+    ...mapState('dropdown', ['branch'])
   },
   watch: {
     'dataKaryawan.nama' () {

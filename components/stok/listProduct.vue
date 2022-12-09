@@ -8,16 +8,16 @@
         name=""
         @change="setDropdown"
       >
-        <option value="all">
+        <option :value="0">
           {{ role === 'owner' ? 'Pilih Cabang' : 'Pilih Kategori' }}
         </option>
         <option
           v-for="item in filteredDropdown"
-          :key="role === 'owner' ? item.id : item.category"
-          :value="role === 'owner' ? item.id : item.category"
+          :key="role === 'owner' ? item.id : item.id"
+          :value="role === 'owner' ? item.id : item.id"
           class="capitalize"
         >
-          {{ role === 'owner' ? item.name : item.category }}
+          {{ role === 'owner' ? item.value : item.value }}
         </option>
       </select>
     </div>
@@ -28,7 +28,7 @@
       </div>
       <div v-if="!isLoading">
         <div
-          v-if="dropdownValue === 'all' && role === 'owner'"
+          v-if="dropdownValue === 0 && role === 'owner'"
           class="empty flex flex-col items-center text-center mt-10"
         >
           <IconsKosong />
@@ -41,7 +41,7 @@
           </p>
         </div>
         <div
-          v-if="dropdownValue !== 'all' && role === 'owner'"
+          v-if="dropdownValue !== 0 && role === 'owner'"
           class="dynamic-component flex flex-col gap-5"
         >
           <CardProduct
@@ -56,10 +56,11 @@
           v-if="role === 'employee'"
           class="dynamic-component flex flex-col gap-5"
         >
-          <StokCardBarang
+          <CardProduct
             v-for="item in filteredStok"
             :key="item.id"
             :item="item"
+            :show-stok="true"
           />
         </div>
       </div>
@@ -100,7 +101,7 @@ export default {
   },
   data () {
     return {
-      dropdownValue: 'all',
+      dropdownValue: 0,
       role: this.$auth.user.role
     }
   },

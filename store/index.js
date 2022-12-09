@@ -3,7 +3,6 @@ export const state = () => ({
   timestamp: '',
   taskAmount: {},
   isLoading: false,
-  branchDropdown: [],
   branchAddress: null,
   summaryOwner: {}
 })
@@ -38,9 +37,6 @@ export const mutations = {
   setIsLoading (state, value) {
     state.isLoading = value
   },
-  setBranchDropdown (state, value) {
-    state.branchDropdown = value
-  },
   setBranchAddress (state, value) {
     state.branchAddress = value
   },
@@ -58,11 +54,6 @@ export const actions = {
         commit('setTaskAmount', response.data)
         commit('setIsLoading', false)
       })
-  },
-  getBranchDropdown ({ commit }) {
-    return this.$axios
-      .$get('branches')
-      .then(response => commit('setBranchDropdown', response.data))
   },
   getAddressBrach (ctx, id) {
     return this.$axios

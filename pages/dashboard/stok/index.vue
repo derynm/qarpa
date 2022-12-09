@@ -6,7 +6,7 @@
           :filtered-stok="
             role === 'owner' ? stokByBranch : getFilteredStokByCategory
           "
-          :filtered-dropdown="role === 'owner' ? branchDropdown : getCategory"
+          :filtered-dropdown="role === 'owner' ? branch : categories"
           :is-loading="isLoading"
           :branch-id="dropdownValue"
           @filter="setValueDropdown"
@@ -31,19 +31,8 @@ export default {
     await store.dispatch('stok/getStokBarang')
   },
   computed: {
-    ...mapState(['branchDropdown']),
+    ...mapState('dropdown', ['branch', 'categories']),
     ...mapState('stok', ['stokBarang', 'stokByBranch', 'isLoading']),
-    getCategory () {
-      return this.stokBarang
-        .map(({ category }) => ({ category }))
-        .filter(
-          (value, index, self) =>
-            index ===
-            self.findIndex(
-              t => t.place === value.place && t.category === value.category
-            )
-        )
-    },
     getFilteredStokByCategory () {
       if (this.dropdownValue !== 0) {
         return this.stokBarang.filter(e => e.category === this.dropdownValue)
@@ -56,9 +45,9 @@ export default {
     this.setPageTitle('Total Stok')
   },
   mounted () {
-    this.$store.dispatch('getBranchDropdown')
+    this.$store.dispatch('dropdown/getBranchDropdown')
+    this.$store.dispatch('dropdown/getCategoriesDropdown')
   },
-  updated () {},
   methods: {
     ...mapMutations(['setPageTitle']),
     setValueDropdown (e) {
