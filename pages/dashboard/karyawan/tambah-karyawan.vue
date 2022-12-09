@@ -49,6 +49,12 @@
         @click="handleSubmit"
       />
     </div>
+    <ModalConfirmModal
+      v-if="errorStatus"
+      title="Error"
+      :text="modalText"
+      @closeModal="clearModal()"
+    />
   </div>
 </template>
 
@@ -73,7 +79,11 @@ export default {
     await store.dispatch('dropdown/getBranchDropdown')
   },
   computed: {
-    ...mapState('dropdown', ['branch'])
+    ...mapState('dropdown', ['branch']),
+    ...mapState('karyawan', ['errorMsg', 'errorStatus']),
+    modalText () {
+      return `Email ${this.errorMsg.email}`
+    }
   },
   watch: {
     'dataKaryawan.nama' () {
@@ -94,10 +104,9 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
+    ...mapMutations('karyawan', ['setErrorStatus', 'setErrorMsg']),
     handleSubmit () {
-      this.$store
-        .dispatch('karyawan/postNewEmployee', this.dataKaryawan)
-        .then(this.$router.replace('/dashboard/karyawan'))
+      this.$store.dispatch('karyawan/postNewEmployee', this.dataKaryawan)
     },
     disabledButton () {
       if (
@@ -110,6 +119,10 @@ export default {
       } else {
         this.isDisabled = true
       }
+    },
+    clearModal () {
+      this.setErrorStatus(false)
+      this.setErrorMsg('')
     }
   }
 }
