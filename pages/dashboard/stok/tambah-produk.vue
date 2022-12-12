@@ -12,17 +12,19 @@
         <InputFieldBasicInput
           v-model="stokBarang.nama"
           label="Nama Produk"
-          placeholder="..."
+          placeholder="Barang"
         />
         <InputFieldBasicInput
           v-model="stokBarang.harga"
+          type="number"
           label="Harga"
-          placeholder="..."
+          placeholder="Harga"
         />
         <InputFieldBasicInput
           v-model="stokBarang.stok"
+          type="number"
           label="Stok"
-          placeholder="..."
+          placeholder="Stok"
         />
         <div class="dropdown">
           <select
