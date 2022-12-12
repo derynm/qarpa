@@ -57,12 +57,12 @@
         label="Harga Barang"
         placeholder="Harga Barang"
       />
-      <input-field-basic-input
+      <!-- <input-field-basic-input
         v-model="form.totalHarga"
         label="Total Harga"
         placeholder="Total Harga"
         class="mb-3"
-      />
+      /> -->
       <drop-down
         v-if="!$auth.user.branch_id"
         v-model="form.cabang"
@@ -115,7 +115,7 @@ export default {
         satuan: '',
         kategori: '',
         hargaBarang: '',
-        totalHarga: '',
+        // totalHarga: '',
         cabang: this.$auth.user.branch_id ?? ''
       },
       isDisable: true

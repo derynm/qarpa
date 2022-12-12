@@ -62,7 +62,7 @@ export const actions = {
     dataBarang.append('qty', data.jumlah)
     dataBarang.append('quantity_type', data.satuan)
     dataBarang.append('category_id', data.kategori)
-    dataBarang.append('purchase_price', data.totalHarga)
+    // dataBarang.append('purchase_price', data.totalHarga)
     dataBarang.append('selling_price', data.hargaBarang)
     dataBarang.append('branch_id', data.cabang)
     return this.$axios.$post('inventory/products', dataBarang, { headers })
