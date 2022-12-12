@@ -1,6 +1,7 @@
 default:
   image: node:16.14.0
   before_script:
+    - rmdir C:\Windows\system32\config\systemprofile\.fly
     - iwr https://fly.io/install.ps1 -useb | iex
 
 deploy:
