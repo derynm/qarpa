@@ -39,6 +39,7 @@
           <KeuanganCardLaporan
             text="Total Penjualan Produk"
             :money="dataKeuangan.incomes"
+            :convert="true"
           />
           <KeuanganCardLaporan
             text="Total Transaksi Produk"
@@ -58,6 +59,7 @@
           <KeuanganCardLaporan
             text="Total Pembelian Stok Suplai"
             :money="dataKeuangan.expenses"
+            :convert="true"
           />
         </div>
       </div>

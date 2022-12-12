@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="container px-2 md:px-8 flex flex-col justify-between h-[75vh]">
-      <div class="content">
+      <div class="content mb-3">
         <SearchBar
           v-model="searchValue"
           placeholder="Cari Produk"
