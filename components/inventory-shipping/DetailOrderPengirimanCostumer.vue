@@ -44,7 +44,7 @@
         <p class="font-semibold">
           Total Pembayaran :
         </p>
-        <p>Rp. 101.000</p>
+        <p>Rp. 101.000.</p>
       </div>
       <button-global text="Detail Order" color="bg-primary" padding="py-3" />
     </div>
