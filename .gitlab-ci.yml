@@ -9,6 +9,6 @@ deploy:
   variables:
     FLY_API_TOKEN: $FLY_API_TOKEN
   script:
-    - flyctl deploy
+    - C:\Windows\System32\config\systemprofile.fly\bin\flyctl deploy
   only:
     - develop
