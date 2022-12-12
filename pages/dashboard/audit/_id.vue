@@ -9,7 +9,7 @@
       class="pengiriman-suplier shadow-md border-t-4 rounded-md border-orange-400 p-3"
     >
       <div class="title font-semibold mb-2">
-        <p>Pengiriman Suplier</p>
+        <p>Penerimaan Suplier</p>
       </div>
       <div>
         <p class="font-semibold">
