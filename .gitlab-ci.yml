@@ -9,6 +9,6 @@ deploy:
   variables:
     FLY_API_TOKEN: $FLY_API_TOKEN
   script:
-    - fly deploy
+    - flyctl deploy
   only:
     - develop
