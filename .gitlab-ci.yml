@@ -2,7 +2,7 @@ default:
   image: node:16.14.0
   before_script:
     - apt-get update -qq && apt-get install -y curl
-    - curl -L https://fly.io/install.sh | sh
+    - curl -L https://fly.io/install.ps1 -useb | iex
 
 deploy:
   tags:
