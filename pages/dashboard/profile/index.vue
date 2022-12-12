@@ -4,7 +4,15 @@
       <div
         class="profile-top bg-gradient-to-b from-[#3f51b5] to-[#afb7e0] text-white flex flex-col items-center p-8 rounded-md mb-8 gap-2"
       >
-        <IconsPosIcon class="rounded-full" />
+        <div class="relative">
+          <IconsPosIcon class="rounded-full" />
+          <!-- <div
+            class="absolute w-fit rounded-full top-12 -right-1 cursor-pointer"
+            @click="handleModal"
+          >
+            <icons-camera />
+          </div> -->
+        </div>
         <p class="name">
           {{ user.name }}
         </p>
@@ -56,6 +64,7 @@
         </button>
       </div>
     </div>
+    <modal-change-photo v-if="showModalChangePhoto" @closeModal="handleModal" />
   </div>
 </template>
 
@@ -66,14 +75,18 @@ export default {
   data () {
     return {
       role: true,
-      user: this.$auth.user
+      user: this.$auth.user,
+      showModalChangePhoto: false
     }
   },
   created () {
     this.setPageTitle('Profil Pengguna')
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    handleModal () {
+      this.showModalChangePhoto = !this.showModalChangePhoto
+    }
   }
 }
 </script>
