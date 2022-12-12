@@ -1,7 +1,7 @@
 default:
   image: node:16.14.0
   before_script:
-    - curl https://fly.io/install.ps1 -useb | iex
+    - iwr https://fly.io/install.ps1 -useb | iex
 
 deploy:
   tags:
@@ -9,6 +9,6 @@ deploy:
   variables:
     FLY_API_TOKEN: $FLY_API_TOKEN
   script:
-    - flyctl deploy
+    - fly deploy
   only:
     - develop
