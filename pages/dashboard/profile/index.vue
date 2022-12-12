@@ -52,6 +52,14 @@
             <p>Beralih ke Pro untuk mengembangkann usaha Anda.</p>
           </div>
         </div>
+        <nuxt-link to="/tentang-kami">
+          <div class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-4">
+            <div class="text font-semibold flex justify-between items-center">
+              <p>Tentang Kami</p>
+              <IconsArrowRight color="black" />
+            </div>
+          </div>
+        </nuxt-link>
       </div>
     </div>
     <div class="bot">
