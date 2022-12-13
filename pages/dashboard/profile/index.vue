@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="bot">
-      <div class="logout-btn mt-5">
+      <div class="logout-btn my-5">
         <button
           class="w-full bg-[#344397] text-white rounded-md py-2"
           @click="$auth.logout()"
