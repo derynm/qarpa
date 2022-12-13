@@ -3,26 +3,10 @@
     class="border-2 rounded-md shadow-md p-4 cursor-pointer"
     @click="backToBranch"
   >
-    <div class="header flex justify-between items-center">
+    <div class="header items-center">
       <p class="font-semibold text-2xl">
         {{ item.name }}
       </p>
-      <div class="btn" @click.stop="">
-        <ButtonGlobal
-          v-if="!item.status"
-          text="Buka"
-          color="bg-primary"
-          padding="p-2"
-          @click="validateModal = true"
-        />
-        <ButtonGlobal
-          v-else
-          text="Tutup"
-          color="bg-red-700"
-          padding="p-2"
-          @click="validateModal = true"
-        />
-      </div>
     </div>
     <div class="info py-2">
       <p class="text-gray-600">
@@ -38,6 +22,24 @@
         <IconsPosPhone />
         <p>{{ item.phone }}</p>
       </div>
+    </div>
+    <div class="btn my-4" @click.stop="">
+      <ButtonGlobal
+        v-if="!item.status"
+        class="w-full"
+        text="Buka"
+        color="bg-primary"
+        padding="p-2"
+        @click="validateModal = true"
+      />
+      <ButtonGlobal
+        v-else
+        class="w-full"
+        text="Tutup"
+        color="bg-red-700"
+        padding="p-2"
+        @click="validateModal = true"
+      />
     </div>
 
     <div @click.stop="">

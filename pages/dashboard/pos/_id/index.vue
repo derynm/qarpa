@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
@@ -92,7 +92,8 @@ export default {
         discount: null,
         payment: ''
       },
-      searchValue: ''
+      searchValue: '',
+      role: this.$auth.user.role
     }
   },
   async fetch ({ store, params }) {
@@ -102,6 +103,7 @@ export default {
   computed: {
     ...mapState(['timestamp']),
     ...mapState('pos', ['cabangById', 'dataProduct']),
+    ...mapGetters('pos', ['productReady']),
     getItems () {
       const temp = this.orderData.map(a => ({
         product_shared_id: a.id,
@@ -112,7 +114,7 @@ export default {
       return temp
     },
     filteredList () {
-      return this.dataProduct.filter((post) => {
+      return this.productReady.filter((post) => {
         return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
       })
     }
@@ -159,12 +161,21 @@ export default {
       this.modalTambahPelanggan = true
     },
     getPosId () {
-      this.$axios.$get('owner/branches').then((response) => {
-        const temp = response.data
-        this.order.pos_id = temp.find(
-          e => e.id === this.cabangById.id
-        ).pos_id[0]
-      })
+      if (this.role === 'owner') {
+        this.$axios.$get('owner/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      } else {
+        this.$axios.$get('employee/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      }
     },
     setOrder () {
       if (this.pelanggan.id) {
