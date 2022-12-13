@@ -1,6 +1,6 @@
-# fly.toml file generated for qarpa-fe-prod on 2022-12-12T12:09:13+07:00
+# fly.toml file generated for qarpa-fe on 2022-12-13T22:41:38+07:00
 
-app = "qarpa-fe-prod"
+app = "qarpa-fe"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
