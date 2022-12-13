@@ -49,7 +49,7 @@
           text="Detail Order"
           color="bg-primary"
           padding="p-3"
-          class="w-full"
+          class="w-full mb-4"
           @click="setOrder"
         />
       </div>
@@ -187,7 +187,7 @@ export default {
       this.order.items = this.getItems
       this.$cookies.set('order', this.order)
       console.log(this.$cookies.get('order'))
-      this.$router.push(`${this.$route.params.id}/detail`)
+      this.$router.push(`${this.$route.path}/detail`)
     }
   }
 }

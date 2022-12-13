@@ -67,7 +67,8 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 export default {
-  layout: 'navigation',
+  layout: 'header',
+  middleware: 'auth',
   data () {
     return {
       dataBank: {

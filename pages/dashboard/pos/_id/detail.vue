@@ -116,7 +116,7 @@ export default {
       this.order.discount = parseInt(this.diskon)
       this.$cookies.set('order', this.order)
       console.log(this.$cookies.get('order'))
-      this.$router.push('pembayaran')
+      this.$router.replace('pembayaran')
     }
   }
 }
