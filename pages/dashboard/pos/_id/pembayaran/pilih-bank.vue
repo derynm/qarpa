@@ -54,7 +54,6 @@ export default {
   mounted () {
     this.getOrder()
     this.getBank()
-    console.log(this.dataBank)
   },
   computed: {
     ...mapState('pos', ['dataBank'])
