@@ -7,7 +7,7 @@
       <inventory-shipping-card-riwayat-pengiriman
         v-for="(value, index) in shippingHistory"
         :key="index"
-        :destinasi="value.branch_name"
+        :destinasi="value.branch_name || value.supplier_name"
         :tipe="value.type"
         :date="value.date"
       />
