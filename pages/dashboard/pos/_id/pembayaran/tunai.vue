@@ -30,7 +30,7 @@
     <ModalValidate
       v-show="validate"
       :text="temp"
-      :total="order.totalStr"
+      :total="toRupiah"
       @decline="validate = false"
       @accept="handlePayment"
     />
@@ -55,6 +55,14 @@ export default {
       },
       order: {},
       uang: null
+    }
+  },
+  computed: {
+    toRupiah () {
+      const temp = new Intl.NumberFormat('id-ID', {
+        currency: 'IDR'
+      }).format(this.uang)
+      return `Rp.${temp}`
     }
   },
   created () {

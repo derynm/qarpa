@@ -92,7 +92,8 @@ export default {
         discount: null,
         payment: ''
       },
-      searchValue: ''
+      searchValue: '',
+      role: this.$auth.user.role
     }
   },
   async fetch ({ store, params }) {
@@ -160,12 +161,21 @@ export default {
       this.modalTambahPelanggan = true
     },
     getPosId () {
-      this.$axios.$get('owner/branches').then((response) => {
-        const temp = response.data
-        this.order.pos_id = temp.find(
-          e => e.id === this.cabangById.id
-        ).pos_id[0]
-      })
+      if (this.role === 'owner') {
+        this.$axios.$get('owner/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      } else {
+        this.$axios.$get('employee/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      }
     },
     setOrder () {
       if (this.pelanggan.id) {
