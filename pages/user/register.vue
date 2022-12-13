@@ -3,8 +3,8 @@
     <div class="mx-auto min-h-screen max-w-lg flex flex-col justify-center">
       <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 text-center">
-          <h1>Create Account</h1>
-          <p>Lengkapi form di bawah dengan menggunakan data Anda yang valid</p>
+          <h1>Email Telah Diverifikasi</h1>
+          <p>Silahkan lengkapi data untuk mendaftarkan akun anda</p>
         </div>
         <form @submit.prevent="handleSubmit">
           <div class="mb-8">
