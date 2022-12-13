@@ -83,7 +83,7 @@ export default {
           modal: this.modalKasir,
           id: this.id
         })
-        .then(this.$router.push(`pos/${this.id}`))
+        .then(this.$router.push(`${this.$route.path}/${this.id}`))
     },
     disableButton () {
       if (this.modalKasir.nominal >= 1000) {

@@ -8,7 +8,7 @@
           "
           :filtered-dropdown="role === 'owner' ? branch : categories"
           :is-loading="isLoading"
-          :branch-id="dropdownValue"
+          :branch-id="role === 'owner' ? dropdownValue : id"
           @filter="setValueDropdown"
         />
       </div>
@@ -24,7 +24,8 @@ export default {
   data () {
     return {
       dropdownValue: 0,
-      role: this.$auth.user.role
+      role: this.$auth.user.role,
+      id: this.$auth.user.branch_id
     }
   },
   async fetch ({ store }) {
@@ -35,9 +36,9 @@ export default {
     ...mapState('stok', ['stokBarang', 'stokByBranch', 'isLoading']),
     getFilteredStokByCategory () {
       if (this.dropdownValue !== 0) {
-        return this.stokBarang.filter(e => e.category === this.dropdownValue)
+        return this.stokByBranch.filter(e => e.category === this.dropdownValue)
       } else {
-        return this.stokBarang
+        return this.stokByBranch
       }
     }
   },
@@ -45,6 +46,9 @@ export default {
     this.setPageTitle('Total Stok')
   },
   mounted () {
+    if (this.role === 'employee') {
+      this.$store.dispatch('stok/getStokByBranch', this.id)
+    }
     this.$store.dispatch('dropdown/getBranchDropdown')
     this.$store.dispatch('dropdown/getCategoriesDropdown')
   },

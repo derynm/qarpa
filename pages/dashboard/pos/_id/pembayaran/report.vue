@@ -80,12 +80,7 @@ export default {
     },
     newTransaction () {
       this.$cookies.remove('order')
-      // this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
-      if (this.order.payment === 'cash') {
-        this.$router.go(-4)
-      } else {
-        this.$router.go(-5)
-      }
+      this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
     }
   }
 }

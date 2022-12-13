@@ -3,6 +3,7 @@
     <nuxt-link
       to="tambah-bank"
       class="header flex items-center p-2 my-4 justify-between"
+      replace
     >
       <div class="flex gap-2 items-center">
         <IconsBankIcon />
@@ -37,7 +38,7 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
-  layout: 'navigation',
+  layout: 'header',
   middleware: 'auth',
   data () {
     return {
@@ -52,6 +53,7 @@ export default {
   },
   mounted () {
     this.getOrder()
+    this.getBank()
   },
   computed: {
     ...mapState('pos', ['dataBank'])
@@ -64,7 +66,10 @@ export default {
     handlePayment (e) {
       this.order.bank = e
       this.$cookies.set('order', this.order)
-      this.$router.push('bank')
+      this.$router.replace('bank')
+    },
+    getBank () {
+      this.$store.dispatch('pos/getDataBank')
     }
   }
 }

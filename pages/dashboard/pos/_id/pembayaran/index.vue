@@ -54,7 +54,7 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
-  layout: 'navigation',
+  layout: 'header',
   middleware: 'auth',
   data () {
     return {
@@ -98,7 +98,7 @@ export default {
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.push('pembayaran/tunai'))
+        .then(this.$router.replace('pembayaran/tunai'))
     },
     handleBank() {
       this.getNewOrder.payment = 'transfer'
@@ -107,7 +107,7 @@ export default {
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.push('pembayaran/pilih-bank'))
+        .then(this.$router.replace('pembayaran/pilih-bank'))
     }
   }
 }

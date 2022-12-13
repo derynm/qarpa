@@ -63,11 +63,17 @@ export default {
   created () {
     this.setPageTitle('Karyawan')
   },
+  mounted () {
+    this.getKaryawan()
+  },
   methods: {
     ...mapMutations(['setPageTitle']),
     ...mapActions('karyawan', ['getDataEmployee']),
     deleteKaryawan (id) {
       this.$store.dispatch('karyawan/deleteEmployee', id)
+    },
+    getKaryawan () {
+      this.$store.dispatch('karyawan/getDataEmployee')
     }
   }
 }
