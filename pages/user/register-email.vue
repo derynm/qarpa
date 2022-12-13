@@ -9,7 +9,7 @@
           <div v-if="emailTaken" class="pl-3 flex">
             <IconsWarningIcon />
             <p class="ml-1 text-danger text-[10px] font-semibold">
-              Email tidak valid
+              Email sudah terdaftar
             </p>
           </div>
           <div class="mb-8">
