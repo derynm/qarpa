@@ -20,6 +20,12 @@ export const mutations = {
   }
 }
 
+export const getters = {
+  stokByBranchReady (state) {
+    return state.stokByBranch.filter(val => val.qty !== 0)
+  }
+}
+
 export const actions = {
   getStokBarang ({ commit }) {
     commit('setIsLoading', true)
