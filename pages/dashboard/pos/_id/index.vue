@@ -106,7 +106,7 @@ export default {
     ...mapGetters('pos', ['productReady']),
     getItems () {
       const temp = this.orderData.map(a => ({
-        product_shared_id: a.id,
+        product_branch_id: a.id,
         name: a.name,
         price: a.selling_price,
         qty_product: a.qty_product
