@@ -1,6 +1,6 @@
 <template>
   <div class="text-center min-h-screen my-10">
-    <div class="about flex flex-col gap-5 p-4 md:p-10">
+    <div class="about flex flex-col gap-5 px-4 pb-4 md:px-10">
       <h1 class="font-bold text-lg text-[#F5A623]">
         Tentang Qarpa
       </h1>
@@ -50,8 +50,16 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
-  layout: 'dashboard'
+  layout: 'navigation',
+  created () {
+    this.setPageTitle('Tentang Kami')
+  },
+  methods: {
+    ...mapMutations(['setPageTitle'])
+  }
 }
 </script>
 
