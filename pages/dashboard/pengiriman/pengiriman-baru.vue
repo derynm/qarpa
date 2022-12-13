@@ -23,7 +23,7 @@
           @decQty="decreaseItemShipping"
         />
       </div>
-      <div v-else>
+      <div v-else class="flex justify-center">
         <loading />
       </div>
       <div class="flex flex-col mb-3">
