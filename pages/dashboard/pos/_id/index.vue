@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
@@ -102,6 +102,7 @@ export default {
   computed: {
     ...mapState(['timestamp']),
     ...mapState('pos', ['cabangById', 'dataProduct']),
+    ...mapGetters('pos', ['productReady']),
     getItems () {
       const temp = this.orderData.map(a => ({
         product_shared_id: a.id,
@@ -112,7 +113,7 @@ export default {
       return temp
     },
     filteredList () {
-      return this.dataProduct.filter((post) => {
+      return this.productReady.filter((post) => {
         return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
       })
     }
