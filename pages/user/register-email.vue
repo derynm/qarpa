@@ -3,7 +3,10 @@
     <div class="mx-auto min-h-screen max-w-lg flex flex-col justify-center">
       <div class="mx-2 rounded-xl p-3 md:mx-0 lg:mx-0">
         <div class="mx-5 my-7 text-center">
-          <p>Halo Usahawan, ayo bergabung bersama Qarpa!</p>
+          <h1 class="text-2xl font-bold">
+            Bergabung bersama QARPA
+          </h1>
+          <p>Lengkapi form dibawah dengan menggunakan email  Anda untuk mendaftar.</p>
         </div>
         <form @submit.prevent="handleSubmit">
           <div v-if="emailTaken" class="pl-3 flex">
