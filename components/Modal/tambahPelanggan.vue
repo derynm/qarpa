@@ -21,24 +21,24 @@
           <InputFieldBasicInput
             v-model="dataCustomer.nama"
             label="Nama Pelanggan"
-            placeholder="..."
+            placeholder="Nama"
           />
           <InputFieldBasicInput
             v-model="dataCustomer.alamat"
             label="Alamat"
-            placeholder="..."
+            placeholder="Alamat"
           />
           <InputFieldBasicInput
             v-model="dataCustomer.noHp"
             type="number"
             label="Nomor Handphone"
-            placeholder="..."
+            placeholder="Nomor Handphone"
           />
           <InputFieldBasicInput
             v-model="dataCustomer.email"
             label="Email"
             type="email"
-            placeholder="..."
+            placeholder="Email Pelanggan"
           />
         </div>
         <div class="btn">
@@ -48,6 +48,7 @@
             class="w-full"
             type="submit"
             color="bg-primary"
+            :disabled="isDisable"
           />
         </div>
       </form>
@@ -66,7 +67,16 @@ export default {
         nama: '',
         alamat: '',
         email: '',
-        noHp: null
+        noHp: ''
+      },
+      isDisable: true
+    }
+  },
+  watch: {
+    dataCustomer: {
+      deep: true,
+      handler () {
+        this.checkInput()
       }
     }
   },
@@ -83,6 +93,11 @@ export default {
     },
     closeModal () {
       this.$emit('close')
+    },
+    checkInput () {
+      this.isDisable = !Object.keys(this.dataCustomer).every(
+        e => this.dataCustomer[e] !== ''
+      )
     }
   }
 }

@@ -29,6 +29,13 @@ export default {
       role: this.$auth.user.role
     }
   },
+  async fetch ({ store }) {
+    if (this.role === 'owner') {
+      await store.dispatch('pos/getDataCabang')
+    } else {
+      await store.dispatch('pos/getCabangEmployee')
+    }
+  },
   computed: {
     ...mapState('pos', ['isLoading', 'dataCabang', 'cabangEmployee']),
     cabangByRole () {
@@ -43,7 +50,9 @@ export default {
     this.setPageTitle('Point of Sale')
   },
   mounted () {
+    console.log(this.dataCabang)
     this.getCabang()
+    console.log(this.dataCabang)
   },
   methods: {
     ...mapMutations(['setPageTitle']),

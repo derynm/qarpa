@@ -5,10 +5,16 @@
         <InputFieldBasicInput
           v-model="dataKaryawan.nama"
           label="Nama Karyawan"
+          placeholder="Karyawan"
         />
-        <InputFieldEmailInput v-model="dataKaryawan.email" label="Email" />
+        <InputFieldEmailInput
+          v-model="dataKaryawan.email"
+          label="Email"
+          placeholder="Email"
+        />
         <InputFieldPasswordInput
           v-model="dataKaryawan.password"
+          placeholder="Password"
           label="Password"
         />
       </div>
