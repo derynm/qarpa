@@ -102,17 +102,21 @@ export default {
         this.$axios.$get('owner/branches').then((response) => {
           this.pos = response.data
           const posId = this.pos.find(e => e.id === this.item.id).pos_id
-          this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`).then(() => {
+            location.reload()
+          })
         })
       } else {
         this.$axios.$get('employee/branches').then((response) => {
           this.pos = response.data
           const posId = this.pos.find(e => e.id === this.item.id).pos_id
-          this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`).then(() => {
+            location.reload()
+          })
         })
       }
       this.validateModal = false
-      location.reload()
     },
     backToBranch () {
       if (this.item.status === true) {
