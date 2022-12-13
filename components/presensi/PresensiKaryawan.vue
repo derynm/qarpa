@@ -89,10 +89,6 @@ export default {
       )
       const d = moment.duration(ms)
       this.workTime = Math.floor(d.asHours()) + moment.utc(ms).format(':mm:ss')
-      console.log(
-        'sekarang :',
-        moment(new Date()).format('DD MM YYYY HH:mm:ss.SSSSSSSSS')
-      )
       console.log('cek in :', this.presensiStatus.data.checkin_at)
     }
   }
