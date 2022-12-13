@@ -15,12 +15,12 @@ export const mutations = {
 
 export const actions = {
   getShippingHistory (ctx) {
-    ctx.commit('setIsloading', true)
+    // ctx.commit('setIsloading', true)
     return this.$axios
       .$get('shipping/history')
       .then((response) => {
         ctx.commit('setShippingHistory', response.data)
-        ctx.commit('setIsloading', true)
+        // ctx.commit('setIsloading', true)
       })
       // .catch(() => alert('error'))
   },

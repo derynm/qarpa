@@ -15,7 +15,14 @@
     <div class="item-detail pl-3 flex justify-between w-full">
       <div class="item-text">
         <p>{{ item.name }}</p>
-        <p>Rp. {{ toRupiah }}</p>
+        <div>
+          <p v-if="currentQty">
+            Stok: {{ item.qty }}
+          </p>
+          <p v-else>
+            Rp. {{ toRupiah }}
+          </p>
+        </div>
       </div>
       <div class="detail" @click.stop="">
         <div v-if="showStok" class="stok">
@@ -58,6 +65,10 @@ export default {
     idCabang: {
       type: Number,
       default: null
+    },
+    currentQty: {
+      type: Boolean,
+      default: false
     }
   },
   emits: ['incQty', 'decQty'],
