@@ -98,7 +98,7 @@ export default {
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.replace('pembayaran/tunai'))
+        .then(() => this.$router.replace('pembayaran/tunai'))
     },
     handleBank() {
       this.getNewOrder.payment = 'transfer'
@@ -107,7 +107,7 @@ export default {
       console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.replace('pembayaran/pilih-bank'))
+        .then(() => this.$router.replace('pembayaran/pilih-bank'))
     }
   }
 }

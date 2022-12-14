@@ -112,7 +112,7 @@ export default {
     handleDelete (id) {
       this.$store
         .dispatch('stok/deleteStok', id)
-        .then(this.$router.replace('/dashboard/stok'))
+        .then(() => this.$router.replace('/dashboard/stok'))
     },
     handleUpdate () {
       this.$store
@@ -120,7 +120,7 @@ export default {
           product: this.stokBarang,
           params: this.params
         })
-        .then(this.$router.replace('/dashboard/stok'))
+        .then(() => this.$router.replace('/dashboard/stok'))
     }
   }
 }

@@ -85,7 +85,7 @@ export default {
           modal: this.modalKasir,
           id: this.id
         })
-        .then(this.$router.push(`${this.$route.path}/${this.id}`))
+        .then(() => this.$router.push(`${this.$route.path}/${this.id}`))
     },
     disableButton () {
       if (

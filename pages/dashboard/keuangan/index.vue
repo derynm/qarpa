@@ -118,7 +118,7 @@ export default {
       this.setIsLoading(true)
       this.$store
         .dispatch('keuangan/getDataKeuanganDefault', { date, id })
-        .then(this.setIsLoading(false))
+        .then(() => this.setIsLoading(false))
     }
   }
 }

@@ -72,7 +72,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewCabang', this.dataCabang)
-        .then(this.$router.replace('/dashboard/pos'))
+        .then(() => this.$router.replace('/dashboard/pos'))
     },
     checkInput () {
       this.isDisable = !Object.keys(this.dataCabang).every(

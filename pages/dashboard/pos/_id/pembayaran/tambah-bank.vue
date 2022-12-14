@@ -96,7 +96,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewBank', this.dataBank)
-        .then(
+        .then(() =>
           this.$router.replace(
             `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
           )

@@ -89,7 +89,7 @@ export default {
       console.log(this.dataCuti)
       this.$store
         .dispatch('cuti/postNewCuti', this.dataCuti)
-        .then(this.$router.replace('/dashboard/cuti'))
+        .then(() => this.$router.replace('/dashboard/cuti'))
     },
     disabledButton () {
       if (
