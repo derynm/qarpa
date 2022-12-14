@@ -10,7 +10,7 @@
         <nuxt-link to="/user/login">
           <ButtonGlobal text="Masuk" padding="p-2" :outlined="true" />
         </nuxt-link>
-        <nuxt-link to="/user/register">
+        <nuxt-link to="/user/register-email">
           <ButtonGlobal
             text="Daftar"
             padding="p-2"
