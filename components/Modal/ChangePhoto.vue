@@ -2,27 +2,31 @@
   <div class="modal-overlay" @click="$emit('closeModal')">
     <div class="modal-body" @click.stop="">
       <div class="flex flex-col items-center">
-        <input type="file" accept="image/*" @change="handleInput($event)">
-        <div class="flex mt-5">
-          <button-global
-            text="Batal"
-            :outlined="true"
-            padding="py-2 px-2 min-w-[90px] mx-3"
-            @click="$emit('closeModal')"
-          />
-          <button-global
-            text="Update"
-            color="bg-primary"
-            padding="py-2 px-2 min-w-[90px] mx-3"
-            @click="handleUpdate"
-          />
+        <div v-if="!isLoading" class="flex flex-col items-center">
+          <input type="file" accept="image/*" @change="handleInput($event)">
+          <div class="flex mt-5">
+            <button-global
+              text="Batal"
+              :outlined="true"
+              padding="py-2 px-2 min-w-[90px] mx-3"
+              @click="$emit('closeModal')"
+            />
+            <button-global
+              text="Update"
+              color="bg-primary"
+              padding="py-2 px-2 min-w-[90px] mx-3"
+              @click="handleUpdate"
+            />
+          </div>
         </div>
+        <loading v-else />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   emits: ['closeModal'],
   data () {
@@ -43,6 +47,9 @@ export default {
         })
         .catch(() => alert('Gagal merubah avatar'))
     }
+  },
+  computed: {
+    ...mapState('isLoading')
   }
 }
 </script>
