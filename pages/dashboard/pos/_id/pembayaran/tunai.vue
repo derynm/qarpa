@@ -83,7 +83,6 @@ export default {
   },
   mounted () {
     this.getOrder()
-    console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),

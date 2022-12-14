@@ -126,7 +126,6 @@ export default {
   watch: {
     orderData: {
       handler () {
-        console.log(this.orderData.length)
         if (this.orderData?.length > 0) {
           this.isDisabled = false
         } else {
@@ -142,7 +141,6 @@ export default {
   },
   mounted () {
     this.getPosId()
-    // console.log(this.getItems)
   },
   methods: {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
@@ -166,7 +164,6 @@ export default {
       this.pelanggan.id = id
       this.pelanggan.nama = nama
       this.modalPilihPelanggan = false
-      console.log(this.pelanggan)
     },
     closeModal () {
       this.modalTambahPelanggan = false
@@ -200,10 +197,8 @@ export default {
       } else {
         this.order.customer_id = 0
       }
-      console.log(this.order.customer_id)
       this.order.items = this.getItems
       this.$cookies.set('order', this.order)
-      console.log(this.$cookies.get('order'))
       this.$router.push(`${this.$route.path}/detail`)
     }
   }

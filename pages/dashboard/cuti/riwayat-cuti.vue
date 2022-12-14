@@ -60,7 +60,6 @@ export default {
   },
 
   mounted () {
-    // console.log(this.listCuti)
     this.filteredList = this.listCuti
   },
   methods: {

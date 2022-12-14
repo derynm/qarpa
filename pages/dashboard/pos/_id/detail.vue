@@ -130,7 +130,6 @@ export default {
       this.order.totalStr = this.getTotal
       this.order.discount = parseInt(this.diskon)
       this.$cookies.set('order', this.order)
-      console.log(this.$cookies.get('order'))
       this.$router.replace('pembayaran')
     },
     disableButton () {

@@ -86,7 +86,6 @@ export default {
     ...mapMutations(['setPageTitle']),
     ...mapActions('cuti', ['postNewCuti']),
     handleSubmit () {
-      console.log(this.dataCuti)
       this.$store
         .dispatch('cuti/postNewCuti', this.dataCuti)
         .then(() => this.$router.replace('/dashboard/cuti'))

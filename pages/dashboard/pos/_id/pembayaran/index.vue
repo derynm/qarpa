@@ -84,7 +84,6 @@ export default {
   },
   mounted() {
     this.getOrder()
-    console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
@@ -95,7 +94,6 @@ export default {
       this.getNewOrder.payment = 'cash'
       this.order.payment = 'cash'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
         .then(() => this.$router.replace('pembayaran/tunai'))
@@ -104,7 +102,6 @@ export default {
       this.getNewOrder.payment = 'transfer'
       this.order.payment = 'transfer'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
         .then(() => this.$router.replace('pembayaran/pilih-bank'))
