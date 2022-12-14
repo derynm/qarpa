@@ -73,6 +73,9 @@ export default {
   watch: {
     'modalKasir.nominal' () {
       this.disableButton()
+    },
+    'modalKasir.catatan' () {
+      this.disableButton()
     }
   },
   methods: {
@@ -85,7 +88,10 @@ export default {
         .then(this.$router.push(`${this.$route.path}/${this.id}`))
     },
     disableButton () {
-      if (this.modalKasir.nominal >= 1000) {
+      if (
+        this.modalKasir.nominal >= 1000 &&
+        this.modalKasir.catatan.length > 0
+      ) {
         this.isDisabled = false
       } else {
         this.isDisabled = true
