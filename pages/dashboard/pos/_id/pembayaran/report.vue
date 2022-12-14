@@ -36,12 +36,6 @@
         color="bg-primary"
         @click="newTransaction"
       />
-      <ButtonGlobal
-        text="Kirim Receipt"
-        class="w-full"
-        padding="p-2"
-        color="bg-primary"
-      />
     </div>
   </div>
 </template>
