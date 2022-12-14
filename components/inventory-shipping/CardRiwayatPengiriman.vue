@@ -9,7 +9,7 @@
     </div>
     <div class="mb-2">
       <p>
-        Dikirim : <span class="font-semibold text-warm">{{ date }}</span>
+        Dikirim : <span class="font-semibold">{{ date }}</span>
       </p>
     </div>
   </div>

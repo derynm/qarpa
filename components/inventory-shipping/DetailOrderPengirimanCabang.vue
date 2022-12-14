@@ -131,7 +131,7 @@ export default {
     postPengiriman () {
       /* eslint-disable */
       const dataBarang = this.dataOrder.produk.map(({ id, qty_product }) => ({
-        product_shared_id: id,
+        product_branch_id: id,
         qty: qty_product
       }))
       this.$store

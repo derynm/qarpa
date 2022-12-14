@@ -66,8 +66,8 @@ export default {
     /* eslint-disable */
     getItemsOrder() {
       const temp = this.order.items.map(
-        ({ product_shared_id, qty_product }) => ({
-          product_shared_id,
+        ({ product_branch_id, qty_product }) => ({
+          product_branch_id,
           qty: qty_product
         })
       )

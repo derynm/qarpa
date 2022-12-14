@@ -9,7 +9,7 @@
       >
         <div class="title-dashboard text-white">
           <p class="text-2xl font-bold">
-            Toko Qarpa
+            {{ user.company_name }}
           </p>
           <p class="date">
             {{ timestamp }}
