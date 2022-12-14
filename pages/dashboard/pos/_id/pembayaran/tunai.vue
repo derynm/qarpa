@@ -26,8 +26,8 @@
         text="Buat Pembayaran"
         color="bg-primary"
         padding="py-2"
-        @click="validate = true"
         :disabled="isDisable"
+        @click="validate = true"
       />
     </div>
     <ModalValidate
@@ -71,7 +71,7 @@ export default {
   },
   watch: {
     uang () {
-      if (this.uang > this.order.totalInt) {
+      if (this.uang >= this.order.totalInt) {
         this.isDisable = false
       } else {
         this.isDisable = true
