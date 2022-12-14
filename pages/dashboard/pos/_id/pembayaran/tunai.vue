@@ -27,6 +27,7 @@
         color="bg-primary"
         padding="py-2"
         @click="validate = true"
+        :disabled="isDisable"
       />
     </div>
     <ModalValidate
@@ -56,7 +57,8 @@ export default {
         btn2: 'Sesuai'
       },
       order: {},
-      uang: null
+      uang: null,
+      isDisable: true
     }
   },
   computed: {
@@ -65,6 +67,15 @@ export default {
         currency: 'IDR'
       }).format(this.uang)
       return `Rp.${temp}`
+    }
+  },
+  watch: {
+    uang () {
+      if (this.uang > this.order.totalInt) {
+        this.isDisable = false
+      } else {
+        this.isDisable = true
+      }
     }
   },
   created () {
