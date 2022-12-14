@@ -1,8 +1,26 @@
 <template>
   <div class="container px-4">
     <div class="header-text px-6 my-4 flex flex-col items-center gap-2">
-      <IconsPosIcon />
-      <!-- <ButtonGlobal padding="p-2" text="upload gambar" color="bg-primary" /> -->
+      <div class="relative">
+        <IconsPosIcon v-if="!stokBarang.photo" class="rounded-full" />
+        <div
+          v-else
+          class="rounded-full h-[72px] w-[72px] bg-slate-400 border border-red overflow-hidden flex justify-center"
+        >
+          <img :src="previewImg" alt="product">
+        </div>
+        <div
+          class="absolute rounded-full top-12 -right-1 cursor-pointer w-[27] h-[27]"
+        >
+          <input
+            id="file_upload"
+            type="file"
+            name="file"
+            @change="handleUploadPhoto($event)"
+          >
+          <icons-camera />
+        </div>
+      </div>
     </div>
     <form
       class="flex flex-col justify-between min-h-[60vh]"
@@ -69,8 +87,10 @@ export default {
         harga: null,
         stok: null,
         tipe: null,
-        cabangId: parseInt(this.$route.query.cabang)
-      }
+        cabangId: parseInt(this.$route.query.cabang),
+        photo: null
+      },
+      previewImg: null
     }
   },
   async fetch ({ store }) {
@@ -89,13 +109,31 @@ export default {
       this.$store
         .dispatch('stok/postNewStok', this.stokBarang)
         .then(() => this.$router.replace('/dashboard/stok'))
+    },
+    handleUploadPhoto (e) {
+      this.stokBarang.photo = e.target.files[0]
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        this.previewImg = e.target.result
+      }
+      reader.readAsDataURL(this.stokBarang.photo)
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 select {
   outline: none;
+}
+input[type='file'] {
+  position: absolute;
+  width: 100%;
+  height: 27px;
+  opacity: 0;
+  cursor: pointer;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
 }
 </style>
