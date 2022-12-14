@@ -30,12 +30,6 @@
         </div>
       </div>
       <div class="info flex flex-col gap-3">
-        <div class="information p-2">
-          <p class="font-semibold">
-            Informasi Usaha
-          </p>
-          <p>{{ user.company_name }}</p>
-        </div>
         <div
           v-if="user.role === 'owner'"
           class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-2 flex flex-col gap-3"
@@ -44,7 +38,10 @@
             <p class="font-semibold">
               Qarpa Pro
             </p>
-            <button class="bg-[#344397] text-white rounded-md px-2 py-1">
+            <button
+              class="bg-[#344397] text-white rounded-md px-2 py-1"
+              @click="modalUpgrade = true"
+            >
               Upgrade Pro
             </button>
           </div>
@@ -73,6 +70,12 @@
       </div>
     </div>
     <modal-change-photo v-if="showModalChangePhoto" @closeModal="handleModal" />
+    <ModalConfirmModal
+      v-if="modalUpgrade"
+      title="Upgrade Qarpa Pro"
+      text="Maaf fitur ini belum tersedia"
+      @closeModal="modalUpgrade = false"
+    />
   </div>
 </template>
 
@@ -84,7 +87,8 @@ export default {
     return {
       role: true,
       user: this.$auth.user,
-      showModalChangePhoto: false
+      showModalChangePhoto: false,
+      modalUpgrade: false
     }
   },
   created () {

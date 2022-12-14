@@ -4,9 +4,7 @@
       <Loading class="m-auto" />
     </div>
     <div v-if="!isLoading" class="min-h-screen">
-      <div
-        class="nav flex justify-between py-10 items-center px-2 bg-[#f8c46c] rounded-b-xl"
-      >
+      <div class="nav py-10 items-center px-2 bg-[#f8c46c] rounded-b-xl">
         <div class="title-dashboard text-white">
           <p class="text-2xl font-bold">
             {{ user.company_name }}
@@ -14,9 +12,6 @@
           <p class="date">
             {{ timestamp }}
           </p>
-        </div>
-        <div class="notif">
-          <IconsNotif class="icon-notif" />
         </div>
       </div>
       <div class="content px-3">
