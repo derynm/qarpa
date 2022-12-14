@@ -22,7 +22,7 @@
         </button>
       </div>
     </div>
-    <div class="container px-2 md:px-8 flex flex-col justify-between h-[75vh]">
+    <div class="container px-2 md:px-8 flex flex-col justify-between">
       <div class="content mb-3">
         <SearchBar
           v-model="searchValue"
