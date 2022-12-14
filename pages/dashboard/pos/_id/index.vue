@@ -22,7 +22,9 @@
         </button>
       </div>
     </div>
-    <div class="container px-2 md:px-8 flex flex-col justify-between">
+    <div
+      class="container px-2 md:px-8 flex flex-col justify-between min-h-[75vh]"
+    >
       <div class="content mb-3">
         <SearchBar
           v-model="searchValue"
@@ -50,6 +52,7 @@
           color="bg-primary"
           padding="p-3"
           class="w-full mb-4"
+          :disabled="isDisabled"
           @click="setOrder"
         />
       </div>
@@ -93,7 +96,8 @@ export default {
         payment: ''
       },
       searchValue: '',
-      role: this.$auth.user.role
+      role: this.$auth.user.role,
+      isDisabled: true
     }
   },
   async fetch ({ store, params }) {
@@ -106,7 +110,7 @@ export default {
     ...mapGetters('pos', ['productReady']),
     getItems () {
       const temp = this.orderData.map(a => ({
-        product_branch_id: a.id,
+        products_branch_id: a.id,
         name: a.name,
         price: a.selling_price,
         qty_product: a.qty_product
@@ -119,13 +123,26 @@ export default {
       })
     }
   },
+  watch: {
+    orderData: {
+      handler () {
+        console.log(this.orderData.length)
+        if (this.orderData?.length > 0) {
+          this.isDisabled = false
+        } else {
+          this.isDisabled = true
+        }
+      },
+      deep: true
+    }
+  },
   created () {
     this.setPageTitle('Penjualan')
     this.setTimestamp()
   },
   mounted () {
     this.getPosId()
-    console.log(this.getItems)
+    // console.log(this.getItems)
   },
   methods: {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
