@@ -73,7 +73,7 @@ export default {
       order: {},
       customer: {},
       stokPrice: [],
-      diskon: '',
+      diskon: 0,
       isDisabled: true
     }
   },
@@ -83,6 +83,7 @@ export default {
   },
   mounted () {
     this.getOrder()
+    this.disableButton()
   },
   computed: {
     ...mapState(['timestamp']),
@@ -115,6 +116,7 @@ export default {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
     getOrder () {
       this.order = this.$cookies.get('order')
+      this.order.discount = parseInt(this.diskon)
       console.log(this.order)
       if (this.order.customer_id > 0) {
         this.$axios
