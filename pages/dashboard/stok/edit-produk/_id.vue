@@ -12,17 +12,19 @@
         <InputFieldBasicInput
           v-model="stokBarang.nama"
           label="Nama Produk"
-          placeholder="..."
+          placeholder="Nama"
         />
         <InputFieldBasicInput
           v-model="stokBarang.harga"
+          type="number"
           label="Harga"
-          placeholder="..."
+          placeholder="Harga"
         />
         <InputFieldBasicInput
           v-model="stokBarang.stok"
+          type="number"
           label="Stok"
-          placeholder="..."
+          placeholder="Stok"
         />
         <div class="dropdown">
           <select
@@ -55,11 +57,12 @@
       padding="py-2"
       text="Hapus Produk"
       :outlined="true"
-      @click="handleDelete(params)"
+      @click="deleteModal = true"
     />
     <ModalValidate
-      v-show="deleteModal"
+      v-if="deleteModal"
       :text="modalText"
+      @accept="handleDelete(params)"
       @decline="deleteModal = false"
     />
   </div>
@@ -110,9 +113,10 @@ export default {
   methods: {
     ...mapMutations(['setPageTitle']),
     handleDelete (id) {
-      this.$store
-        .dispatch('stok/deleteStok', id)
-        .then(() => this.$router.replace('/dashboard/stok'))
+      this.$store.dispatch('stok/deleteStok', id).then(() => {
+        this.deleteModal = false
+        this.$router.replace('/dashboard/stok')
+      })
     },
     handleUpdate () {
       this.$store
