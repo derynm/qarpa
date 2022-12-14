@@ -9,7 +9,7 @@
         <p>{{ order.customer_id === 0 ? 'Guest' : customer.name }}</p>
       </button>
     </div>
-    <div class="content-input my-4 flex flex-col justify-between min-h-[50vh]">
+    <div class="content-input my-4 flex flex-col justify-between min-h-[75vh]">
       <div class="card-produk-detail flex flex-col gap-3 mt-5">
         <PosCardProductDetail
           v-for="(item, index) in order.items"
@@ -18,42 +18,45 @@
           @getSubTotal="subTotal"
         />
       </div>
-      <div class="discount">
-        <InputFieldDiscountInput
-          v-model="diskon"
-          label="Diskon"
-          placeholder="0"
-        />
-      </div>
-    </div>
-    <div class="ket border-y">
-      <div class="subtotal flex justify-between">
-        <p>Subtotal</p>
-        <p>Rp. {{ getSubtotal }}</p>
-      </div>
-      <div class="diskon flex justify-between">
-        <p>Diskon</p>
-        <p>{{ diskon }}</p>
-      </div>
-    </div>
-    <div class="total flex justify-between py-2">
-      <div class="left">
-        <p class="font-semibold">
-          Total Pembayaran :
-        </p>
-      </div>
-      <div class="right">
-        <p>Rp {{ getTotal }}</p>
-      </div>
-    </div>
-    <div class="btn my-4">
-      <ButtonGlobal
-        text="Tagih Pembayaran"
-        class="w-full"
-        padding="p-2"
-        color="bg-primary"
-        @click="setPayment"
-      />
+      <form @submit.prevent="setPayment">
+        <div class="discount">
+          <InputFieldDiscountInput
+            v-model="diskon"
+            label="Diskon"
+            placeholder="0"
+          />
+        </div>
+        <div class="ket border-y">
+          <div class="subtotal flex justify-between">
+            <p>Subtotal</p>
+            <p>Rp. {{ getSubtotal }}</p>
+          </div>
+          <div class="diskon flex justify-between">
+            <p>Diskon</p>
+            <p>Rp. {{ getDiskon }}</p>
+          </div>
+        </div>
+        <div class="total flex justify-between py-2">
+          <div class="left">
+            <p class="font-semibold">
+              Total Pembayaran :
+            </p>
+          </div>
+          <div class="right">
+            <p>Rp {{ getTotal }}</p>
+          </div>
+        </div>
+        <div class="btn my-4">
+          <ButtonGlobal
+            type="submit"
+            text="Tagih Pembayaran"
+            class="w-full"
+            padding="p-2"
+            color="bg-primary"
+            :disabled="isDisabled"
+          />
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -70,7 +73,8 @@ export default {
       order: {},
       customer: {},
       stokPrice: [],
-      diskon: null
+      diskon: '',
+      isDisabled: true
     }
   },
   created () {
@@ -94,6 +98,17 @@ export default {
     getTotalInt () {
       const temp = this.stokPrice.reduce((a, b) => a + b, 0)
       return temp - (temp * this.diskon) / 100
+    },
+    getDiskon () {
+      const temp = this.stokPrice.reduce((a, b) => a + b, 0)
+      return new Intl.NumberFormat(['ban', 'id']).format(
+        (temp * this.diskon) / 100
+      )
+    }
+  },
+  watch: {
+    diskon () {
+      this.disableButton()
     }
   },
   methods: {
@@ -117,6 +132,13 @@ export default {
       this.$cookies.set('order', this.order)
       console.log(this.$cookies.get('order'))
       this.$router.replace('pembayaran')
+    },
+    disableButton () {
+      if (this.diskon >= 0 && this.diskon <= 100) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
     }
   }
 }

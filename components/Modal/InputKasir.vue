@@ -77,7 +77,6 @@ export default {
   },
   methods: {
     handleSubmit () {
-      console.log(this.modalKasir)
       this.$store
         .dispatch('pos/openBranch', {
           modal: this.modalKasir,
