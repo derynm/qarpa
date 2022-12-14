@@ -10,6 +10,7 @@
       :placeholder="placeholder"
       :value="value"
       class="w-full rounded-xl px-3 pb-2"
+      :min="min !== null ? min : ''"
       @input="updateValue($event.target.value)"
     >
   </fieldset>
@@ -21,7 +22,8 @@ export default {
     label: { type: String, default: null },
     type: { type: String, default: 'text' },
     placeholder: { type: String, default: null },
-    value: null
+    value: null,
+    min: { type: Number, default: null }
   },
   methods: {
     updateValue (value) {

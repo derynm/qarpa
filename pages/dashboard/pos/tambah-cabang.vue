@@ -23,6 +23,7 @@
         <InputFieldBasicInput
           v-model="dataCabang.noHp"
           type="number"
+          :min="0"
           label="Nomor Handphone"
           placeholder="Handphne"
         />
