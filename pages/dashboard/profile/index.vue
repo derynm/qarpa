@@ -6,12 +6,12 @@
       >
         <div class="relative">
           <IconsPosIcon class="rounded-full" />
-          <!-- <div
+          <div
             class="absolute w-fit rounded-full top-12 -right-1 cursor-pointer"
             @click="handleModal"
           >
             <icons-camera />
-          </div> -->
+          </div>
         </div>
         <p class="name">
           {{ user.name }}

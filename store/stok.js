@@ -17,6 +17,9 @@ export const mutations = {
   },
   setProductById (state, value) {
     state.productById = value
+  },
+  resetStokByBranch (state) {
+    state.stokByBranch = []
   }
 }
 

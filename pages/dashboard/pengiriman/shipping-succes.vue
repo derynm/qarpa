@@ -94,6 +94,11 @@ export default {
     toIndex () {
       this.$router.replace('/dashboard/pengiriman')
     }
+  },
+  beforeRouteLeave (to, form, next) {
+    this.$cookies.remove('order_done')
+    this.$store.commit('stok/resetStokByBranch')
+    next()
   }
 }
 </script>

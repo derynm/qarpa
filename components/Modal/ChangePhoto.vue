@@ -2,18 +2,19 @@
   <div class="modal-overlay" @click="$emit('closeModal')">
     <div class="modal-body" @click.stop="">
       <div class="flex flex-col items-center">
-        <input type="file" accept="image/*" @change="hendleInput($event)">
+        <input type="file" accept="image/*" @change="handleInput($event)">
         <div class="flex mt-5">
           <button-global
             text="Batal"
             :outlined="true"
-            padding="py-3 px-2 min-w-[90px] mx-3"
+            padding="py-2 px-2 min-w-[90px] mx-3"
             @click="$emit('closeModal')"
           />
           <button-global
             text="Update"
             color="bg-primary"
-            padding="py-3 px-2 min-w-[90px] mx-3"
+            padding="py-2 px-2 min-w-[90px] mx-3"
+            @click="handleUpdate"
           />
         </div>
       </div>
@@ -30,8 +31,17 @@ export default {
     }
   },
   methods: {
-    hendleInput (e) {
+    handleInput (e) {
       this.dataPhoto = e.target.files[0]
+    },
+    handleUpdate () {
+      this.$store
+        .dispatch('updateNewProfile', this.dataPhoto)
+        .then(() => {
+          this.$emit('closeModal')
+          this.$router.go()
+        })
+        .catch(() => alert('Gagal merubah avatar'))
     }
   }
 }
