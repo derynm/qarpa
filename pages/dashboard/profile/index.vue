@@ -34,7 +34,7 @@
           <p class="font-semibold">
             Informasi Usaha
           </p>
-          <p>Toko Qarpa</p>
+          <p>{{ user.company_name }}</p>
         </div>
         <div
           v-if="user.role === 'owner'"
