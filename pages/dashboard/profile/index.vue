@@ -5,13 +5,19 @@
         class="profile-top bg-gradient-to-b from-[#3f51b5] to-[#afb7e0] text-white flex flex-col items-center p-8 rounded-md mb-8 gap-2"
       >
         <div class="relative">
-          <IconsPosIcon class="rounded-full" />
-          <!-- <div
+          <IconsPosIcon v-if="!$auth.user.avatar" class="rounded-full" />
+          <div
+            v-else
+            class="rounded-full h-[72px] w-[72px] bg-white border border-red overflow-hidden flex justify-center"
+          >
+            <img :src="$auth.user.avatar" alt="avatar">
+          </div>
+          <div
             class="absolute w-fit rounded-full top-12 -right-1 cursor-pointer"
             @click="handleModal"
           >
             <icons-camera />
-          </div> -->
+          </div>
         </div>
         <p class="name">
           {{ user.name }}
