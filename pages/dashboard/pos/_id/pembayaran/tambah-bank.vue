@@ -47,6 +47,7 @@
         <InputFieldBasicInput
           v-model="dataBank.noRekening"
           type="number"
+          :min="0"
           label="Nomor Rekening"
           placeholder="Rekekning"
         />

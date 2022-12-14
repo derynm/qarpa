@@ -1,6 +1,6 @@
 <template>
   <div class="container px-4">
-    <div class="card-total border p-2 rounded-lg text-center shadow-md">
+    <div class="card-total border py-8 rounded-lg text-center shadow-md">
       <p class="text-xl">
         Total Pembayaran
       </p>
@@ -18,7 +18,7 @@
       <div class="option flex flex-col gap-4">
         <div class="cursor-pointer" @click="handleTunai">
           <div
-            class="tunai rounded-lg shadow-md flex justify-between border px-2 py-4 font-semibold"
+            class="tunai rounded-lg shadow-md flex justify-between border px-6 py-4 font-semibold"
           >
             <div class="left">
               <p>Tunai</p>
@@ -30,7 +30,7 @@
         </div>
         <div class="cursor-pointer" @click="handleBank">
           <div
-            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-2 py-4"
+            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-6 py-4"
           >
             <div class="left">
               <p>Transfer Bank</p>
