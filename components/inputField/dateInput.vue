@@ -12,6 +12,7 @@
       :value="value"
       class="w-full px-3 pb-2"
       required
+      :min="minDate"
       @input="updateValue($event.target.value)"
     >
   </fieldset>
@@ -22,7 +23,8 @@ export default {
   props: {
     label: { type: String, default: null },
     placeholder: { type: String, default: null },
-    value: { type: String, default: '' }
+    value: { type: String, default: '' },
+    minDate: { type: String, default: '' }
   },
   methods: {
     updateValue (value) {
