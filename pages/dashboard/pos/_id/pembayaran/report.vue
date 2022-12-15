@@ -46,6 +46,10 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
+  beforeRouteLeave (to, form, next) {
+    this.$cookies.remove('order')
+    next()
+  },
   layout: 'dashboard',
   middleware: 'auth',
   data () {
@@ -75,10 +79,6 @@ export default {
     newTransaction () {
       // this.$cookies.remove('order')
       this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
-    },
-    beforeRouteLeave (to, form, next) {
-      this.$cookies.remove('order')
-      next()
     }
   }
 }

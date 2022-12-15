@@ -42,7 +42,7 @@
             :convert="true"
           />
           <KeuanganCardLaporan
-            text="Total Transaksi Produk"
+            text="Total Transaksi Customer"
             :money="dataKeuangan.total_transactions"
           />
           <KeuanganCardLaporan

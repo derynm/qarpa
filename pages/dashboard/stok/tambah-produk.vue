@@ -49,6 +49,7 @@
           v-model="stokBarang.stok"
           type="number"
           label="Stok"
+          :min="0"
           placeholder="Stok"
         />
         <div class="dropdown">
