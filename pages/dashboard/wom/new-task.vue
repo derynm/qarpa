@@ -20,7 +20,7 @@
       <input-field-date-input
         v-model="form.durasi_akhir"
         label="Durasi Berakhir"
-        :minDate="DateNow"
+        :minDate="form.durasi_mulai"
       />
       <input-field-drop-down-input
         v-model="form.karyawan"
