@@ -46,7 +46,6 @@ export const actions = {
     // .then(() => ctx.commit('showModal', false))
   },
   newTask (ctx, item) {
-    ctx.commit('showModal', true)
     return this.$axios
       .$post('management_works', {
         management_work: {
@@ -57,5 +56,6 @@ export const actions = {
           user_id: item.karyawan
         }
       })
+      .then(() => ctx.commit('showModal', true))
   }
 }
