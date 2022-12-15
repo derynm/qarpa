@@ -214,7 +214,7 @@ export default {
           console.log(response)
           this.$router.push({ path: 'register', query: { code } })
         })
-        .catch(error => (this.codeValid = true))
+        .catch(() => (this.codeValid = true))
     }
   }
 }
