@@ -69,12 +69,9 @@ export const actions = {
     })
   },
   updateNewProfile ({ commit }, data) {
-    commit('setIsloading', true)
     const headers = { 'Content-Type': 'multipart/form-data' }
     const dataPut = new FormData()
     dataPut.append('avatar', data)
-    return this.$axios
-      .$put('users/update', dataPut, { headers })
-      .then(() => commit('setIsloading', true))
+    return this.$axios.$put('users/update', dataPut, { headers })
   }
 }
