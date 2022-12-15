@@ -12,7 +12,7 @@
           <div v-if="imageValid" class="pl-3 my-1 flex">
             <IconsWarningIcon />
             <p class="ml-1 text-danger text-[10px] font-semibold">
-              Ukuran gambar maksimmum 1 MB
+              Ukuran gambar maksimum 1MB
             </p>
           </div>
           <p class="ml-1 my-1 text-slate-400 text-[10px] font-semibold">
