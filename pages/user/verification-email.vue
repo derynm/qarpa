@@ -148,7 +148,7 @@ export default {
       },
       email: this.$route.query.email,
       isDisabled: true,
-      codeValid: true
+      codeValid: false
     }
   },
   watch: {
