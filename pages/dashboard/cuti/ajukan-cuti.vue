@@ -50,7 +50,7 @@
           v-model="dataCuti.tglBerakhir"
           label="Tanggal Berakhir"
           placeholder="..."
-          :min-date="DateNow"
+          :min-date="dataCuti.tglMulai"
         />
       </div>
       <div class="btn">

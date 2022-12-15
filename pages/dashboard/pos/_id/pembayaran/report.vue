@@ -73,8 +73,12 @@ export default {
       this.order = this.$cookies.get('order')
     },
     newTransaction () {
-      this.$cookies.remove('order')
+      // this.$cookies.remove('order')
       this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
+    },
+    beforeRouteLeave (to, form, next) {
+      this.$cookies.remove('order')
+      next()
     }
   }
 }
