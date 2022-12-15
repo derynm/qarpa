@@ -88,7 +88,11 @@ export default {
     ...mapState('dropdown', ['branch']),
     ...mapState('karyawan', ['errorMsg', 'errorStatus']),
     modalText () {
-      return `Email ${this.errorMsg.email}`
+      const text = []
+      Object.keys(this.errorMsg).forEach(e =>
+        text.push(`${e} ${this.errorMsg[e].toString()}`)
+      )
+      return text.toString().replace(/,/g, ' and ')
     }
   },
   watch: {

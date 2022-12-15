@@ -40,7 +40,6 @@ export const actions = {
       })
       .then(() => this.$router.replace('/dashboard/karyawan'))
       .catch((error) => {
-        console.log(error.response.data.message)
         ctx.commit('setErrorStatus', true)
         ctx.commit('setErrorMsg', error.response.data.message)
       })
