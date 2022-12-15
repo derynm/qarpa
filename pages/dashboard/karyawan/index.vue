@@ -30,7 +30,7 @@
               v-for="item in dataEmployee"
               :key="item.id"
               :item="item"
-              @delete="deleteKaryawan"
+              @delete="getIdDelete"
             />
           </div>
         </div>
@@ -41,6 +41,12 @@
         </nuxt-link>
       </div>
     </div>
+    <ModalValidate
+      v-if="showModalValidateDelete"
+      :text="modalDelete"
+      @accept="deleteKaryawan"
+      @decline="showModalValidateDelete = false"
+    />
   </div>
 </template>
 
@@ -51,7 +57,13 @@ export default {
   middleware: 'auth',
   data () {
     return {
-      // dataEmployee: []
+      showModalValidateDelete: false,
+      modalDelete: {
+        content: 'Yakin ingin Menghapus Karyawan?',
+        btn1: 'Tidak',
+        btn2: 'Yakin'
+      },
+      idEmployee: null
     }
   },
   async fetch ({ store }) {
@@ -63,11 +75,22 @@ export default {
   created () {
     this.setPageTitle('Karyawan')
   },
+  mounted () {
+    this.getKaryawan()
+  },
   methods: {
     ...mapMutations(['setPageTitle']),
     ...mapActions('karyawan', ['getDataEmployee']),
-    deleteKaryawan (id) {
-      this.$store.dispatch('karyawan/deleteEmployee', id)
+    deleteKaryawan () {
+      this.$store.dispatch('karyawan/deleteEmployee', this.idEmployee)
+      this.showModalValidateDelete = false
+    },
+    getKaryawan () {
+      this.$store.dispatch('karyawan/getDataEmployee')
+    },
+    getIdDelete (id) {
+      this.showModalValidateDelete = true
+      this.idEmployee = id
     }
   }
 }

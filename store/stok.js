@@ -17,6 +17,15 @@ export const mutations = {
   },
   setProductById (state, value) {
     state.productById = value
+  },
+  resetStokByBranch (state) {
+    state.stokByBranch = []
+  }
+}
+
+export const getters = {
+  stokByBranchReady (state) {
+    return state.stokByBranch.filter(val => val.qty !== 0)
   }
 }
 

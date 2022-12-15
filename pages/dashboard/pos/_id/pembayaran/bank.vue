@@ -33,7 +33,7 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
-  layout: 'navigation',
+  layout: 'header',
   middleware: 'auth',
   data () {
     return {
@@ -54,7 +54,7 @@ export default {
     handlePayment () {
       this.order.pay = this.order.totalInt
       this.$cookies.set('order', this.order)
-      this.$router.push('report')
+      this.$router.replace('report')
     }
   }
 }

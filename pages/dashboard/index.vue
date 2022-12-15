@@ -4,24 +4,23 @@
       <Loading class="m-auto" />
     </div>
     <div v-if="!isLoading" class="min-h-screen">
-      <div
-        class="nav flex justify-between py-10 items-center px-2 bg-[#f8c46c] rounded-b-xl"
-      >
+      <div class="nav py-10 items-center px-2 bg-[#f8c46c] rounded-b-xl">
         <div class="title-dashboard text-white">
           <p class="text-2xl font-bold">
-            Toko Qarpa
+            {{ user.company_name }}
           </p>
           <p class="date">
             {{ timestamp }}
           </p>
         </div>
-        <div class="notif">
-          <IconsNotif class="icon-notif" />
-        </div>
       </div>
       <div class="content px-3">
         <ProfileDashboard :user="user" />
-        <HighlightDashboard :role="user.role" :task="taskAmount" />
+        <HighlightDashboard
+          :role="user.role"
+          :task="taskAmount"
+          :summary="summaryOwner"
+        />
         <div class="service border shadow-md py-4 rounded-xl">
           <div class="title">
             <p class="text-center pb-2 text-xl">
@@ -46,7 +45,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState, mapActions } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 
 export default {
   layout: 'dashboard',
@@ -116,14 +115,15 @@ export default {
   mounted () {
     if (this.user.role === 'employee') {
       this.$store.dispatch('getTaskAmount')
+    } else {
+      this.$store.dispatch('getSummaryOwner')
     }
   },
   computed: {
-    ...mapState(['timestamp', 'taskAmount', 'isLoading'])
+    ...mapState(['timestamp', 'taskAmount', 'isLoading', 'summaryOwner'])
   },
   methods: {
-    ...mapMutations(['setTimestamp']),
-    ...mapActions(['getTaskAmount'])
+    ...mapMutations(['setTimestamp'])
   }
 }
 </script>

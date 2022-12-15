@@ -3,8 +3,8 @@ export const state = () => ({
   timestamp: '',
   taskAmount: {},
   isLoading: false,
-  branchDropdown: [],
-  branchAddress: null
+  branchAddress: null,
+  summaryOwner: {}
 })
 
 export const mutations = {
@@ -37,11 +37,11 @@ export const mutations = {
   setIsLoading (state, value) {
     state.isLoading = value
   },
-  setBranchDropdown (state, value) {
-    state.branchDropdown = value
-  },
   setBranchAddress (state, value) {
     state.branchAddress = value
+  },
+  setSummaryOwner (state, value) {
+    state.summaryOwner = value
   }
 }
 
@@ -55,15 +55,26 @@ export const actions = {
         commit('setIsLoading', false)
       })
   },
-  getBranchDropdown ({ commit }) {
-    return this.$axios
-      .$get('branches')
-      .then(response => commit('setBranchDropdown', response.data))
-  },
   getAddressBrach (ctx, id) {
     return this.$axios
       .$get(`branches/${id}`)
       .then(response => ctx.commit('setBranchAddress', response.data))
       .catch(err => console.log(err))
+  },
+  getSummaryOwner ({ commit }) {
+    commit('setIsLoading', true)
+    return this.$axios.$get('company/expenses_incomes').then((response) => {
+      commit('setSummaryOwner', response.data)
+      commit('setIsLoading', false)
+    })
+  },
+  updateNewProfile ({ commit }, data) {
+    commit('setIsloading', true)
+    const headers = { 'Content-Type': 'multipart/form-data' }
+    const dataPut = new FormData()
+    dataPut.append('avatar', data)
+    return this.$axios
+      .$put('users/update', dataPut, { headers })
+      .then(() => commit('setIsloading', true))
   }
 }

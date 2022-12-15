@@ -3,26 +3,10 @@
     class="border-2 rounded-md shadow-md p-4 cursor-pointer"
     @click="backToBranch"
   >
-    <div class="header flex justify-between items-center">
+    <div class="header items-center">
       <p class="font-semibold text-2xl">
         {{ item.name }}
       </p>
-      <div class="btn" @click.stop="">
-        <ButtonGlobal
-          v-if="!item.status"
-          text="Buka"
-          color="bg-primary"
-          padding="p-2"
-          @click="validateModal = true"
-        />
-        <ButtonGlobal
-          v-else
-          text="Tutup"
-          color="bg-red-700"
-          padding="p-2"
-          @click="validateModal = true"
-        />
-      </div>
     </div>
     <div class="info py-2">
       <p class="text-gray-600">
@@ -39,24 +23,25 @@
         <p>{{ item.phone }}</p>
       </div>
     </div>
-    <!-- <div class="content flex justify-around text-center pt-4">
-      <div class="profit">
-        <p>
-          {{ item.total_incomes }}
-        </p>
-        <p class="font-semibold">
-          Total Pendapatan
-        </p>
-      </div>
-      <div class="order">
-        <p>
-          {{ item.total_orders }}
-        </p>
-        <p class="font-semibold">
-          Total Order
-        </p>
-      </div>
-    </div> -->
+    <div class="btn my-4" @click.stop="">
+      <ButtonGlobal
+        v-if="!item.status"
+        class="w-full"
+        text="Buka Toko"
+        color="bg-primary"
+        padding="p-2"
+        @click="validateModal = true"
+      />
+      <ButtonGlobal
+        v-else
+        class="w-full"
+        text="Tutup Toko"
+        color="bg-red-700"
+        padding="p-2"
+        @click="validateModal = true"
+      />
+    </div>
+
     <div @click.stop="">
       <ModalValidate
         v-if="!item.status"
@@ -105,7 +90,8 @@ export default {
           btn1: 'Tidak',
           btn2: 'Yakin'
         }
-      ]
+      ],
+      role: this.$auth.user.role
     }
   },
   methods: {
@@ -114,13 +100,25 @@ export default {
       this.inputKasir = true
     },
     handleClose () {
-      this.$axios.$get('owner/branches').then((response) => {
-        this.pos = response.data
-        const posId = this.pos.find(e => e.id === this.item.id).pos_id
-        this.$axios.$put(`branches/pos/close?pos_id=${posId}`)
-      })
+      if (this.role === 'owner') {
+        this.$axios.$get('owner/branches').then((response) => {
+          this.pos = response.data
+          const posId = this.pos.find(e => e.id === this.item.id).pos_id
+
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`).then(() => {
+            location.reload()
+          })
+        })
+      } else {
+        this.$axios.$get('employee/branches').then((response) => {
+          this.pos = response.data
+          const posId = this.pos.find(e => e.id === this.item.id).pos_id
+          this.$axios.$put(`branches/pos/close?pos_id=${posId}`).then(() => {
+            location.reload()
+          })
+        })
+      }
       this.validateModal = false
-      location.reload()
     },
     backToBranch () {
       if (this.item.status === true) {

@@ -73,20 +73,25 @@ export default {
   watch: {
     'modalKasir.nominal' () {
       this.disableButton()
+    },
+    'modalKasir.catatan' () {
+      this.disableButton()
     }
   },
   methods: {
     handleSubmit () {
-      console.log(this.modalKasir)
       this.$store
         .dispatch('pos/openBranch', {
           modal: this.modalKasir,
           id: this.id
         })
-        .then(this.$router.push(`pos/${this.id}`))
+        .then(() => this.$router.push(`${this.$route.path}/${this.id}`))
     },
     disableButton () {
-      if (this.modalKasir.nominal >= 1000) {
+      if (
+        this.modalKasir.nominal >= 1000 &&
+        this.modalKasir.catatan.length > 0
+      ) {
         this.isDisabled = false
       } else {
         this.isDisabled = true

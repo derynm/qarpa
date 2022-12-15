@@ -57,6 +57,7 @@
           color="bg-primary"
           class="w-full"
           padding="p-2"
+          :disabled="isDisabled"
         />
       </div>
     </form>
@@ -74,7 +75,8 @@ export default {
         catatan: '',
         tglMulai: null,
         tglBerakhir: null
-      }
+      },
+      isDisabled: true
     }
   },
   created () {
@@ -84,10 +86,35 @@ export default {
     ...mapMutations(['setPageTitle']),
     ...mapActions('cuti', ['postNewCuti']),
     handleSubmit () {
-      console.log(this.dataCuti)
       this.$store
         .dispatch('cuti/postNewCuti', this.dataCuti)
-        .then(this.$router.push('/dashboard/cuti'))
+        .then(() => this.$router.replace('/dashboard/cuti'))
+    },
+    disabledButton () {
+      if (
+        this.dataCuti.jenisIzin &&
+        this.dataCuti.catatan &&
+        this.dataCuti.tglMulai &&
+        this.dataCuti.tglBerakhir !== null
+      ) {
+        this.isDisabled = false
+      } else {
+        this.isDisabled = true
+      }
+    }
+  },
+  watch: {
+    'dataCuti.jenisIzin' () {
+      this.disabledButton()
+    },
+    'dataCuti.catatan' () {
+      this.disabledButton()
+    },
+    'dataCuti.tglMulai' () {
+      this.disabledButton()
+    },
+    'dataCuti.tglBerakhir' () {
+      this.disabledButton()
     }
   }
 }

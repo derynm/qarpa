@@ -6,9 +6,9 @@
           :filtered-stok="
             role === 'owner' ? stokByBranch : getFilteredStokByCategory
           "
-          :filtered-dropdown="role === 'owner' ? branchDropdown : getCategory"
+          :filtered-dropdown="role === 'owner' ? branch : categories"
           :is-loading="isLoading"
-          :branch-id="dropdownValue"
+          :branch-id="role === 'owner' ? dropdownValue : id"
           @filter="setValueDropdown"
         />
       </div>
@@ -24,31 +24,18 @@ export default {
   data () {
     return {
       dropdownValue: 0,
-      role: this.$auth.user.role
+      role: this.$auth.user.role,
+      id: this.$auth.user.branch_id
     }
   },
-  async fetch ({ store }) {
-    await store.dispatch('stok/getStokBarang')
-  },
   computed: {
-    ...mapState(['branchDropdown']),
-    ...mapState('stok', ['stokBarang', 'stokByBranch', 'isLoading']),
-    getCategory () {
-      return this.stokBarang
-        .map(({ category }) => ({ category }))
-        .filter(
-          (value, index, self) =>
-            index ===
-            self.findIndex(
-              t => t.place === value.place && t.category === value.category
-            )
-        )
-    },
+    ...mapState('dropdown', ['branch', 'categories']),
+    ...mapState('stok', ['stokByBranch', 'isLoading']),
     getFilteredStokByCategory () {
       if (this.dropdownValue !== 0) {
-        return this.stokBarang.filter(e => e.category === this.dropdownValue)
+        return this.stokByBranch.filter(e => e.category === this.dropdownValue)
       } else {
-        return this.stokBarang
+        return this.stokByBranch
       }
     }
   },
@@ -56,9 +43,12 @@ export default {
     this.setPageTitle('Total Stok')
   },
   mounted () {
-    this.$store.dispatch('getBranchDropdown')
+    if (this.role === 'employee') {
+      this.$store.dispatch('stok/getStokByBranch', this.id)
+    }
+    this.$store.dispatch('dropdown/getBranchDropdown')
+    this.$store.dispatch('dropdown/getCategoriesDropdown')
   },
-  updated () {},
   methods: {
     ...mapMutations(['setPageTitle']),
     setValueDropdown (e) {

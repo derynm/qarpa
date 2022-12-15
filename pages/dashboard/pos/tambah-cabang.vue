@@ -13,17 +13,19 @@
         <InputFieldBasicInput
           v-model="dataCabang.nama"
           label="Nama Cabang"
-          placeholder="..."
+          placeholder="Cabang"
         />
         <InputFieldBasicInput
           v-model="dataCabang.alamat"
           label="Alamat"
-          placeholder="..."
+          placeholder="Alamat"
         />
         <InputFieldBasicInput
           v-model="dataCabang.noHp"
+          type="number"
+          :min="0"
           label="Nomor Handphone"
-          placeholder="..."
+          placeholder="Handphne"
         />
       </div>
       <div class="btn">
@@ -32,6 +34,7 @@
           class="w-full"
           padding="py-2"
           color="bg-primary"
+          :disabled="isDisable"
         />
       </div>
     </form>
@@ -48,7 +51,16 @@ export default {
       dataCabang: {
         nama: '',
         alamat: '',
-        noHp: null
+        noHp: ''
+      },
+      isDisable: true
+    }
+  },
+  watch: {
+    dataCabang: {
+      deep: true,
+      handler () {
+        this.checkInput()
       }
     }
   },
@@ -61,7 +73,12 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewCabang', this.dataCabang)
-        .then(this.$router.replace('/dashboard/pos'))
+        .then(() => this.$router.replace('/dashboard/pos'))
+    },
+    checkInput () {
+      this.isDisable = !Object.keys(this.dataCabang).every(
+        e => this.dataCabang[e] !== ''
+      )
     }
   }
 }

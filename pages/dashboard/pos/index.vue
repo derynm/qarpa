@@ -29,6 +29,13 @@ export default {
       role: this.$auth.user.role
     }
   },
+  async fetch ({ store }) {
+    if (this.role === 'owner') {
+      await store.dispatch('pos/getDataCabang')
+    } else {
+      await store.dispatch('pos/getCabangEmployee')
+    }
+  },
   computed: {
     ...mapState('pos', ['isLoading', 'dataCabang', 'cabangEmployee']),
     cabangByRole () {

@@ -1,0 +1,14 @@
+default:
+  image: node:16.14.0
+  before_script:
+    - iwr https://fly.io/install.ps1 -useb | iex
+
+deploy:
+  tags:
+    - ci
+  variables:
+    FLY_API_TOKEN: $FLY_API_TOKEN
+  script:
+    - C:\Windows\system32\config\systemprofile\.fly\bin\flyctl deploy
+  only:
+    - develop

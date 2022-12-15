@@ -32,6 +32,12 @@ export const mutations = {
   }
 }
 
+export const getters = {
+  productReady (state) {
+    return state.dataProduct.filter(e => e.qty !== 0)
+  }
+}
+
 export const actions = {
   // API BRANCH
   getDataCabang ({ commit }) {

@@ -1,15 +1,29 @@
 export const state = () => ({
   shippingData: [],
+  shippingHistory: [],
   isLoading: false
 })
 
 export const mutations = {
   setIsLoading (state, value) {
     state.isLoading = value
+  },
+  setShippingHistory (state, value) {
+    state.shippingHistory = value
   }
 }
 
 export const actions = {
+  getShippingHistory (ctx) {
+    // ctx.commit('setIsloading', true)
+    return this.$axios
+      .$get('shipping/history')
+      .then((response) => {
+        ctx.commit('setShippingHistory', response.data)
+        // ctx.commit('setIsloading', true)
+      })
+      // .catch(() => alert('error'))
+  },
   postNewSupplier (ctx, data) {
     ctx.commit('setIsloading', true)
     return this.$axios
@@ -48,7 +62,7 @@ export const actions = {
     dataBarang.append('qty', data.jumlah)
     dataBarang.append('quantity_type', data.satuan)
     dataBarang.append('category_id', data.kategori)
-    dataBarang.append('purchase_price', data.totalHarga)
+    // dataBarang.append('purchase_price', data.totalHarga)
     dataBarang.append('selling_price', data.hargaBarang)
     dataBarang.append('branch_id', data.cabang)
     return this.$axios.$post('inventory/products', dataBarang, { headers })

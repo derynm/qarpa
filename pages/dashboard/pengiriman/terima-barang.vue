@@ -57,12 +57,12 @@
         label="Harga Barang"
         placeholder="Harga Barang"
       />
-      <input-field-basic-input
+      <!-- <input-field-basic-input
         v-model="form.totalHarga"
         label="Total Harga"
         placeholder="Total Harga"
         class="mb-3"
-      />
+      /> -->
       <drop-down
         v-if="!$auth.user.branch_id"
         v-model="form.cabang"
@@ -76,7 +76,7 @@
         class="border-2 outline outline-2 mb-5 rounded-md"
       >
         <p class="py-2 px-3">
-          cabang default <b>{{ $auth.user.branch_id }}</b>
+          cabang <b>{{ cabangById.name }}</b>
         </p>
       </div>
     </div>
@@ -115,7 +115,7 @@ export default {
         satuan: '',
         kategori: '',
         hargaBarang: '',
-        totalHarga: '',
+        // totalHarga: '',
         cabang: this.$auth.user.branch_id ?? ''
       },
       isDisable: true
@@ -135,7 +135,8 @@ export default {
       'condition',
       'unit',
       'branch'
-    ])
+    ]),
+    ...mapState('pos', ['cabangById'])
   },
   watch: {
     form: {
@@ -143,6 +144,11 @@ export default {
       handler () {
         this.checkInput()
       }
+    }
+  },
+  mounted () {
+    if (this.$auth.user.role === 'employee') {
+      this.$store.dispatch('pos/getCabangById', this.$auth.user.branch_id)
     }
   },
   methods: {

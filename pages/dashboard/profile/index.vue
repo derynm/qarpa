@@ -4,7 +4,21 @@
       <div
         class="profile-top bg-gradient-to-b from-[#3f51b5] to-[#afb7e0] text-white flex flex-col items-center p-8 rounded-md mb-8 gap-2"
       >
-        <IconsPosIcon class="rounded-full" />
+        <div class="relative">
+          <IconsPosIcon v-if="!$auth.user.avatar" class="rounded-full" />
+          <div
+            v-else
+            class="rounded-full h-[72px] w-[72px] bg-white border border-red overflow-hidden flex justify-center"
+          >
+            <img :src="$auth.user.avatar" alt="avatar">
+          </div>
+          <div
+            class="absolute w-fit rounded-full top-12 -right-1 cursor-pointer"
+            @click="handleModal"
+          >
+            <icons-camera />
+          </div>
+        </div>
         <p class="name">
           {{ user.name }}
         </p>
@@ -22,12 +36,6 @@
         </div>
       </div>
       <div class="info flex flex-col gap-3">
-        <div class="information p-2">
-          <p class="font-semibold">
-            Informasi Usaha
-          </p>
-          <p>Toko Qarpa</p>
-        </div>
         <div
           v-if="user.role === 'owner'"
           class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-2 flex flex-col gap-3"
@@ -36,7 +44,10 @@
             <p class="font-semibold">
               Qarpa Pro
             </p>
-            <button class="bg-[#344397] text-white rounded-md px-2 py-1">
+            <button
+              class="bg-[#344397] text-white rounded-md px-2 py-1"
+              @click="modalUpgrade = true"
+            >
               Upgrade Pro
             </button>
           </div>
@@ -44,10 +55,18 @@
             <p>Beralih ke Pro untuk mengembangkann usaha Anda.</p>
           </div>
         </div>
+        <nuxt-link to="/tentang-kami">
+          <div class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-4">
+            <div class="text font-semibold flex justify-between items-center">
+              <p>Tentang Kami</p>
+              <IconsArrowRight color="black" />
+            </div>
+          </div>
+        </nuxt-link>
       </div>
     </div>
     <div class="bot">
-      <div class="logout-btn mt-5">
+      <div class="logout-btn my-5">
         <button
           class="w-full bg-[#344397] text-white rounded-md py-2"
           @click="$auth.logout()"
@@ -56,6 +75,13 @@
         </button>
       </div>
     </div>
+    <modal-change-photo v-if="showModalChangePhoto" @closeModal="handleModal" />
+    <ModalConfirmModal
+      v-if="modalUpgrade"
+      title="Upgrade Qarpa Pro"
+      text="Maaf fitur ini belum tersedia"
+      @closeModal="modalUpgrade = false"
+    />
   </div>
 </template>
 
@@ -66,14 +92,19 @@ export default {
   data () {
     return {
       role: true,
-      user: this.$auth.user
+      user: this.$auth.user,
+      showModalChangePhoto: false,
+      modalUpgrade: false
     }
   },
   created () {
     this.setPageTitle('Profil Pengguna')
   },
   methods: {
-    ...mapMutations(['setPageTitle'])
+    ...mapMutations(['setPageTitle']),
+    handleModal () {
+      this.showModalChangePhoto = !this.showModalChangePhoto
+    }
   }
 }
 </script>

@@ -1,10 +1,5 @@
 <template>
   <div class="container px-4">
-    <!-- <div class="header-text px-6 my-4">
-      <p class="text-center">
-        Lengkapi form dibawah ini dengan data yang valid
-      </p>
-    </div> -->
     <form
       class="flex flex-col justify-between min-h-[70vh]"
       @submit.prevent="handleSubmit"
@@ -13,7 +8,7 @@
         <InputFieldBasicInput
           v-model="dataBank.nama"
           label="Nama Pemilik Rekening"
-          placeholder="..."
+          placeholder="Nama"
         />
         <div class="dropdown">
           <fieldset
@@ -29,7 +24,7 @@
               name=""
             >
               <option value="">
-                ...
+                Bank
               </option>
               <option value="bri">
                 BRI
@@ -40,18 +35,31 @@
               <option value="mandiri">
                 Mandiri
               </option>
+              <option value="bni">
+                BNI
+              </option>
+              <option value="btn">
+                BTN
+              </option>
             </select>
           </fieldset>
         </div>
         <InputFieldBasicInput
           v-model="dataBank.noRekening"
           type="number"
+          :min="0"
           label="Nomor Rekening"
-          placeholder="..."
+          placeholder="Rekekning"
         />
       </div>
       <div class="btn">
-        <ButtonComponent class="w-full py-2" text-fill="Simpan Data" />
+        <ButtonGlobal
+          class="w-full"
+          padding="py-2"
+          text="Simpan Data"
+          color="bg-primary"
+          :disabled="isDisable"
+        />
       </div>
     </form>
   </div>
@@ -60,32 +68,44 @@
 <script>
 import { mapActions, mapMutations } from 'vuex'
 export default {
-  layout: 'navigation',
+  layout: 'header',
+  middleware: 'auth',
   data () {
     return {
       dataBank: {
         nama: '',
         bank: '',
-        noRekening: null
+        noRekening: ''
+      },
+      isDisable: true
+    }
+  },
+  watch: {
+    dataBank: {
+      deep: true,
+      handler () {
+        this.checkInput()
       }
     }
   },
   created () {
     this.setPageTitle('Tambah Bank')
   },
-  mounted () {
-    console.log(this.$route.params.id)
-  },
   methods: {
     ...mapMutations(['setPageTitle']),
     ...mapActions('pos', ['postNewBank']),
     handleSubmit () {
-      console.log(this.dataBank)
-      this.$store.dispatch('pos/postNewBank', this.dataBank).then(
-        this.$router.replace(
-          `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
+      this.$store
+        .dispatch('pos/postNewBank', this.dataBank)
+        .then(() =>
+          this.$router.replace(
+            `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
+          )
         )
-        // this.$router.go(-1)
+    },
+    checkInput () {
+      this.isDisable = !Object.keys(this.dataBank).every(
+        e => this.dataBank[e] !== ''
       )
     }
   }

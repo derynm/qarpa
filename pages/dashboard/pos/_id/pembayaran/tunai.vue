@@ -18,19 +18,22 @@
     <InputFieldBasicInput
       v-model="uang"
       label="Uang Diterima"
-      placeholder="..."
+      placeholder="Uang"
     />
     <div class="btn">
-      <ButtonComponent
-        class="p-2 w-full"
-        text-fill="Buat Pembayaran"
-        @clicked="validate = true"
+      <ButtonGlobal
+        class="w-full"
+        text="Buat Pembayaran"
+        color="bg-primary"
+        padding="py-2"
+        :disabled="isDisable"
+        @click="validate = true"
       />
     </div>
     <ModalValidate
       v-show="validate"
       :text="temp"
-      :total="order.totalStr"
+      :total="toRupiah"
       @decline="validate = false"
       @accept="handlePayment"
     />
@@ -43,7 +46,7 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
-  layout: 'navigation',
+  layout: 'header',
   middleware: 'auth',
   data () {
     return {
@@ -54,7 +57,25 @@ export default {
         btn2: 'Sesuai'
       },
       order: {},
-      uang: null
+      uang: null,
+      isDisable: true
+    }
+  },
+  computed: {
+    toRupiah () {
+      const temp = new Intl.NumberFormat('id-ID', {
+        currency: 'IDR'
+      }).format(this.uang)
+      return `Rp.${temp}`
+    }
+  },
+  watch: {
+    uang () {
+      if (this.uang >= this.order.totalInt) {
+        this.isDisable = false
+      } else {
+        this.isDisable = true
+      }
     }
   },
   created () {
@@ -62,7 +83,6 @@ export default {
   },
   mounted () {
     this.getOrder()
-    console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
@@ -72,7 +92,7 @@ export default {
     handlePayment () {
       this.order.pay = this.uang
       this.$cookies.set('order', this.order)
-      this.$router.push('report')
+      this.$router.replace('report')
     }
   }
 }

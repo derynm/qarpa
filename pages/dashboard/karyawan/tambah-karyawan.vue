@@ -5,10 +5,16 @@
         <InputFieldBasicInput
           v-model="dataKaryawan.nama"
           label="Nama Karyawan"
+          placeholder="Karyawan"
         />
-        <InputFieldEmailInput v-model="dataKaryawan.email" label="Email" />
+        <InputFieldEmailInput
+          v-model="dataKaryawan.email"
+          label="Email"
+          placeholder="Email"
+        />
         <InputFieldPasswordInput
           v-model="dataKaryawan.password"
+          placeholder="Password"
           label="Password"
         />
       </div>
@@ -27,12 +33,8 @@
               <option value="null">
                 Pilih Outlet
               </option>
-              <option
-                v-for="item in branchDropdown"
-                :key="item.id"
-                :value="item.id"
-              >
-                {{ item.name }}
+              <option v-for="item in branch" :key="item.id" :value="item.id">
+                {{ item.value }}
               </option>
             </select>
           </div>
@@ -53,6 +55,12 @@
         @click="handleSubmit"
       />
     </div>
+    <ModalConfirmModal
+      v-if="errorStatus"
+      title="Error"
+      :text="modalText"
+      @closeModal="clearModal()"
+    />
   </div>
 </template>
 
@@ -74,10 +82,14 @@ export default {
     }
   },
   async fetch ({ store }) {
-    await store.dispatch('getBranchDropdown')
+    await store.dispatch('dropdown/getBranchDropdown')
   },
   computed: {
-    ...mapState(['branchDropdown'])
+    ...mapState('dropdown', ['branch']),
+    ...mapState('karyawan', ['errorMsg', 'errorStatus']),
+    modalText () {
+      return `Email ${this.errorMsg.email}`
+    }
   },
   watch: {
     'dataKaryawan.nama' () {
@@ -98,10 +110,9 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
+    ...mapMutations('karyawan', ['setErrorStatus', 'setErrorMsg']),
     handleSubmit () {
-      this.$store
-        .dispatch('karyawan/postNewEmployee', this.dataKaryawan)
-        .then(this.$router.replace('/dashboard/karyawan'))
+      this.$store.dispatch('karyawan/postNewEmployee', this.dataKaryawan)
     },
     disabledButton () {
       if (
@@ -114,6 +125,10 @@ export default {
       } else {
         this.isDisabled = true
       }
+    },
+    clearModal () {
+      this.setErrorStatus(false)
+      this.setErrorMsg('')
     }
   }
 }

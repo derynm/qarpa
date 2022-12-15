@@ -11,12 +11,12 @@
       </div>
       <div class="highlight-content flex justify-evenly pt-2">
         <div class="left">
-          <p>Rp.5.000.000</p>
+          <p>Rp.{{ toRupiah(summary.incomes) }}</p>
           <p>Uang Masuk</p>
         </div>
         <div class="divide border-l border-white" />
         <div class="right">
-          <p>Rp.3.000.000</p>
+          <p>Rp.{{ toRupiah(summary.expenses) }}</p>
           <p>Uang Keluar</p>
         </div>
       </div>
@@ -73,11 +73,23 @@ export default {
     task: {
       type: Object,
       default: () => ({})
+    },
+    summary: {
+      type: Object,
+      default: () => ({})
     }
   },
   data () {
     return {
-      image: bgImage
+      image: bgImage,
+      temp: null
+    }
+  },
+  methods: {
+    toRupiah (currency) {
+      return new Intl.NumberFormat('id-ID', {
+        currency: 'IDR'
+      }).format(currency)
     }
   }
 }

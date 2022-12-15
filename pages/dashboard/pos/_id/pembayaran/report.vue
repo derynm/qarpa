@@ -36,12 +36,6 @@
         color="bg-primary"
         @click="newTransaction"
       />
-      <ButtonGlobal
-        text="Kirim Receipt"
-        class="w-full"
-        padding="p-2"
-        color="bg-primary"
-      />
     </div>
   </div>
 </template>
@@ -80,12 +74,7 @@ export default {
     },
     newTransaction () {
       this.$cookies.remove('order')
-      // this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
-      if (this.order.payment === 'cash') {
-        this.$router.go(-4)
-      } else {
-        this.$router.go(-5)
-      }
+      this.$router.replace(`/dashboard/pos/${this.$route.params.id}`)
     }
   }
 }

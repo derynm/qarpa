@@ -38,6 +38,7 @@
             color="bg-primary"
             padding="p-3"
             text="Simpan"
+            :disabled="isDisable"
             @click="NewSupplier"
           />
         </div>
@@ -53,10 +54,19 @@ export default {
   data () {
     return {
       form: {
-        name: null,
-        address: null,
-        phone: null,
-        email: null
+        name: '',
+        address: '',
+        phone: '',
+        email: ''
+      },
+      isDisable: true
+    }
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler () {
+        this.handleButton()
       }
     }
   },
@@ -70,6 +80,13 @@ export default {
           console.log(err)
           this.setIsLoading(false)
         })
+    },
+    handleButton () {
+      if (this.form.name === null || this.form.name === '') {
+        this.isDisable = true
+      } else {
+        this.isDisable = false
+      }
     }
   }
 }

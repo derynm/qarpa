@@ -22,8 +22,10 @@
         </button>
       </div>
     </div>
-    <div class="container px-2 md:px-8 flex flex-col justify-between h-[75vh]">
-      <div class="content">
+    <div
+      class="container px-2 md:px-8 flex flex-col justify-between min-h-[75vh]"
+    >
+      <div class="content mb-3">
         <SearchBar
           v-model="searchValue"
           placeholder="Cari Produk"
@@ -49,7 +51,8 @@
           text="Detail Order"
           color="bg-primary"
           padding="p-3"
-          class="w-full"
+          class="w-full mb-4"
+          :disabled="isDisabled"
           @click="setOrder"
         />
       </div>
@@ -69,7 +72,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from 'vuex'
+import { mapGetters, mapMutations, mapState } from 'vuex'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
@@ -92,7 +95,9 @@ export default {
         discount: null,
         payment: ''
       },
-      searchValue: ''
+      searchValue: '',
+      role: this.$auth.user.role,
+      isDisabled: true
     }
   },
   async fetch ({ store, params }) {
@@ -102,9 +107,10 @@ export default {
   computed: {
     ...mapState(['timestamp']),
     ...mapState('pos', ['cabangById', 'dataProduct']),
+    ...mapGetters('pos', ['productReady']),
     getItems () {
       const temp = this.orderData.map(a => ({
-        product_shared_id: a.id,
+        products_branch_id: a.id,
         name: a.name,
         price: a.selling_price,
         qty_product: a.qty_product
@@ -112,9 +118,21 @@ export default {
       return temp
     },
     filteredList () {
-      return this.dataProduct.filter((post) => {
+      return this.productReady.filter((post) => {
         return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
       })
+    }
+  },
+  watch: {
+    orderData: {
+      handler () {
+        if (this.orderData?.length > 0) {
+          this.isDisabled = false
+        } else {
+          this.isDisabled = true
+        }
+      },
+      deep: true
     }
   },
   created () {
@@ -123,7 +141,6 @@ export default {
   },
   mounted () {
     this.getPosId()
-    console.log(this.getItems)
   },
   methods: {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
@@ -147,7 +164,6 @@ export default {
       this.pelanggan.id = id
       this.pelanggan.nama = nama
       this.modalPilihPelanggan = false
-      console.log(this.pelanggan)
     },
     closeModal () {
       this.modalTambahPelanggan = false
@@ -159,12 +175,21 @@ export default {
       this.modalTambahPelanggan = true
     },
     getPosId () {
-      this.$axios.$get('owner/branches').then((response) => {
-        const temp = response.data
-        this.order.pos_id = temp.find(
-          e => e.id === this.cabangById.id
-        ).pos_id[0]
-      })
+      if (this.role === 'owner') {
+        this.$axios.$get('owner/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      } else {
+        this.$axios.$get('employee/branches').then((response) => {
+          const temp = response.data
+          this.order.pos_id = temp.find(
+            e => e.id === this.cabangById.id
+          ).pos_id[0]
+        })
+      }
     },
     setOrder () {
       if (this.pelanggan.id) {
@@ -172,11 +197,9 @@ export default {
       } else {
         this.order.customer_id = 0
       }
-      console.log(this.order.customer_id)
       this.order.items = this.getItems
       this.$cookies.set('order', this.order)
-      console.log(this.$cookies.get('order'))
-      this.$router.push(`${this.$route.params.id}/detail`)
+      this.$router.push(`${this.$route.path}/detail`)
     }
   }
 }

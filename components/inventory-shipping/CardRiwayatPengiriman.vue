@@ -5,29 +5,13 @@
         {{ destinasi }}
       </h2>
 
-      <div>
-        <p>{{ penerima }}</p>
-      </div>
+      <p>{{ tipe }}</p>
     </div>
     <div class="mb-2">
       <p>
-        Status : <span class="font-semibold text-warm">{{ status }}</span>
-      </p>
-      <p>
-        Kondisi : <span class="font-semibold text-warm">{{ kondisi }}</span>
+        Dikirim : <span class="font-semibold">{{ date }}</span>
       </p>
     </div>
-    <div class="mb-3">
-      <p>{{ 'Dikirim : ' + dikirim }}</p>
-      <p>{{ 'Diterima : ' + diterima }}</p>
-    </div>
-    <button-global
-      v-if="button"
-      color="bg-warm"
-      padding="p-2"
-      text="Tandai Selesai"
-      @click="$emit('done')"
-    />
   </div>
 </template>
 
@@ -35,11 +19,8 @@
 export default {
   props: {
     destinasi: { type: String, default: null },
-    status: { type: String, default: null },
-    kondisi: { type: String, default: null },
-    dikirim: { type: String, default: null },
-    diterima: { type: String, default: null },
-    button: { type: Boolean, default: false }
+    tipe: { type: String, default: null },
+    date: { type: String, default: null }
   },
   emits: ['done']
 }

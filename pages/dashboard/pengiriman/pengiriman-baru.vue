@@ -18,11 +18,12 @@
           :key="index"
           class="mb-3"
           :item="value"
+          :current-qty="true"
           @incQty="increamentItemShipping"
           @decQty="decreaseItemShipping"
         />
       </div>
-      <div v-else>
+      <div v-else class="flex justify-center">
         <loading />
       </div>
       <div class="flex flex-col mb-3">
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapGetters } from 'vuex'
 import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
@@ -77,8 +78,9 @@ export default {
   computed: {
     ...mapState('stok', ['stokByBranch', 'isLoading']),
     ...mapState('dropdown', ['branch']),
+    ...mapGetters('stok', ['stokByBranchReady']),
     filteredList () {
-      return this.stokByBranch.filter((post) => {
+      return this.stokByBranchReady.filter((post) => {
         return post.name.toLowerCase().includes(this.searchValue.toLowerCase())
       })
     }
@@ -144,4 +146,3 @@ export default {
 </script>
 
 <style></style>
-x

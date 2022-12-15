@@ -60,7 +60,6 @@ export default {
   },
 
   mounted () {
-    // console.log(this.listCuti)
     this.filteredList = this.listCuti
   },
   methods: {
@@ -76,10 +75,10 @@ export default {
       }
     },
     approveCuti (ele) {
-      this.$store.dispatch('cuti/setApprove', ele).then(location.reload())
+      this.$store.dispatch('cuti/setApprove', ele).then(() => location.reload())
     },
     rejectCuti (ele) {
-      this.$store.dispatch('cuti/setReject', ele).then(location.reload())
+      this.$store.dispatch('cuti/setReject', ele).then(() => location.reload())
     }
   }
 }

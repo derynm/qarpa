@@ -1,6 +1,6 @@
 <template>
   <div class="container px-4">
-    <div class="card-total border p-2 rounded-lg text-center shadow-md">
+    <div class="card-total border py-8 rounded-lg text-center shadow-md">
       <p class="text-xl">
         Total Pembayaran
       </p>
@@ -18,7 +18,7 @@
       <div class="option flex flex-col gap-4">
         <div class="cursor-pointer" @click="handleTunai">
           <div
-            class="tunai rounded-lg shadow-md flex justify-between border px-2 py-4 font-semibold"
+            class="tunai rounded-lg shadow-md flex justify-between border px-6 py-4 font-semibold"
           >
             <div class="left">
               <p>Tunai</p>
@@ -30,7 +30,7 @@
         </div>
         <div class="cursor-pointer" @click="handleBank">
           <div
-            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-2 py-4"
+            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-6 py-4"
           >
             <div class="left">
               <p>Transfer Bank</p>
@@ -54,7 +54,7 @@ import Vue from 'vue'
 import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
-  layout: 'navigation',
+  layout: 'header',
   middleware: 'auth',
   data () {
     return {
@@ -66,8 +66,8 @@ export default {
     /* eslint-disable */
     getItemsOrder() {
       const temp = this.order.items.map(
-        ({ product_shared_id, qty_product }) => ({
-          product_shared_id,
+        ({ products_branch_id, qty_product }) => ({
+          products_branch_id,
           qty: qty_product
         })
       )
@@ -84,7 +84,6 @@ export default {
   },
   mounted() {
     this.getOrder()
-    console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
@@ -95,19 +94,17 @@ export default {
       this.getNewOrder.payment = 'cash'
       this.order.payment = 'cash'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.push('pembayaran/tunai'))
+        .then(() => this.$router.replace('pembayaran/tunai'))
     },
     handleBank() {
       this.getNewOrder.payment = 'transfer'
       this.order.payment = 'transfer'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
       this.$store
         .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.push('pembayaran/pilih-bank'))
+        .then(() => this.$router.replace('pembayaran/pilih-bank'))
     }
   }
 }
