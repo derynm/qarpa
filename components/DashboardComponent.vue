@@ -1,7 +1,7 @@
 <template>
   <div class="nav flex justify-between py-10 items-center px-4">
     <div :class="headerClass">
-      <div v-if="back" class="cursor-pointer" @click="$router.go(-1)">
+      <div v-if="back" class="cursor-pointer w-5 h-5 flex items-center" @click="$router.go(-1)">
         <IconsBackIcon />
       </div>
       <div class="title-dashboard">
