@@ -9,7 +9,7 @@
             accept="image/png, image/jpeg, image/jpg"
             @change="handleInput($event)"
           >
-          <div v-if="imageValid" class="pl-3 my-1 flex">
+          <div v-if="isNotImageValid" class="pl-3 my-1 flex">
             <IconsWarningIcon />
             <p class="ml-1 text-danger text-[10px] font-semibold">
               Ukuran gambar maksimum 1MB
@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       dataPhoto: null,
-      imageValid: null,
+      isNotImageValid: null,
       isDisable: true,
       isLoading: false
     }
@@ -64,10 +64,12 @@ export default {
   methods: {
     handleInput (e) {
       this.dataPhoto = e.target.files[0]
+      console.log(this.dataPhoto)
       if (this.dataPhoto?.size > 1000000) {
-        this.imageValid = true
-        this.imageValid = false
+        this.isNotImageValid = true
         this.dataPhoto = null
+      } else {
+        this.isNotImageValid = false
       }
     },
     handleUpdate () {
