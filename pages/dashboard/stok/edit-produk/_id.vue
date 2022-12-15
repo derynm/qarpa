@@ -164,12 +164,14 @@ export default {
         this.stokBarang.photo = null
       } else {
         this.stokBarang.photo = e.target.files[0]
-        const reader = new FileReader()
-        reader.onload = (e) => {
-          this.previewImg = e.target.result
+        if (this.stokBarang.photo) {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            this.previewImg = e.target.result
+          }
+          this.isNotImageValid = false
+          reader.readAsDataURL(this.stokBarang.photo)
         }
-        this.isNotImageValid = false
-        reader.readAsDataURL(this.stokBarang.photo)
       }
     }
   }
