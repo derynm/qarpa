@@ -66,9 +66,7 @@ export default {
       this.dataPhoto = e.target.files[0]
       if (this.dataPhoto?.size > 1000000) {
         this.imageValid = true
-        setTimeout(() => {
-          this.imageValid = false
-        }, '5000')
+        this.imageValid = false
         this.dataPhoto = null
       }
     },
