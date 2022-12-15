@@ -24,6 +24,12 @@
           <icons-camera />
         </div>
       </div>
+      <div v-if="isNotImageValid" class="pl-3 my-1 flex">
+        <IconsWarningIcon />
+        <p class="ml-1 text-danger text-[10px] font-semibold">
+          Ukuran gambar maksimum 1MB
+        </p>
+      </div>
     </div>
     <form
       class="flex flex-col justify-between min-h-[60vh]"
@@ -107,6 +113,7 @@ export default {
       },
       previewImg: null,
       deleteModal: false,
+      isNotImageValid: null,
       modalText: {
         content: 'Yakin ingin Hapus Produk ?',
         btn1: 'Batal',
@@ -151,12 +158,19 @@ export default {
         .then(() => this.$router.replace('/dashboard/stok'))
     },
     handleUploadPhoto (e) {
-      this.stokBarang.photo = e.target.files[0]
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        this.previewImg = e.target.result
+      if (e.target.files[0]?.size > 1000000) {
+        this.isNotImageValid = true
+        this.previewImg = null
+        this.stokBarang.photo = null
+      } else {
+        this.stokBarang.photo = e.target.files[0]
+        const reader = new FileReader()
+        reader.onload = (e) => {
+          this.previewImg = e.target.result
+        }
+        this.isNotImageValid = false
+        reader.readAsDataURL(this.stokBarang.photo)
       }
-      reader.readAsDataURL(this.stokBarang.photo)
     }
   }
 }
