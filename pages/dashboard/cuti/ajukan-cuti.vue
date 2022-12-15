@@ -44,11 +44,13 @@
           v-model="dataCuti.tglMulai"
           label="Tanggal Mulai"
           placeholder="..."
+          :min-date="DateNow"
         />
         <InputFieldDateInput
           v-model="dataCuti.tglBerakhir"
           label="Tanggal Berakhir"
           placeholder="..."
+          :min-date="DateNow"
         />
       </div>
       <div class="btn">
@@ -66,6 +68,7 @@
 
 <script>
 import { mapActions, mapMutations } from 'vuex'
+import moment from 'moment'
 export default {
   layout: 'navigation',
   data () {
@@ -77,6 +80,11 @@ export default {
         tglBerakhir: null
       },
       isDisabled: true
+    }
+  },
+  computed: {
+    DateNow () {
+      return moment(new Date()).format('YYYY-MM-DD')
     }
   },
   created () {

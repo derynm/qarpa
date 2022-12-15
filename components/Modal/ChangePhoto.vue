@@ -64,7 +64,7 @@ export default {
   methods: {
     handleInput (e) {
       this.dataPhoto = e.target.files[0]
-      if (this.dataPhoto?.size > 1100000) {
+      if (this.dataPhoto?.size > 1000000) {
         this.imageValid = true
         setTimeout(() => {
           this.imageValid = false
