@@ -82,11 +82,7 @@ export default {
         })
     },
     handleButton () {
-      if (this.form.name === null || this.form.name === '') {
-        this.isDisable = true
-      } else {
-        this.isDisable = false
-      }
+      this.isDisable = !Object.keys(this.form).every(e => this.form[e] !== '')
     }
   }
 }
