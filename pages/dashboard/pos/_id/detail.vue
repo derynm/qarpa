@@ -20,11 +20,7 @@
       </div>
       <form @submit.prevent="setPayment">
         <div class="discount">
-          <InputFieldDiscountInput
-            v-model="diskon"
-            label="Diskon"
-            placeholder="0"
-          />
+          <InputFieldDiscountInput v-model="diskon" label="Diskon" />
         </div>
         <div class="ket border-y">
           <div class="subtotal flex justify-between">
@@ -33,7 +29,7 @@
           </div>
           <div class="diskon flex justify-between">
             <p>Diskon</p>
-            <p>Rp. {{ getDiskon }}</p>
+            <p>Rp. {{ getDiskonStr }}</p>
           </div>
         </div>
         <div class="total flex justify-between py-2">
@@ -73,7 +69,7 @@ export default {
       order: {},
       customer: {},
       stokPrice: [],
-      diskon: 0,
+      diskon: '0',
       isDisabled: true
     }
   },
@@ -100,11 +96,15 @@ export default {
       const temp = this.stokPrice.reduce((a, b) => a + b, 0)
       return temp - (temp * this.diskon) / 100
     },
-    getDiskon () {
+    getDiskonStr () {
       const temp = this.stokPrice.reduce((a, b) => a + b, 0)
       return new Intl.NumberFormat(['ban', 'id']).format(
         (temp * this.diskon) / 100
       )
+    },
+    getDiskonInt () {
+      const temp = this.stokPrice.reduce((a, b) => a + b, 0)
+      return (temp * this.diskon) / 100
     }
   },
   watch: {
@@ -116,7 +116,7 @@ export default {
     ...mapMutations(['setPageTitle', 'setTimestamp']),
     getOrder () {
       this.order = this.$cookies.get('order')
-      this.order.discount = parseInt(this.diskon)
+      this.order.discount = this.getDiskonInt
       console.log(this.order)
       if (this.order.customer_id > 0) {
         this.$axios
@@ -130,7 +130,7 @@ export default {
     setPayment () {
       this.order.totalInt = this.getTotalInt
       this.order.totalStr = this.getTotal
-      this.order.discount = parseInt(this.diskon)
+      this.order.discount = this.getDiskonInt
       this.$cookies.set('order', this.order)
       this.$router.replace('pembayaran')
     },
