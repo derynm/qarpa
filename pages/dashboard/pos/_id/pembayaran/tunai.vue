@@ -62,15 +62,30 @@ export default {
     }
   },
   computed: {
-    toRupiah () {
+    /* eslint-disable */
+    toRupiah() {
       const temp = new Intl.NumberFormat('id-ID', {
         currency: 'IDR'
       }).format(this.uang)
       return `Rp.${temp}`
+    },
+    getItemsOrder() {
+      const temp = this.order.items.map(
+        ({ products_branch_id, qty_product }) => ({
+          products_branch_id,
+          qty: qty_product
+        })
+      )
+      return temp
+    },
+    getNewOrder() {
+      const { totalInt, totalStr, items, ...item } = this.order
+      item.items = this.getItemsOrder
+      return item
     }
   },
   watch: {
-    uang () {
+    uang() {
       if (this.uang >= this.order.totalInt) {
         this.isDisable = false
       } else {
@@ -78,21 +93,24 @@ export default {
       }
     }
   },
-  created () {
+  created() {
     this.setPageTitle('Pembayaran Tunai')
   },
-  mounted () {
+  mounted() {
     this.getOrder()
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    getOrder () {
+    getOrder() {
       this.order = this.$cookies.get('order')
     },
-    handlePayment () {
+    handlePayment() {
       this.order.pay = this.uang
       this.$cookies.set('order', this.order)
-      this.$router.replace('report')
+      this.$store
+        .dispatch('pos/postNewOrder', this.getNewOrder)
+        .then(() => this.$router.replace('report'))
+      // this.$router.replace('report')
     }
   }
 }

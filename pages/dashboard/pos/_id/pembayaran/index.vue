@@ -62,49 +62,26 @@ export default {
       newOrder: {}
     }
   },
-  computed: {
-    /* eslint-disable */
-    getItemsOrder() {
-      const temp = this.order.items.map(
-        ({ products_branch_id, qty_product }) => ({
-          products_branch_id,
-          qty: qty_product
-        })
-      )
-      return temp
-    },
-    getNewOrder() {
-      const { totalInt, totalStr, items, ...item } = this.order
-      item.items = this.getItemsOrder
-      return item
-    }
-  },
-  created() {
+  created () {
     this.setPageTitle('Pembayaran')
   },
-  mounted() {
+  mounted () {
     this.getOrder()
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    getOrder() {
+    getOrder () {
       this.order = this.$cookies.get('order')
     },
-    handleTunai() {
-      this.getNewOrder.payment = 'cash'
+    handleTunai () {
       this.order.payment = 'cash'
       this.$cookies.set('order', this.order)
-      this.$store
-        .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(() => this.$router.replace('pembayaran/tunai'))
+      this.$router.replace('pembayaran/tunai')
     },
-    handleBank() {
-      this.getNewOrder.payment = 'transfer'
+    handleBank () {
       this.order.payment = 'transfer'
       this.$cookies.set('order', this.order)
-      this.$store
-        .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(() => this.$router.replace('pembayaran/pilih-bank'))
+      this.$router.replace('pembayaran/pilih-bank')
     }
   }
 }

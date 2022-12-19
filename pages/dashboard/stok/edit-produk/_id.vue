@@ -50,6 +50,7 @@
         <InputFieldBasicInput
           v-model="stokBarang.stok"
           type="number"
+          :min="0"
           label="Stok"
           placeholder="Stok"
         />
