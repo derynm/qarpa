@@ -19,15 +19,16 @@
         />
       </div>
       <form @submit.prevent="setPayment">
-        <div class="discount">
-          <InputFieldDiscountInput v-model="diskon" label="Diskon" />
-        </div>
         <div v-if="isNegative" class="pl-3 my-1 flex">
           <IconsWarningIcon />
           <p class="ml-1 text-danger text-[10px] font-semibold">
             Diskon tidak valid
           </p>
         </div>
+        <div class="discount">
+          <InputFieldDiscountInput v-model="diskon" label="Diskon" />
+        </div>
+
         <div class="ket border-y">
           <div class="subtotal flex justify-between">
             <p>Subtotal</p>
@@ -70,6 +71,7 @@ import VueCookies from 'vue-cookies'
 Vue.use(VueCookies)
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       order: {},
@@ -142,7 +144,11 @@ export default {
       this.$router.replace('pembayaran')
     },
     disableButton () {
-      if (this.diskon.includes('-')) {
+      if (
+        this.diskon.includes('-') ||
+        this.diskon.includes('.') ||
+        this.diskon.includes(',')
+      ) {
         this.isDisabled = true
         this.isNegative = true
       } else if (

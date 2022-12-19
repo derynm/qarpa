@@ -89,6 +89,7 @@
 import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       role: true,
