@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="navbar p-6 sticky top-0 bg-[#f5f5f5] mx-auto flex flex-wrap md:flex-nowrap justify-center md:justify-between gap-4"
+      class="navbar p-6 sticky top-0 bg-[#f5f5f5] mx-auto flex flex-wrap md:flex-nowrap justify-between gap-4"
     >
       <div class="navbar-title font-bold text-xl md:text-3xl">
         QARPA
@@ -10,7 +10,7 @@
         <nuxt-link to="/user/login">
           <ButtonGlobal text="Masuk" padding="p-2" :outlined="true" />
         </nuxt-link>
-        <nuxt-link to="/user/register-email">
+        <nuxt-link class="hidden md:block" to="/user/register-email">
           <ButtonGlobal
             text="Daftar"
             padding="p-2"
@@ -41,10 +41,20 @@
         </div>
       </div>
     </div>
+    <div class="btn flex justify-center my-2 md:hidden">
+      <nuxt-link to="/user/register-email">
+        <ButtonGlobal
+          text="Daftar"
+          padding="py-2 px-6"
+          color="bg-primary"
+          class="border-2 border-primary"
+        />
+      </nuxt-link>
+    </div>
     <div
       class="div container px-6 md:px-0 mx-auto max-w-sm md:max-w-2xl lg:max-w-4xl xl:max-w-5xl"
     >
-      <div class="product py-4 my-16">
+      <div class="product py-4 mb-16 md:my-16">
         <div class="product-title pt-4 pb-9">
           <p class="text-2xl lg:text-5xl text-center font-bold">
             Kami memiliki layanan terbaik untuk memudahkan bisnis anda

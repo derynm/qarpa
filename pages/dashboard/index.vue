@@ -28,12 +28,12 @@
             </p>
           </div>
           <div
-            class="grid justify-items-center grid-cols-3 gap-4 text-center px-3"
+            class="grid justify-items-center grid-cols-3 gap-2 md:gap-4 text-center px-2"
           >
             <CardMenu
               v-for="item in itemMenu"
               :key="item.name"
-              class="w-24"
+              class="w-[90px] md:w-36"
               :item="item"
               :role="user.role"
             />
