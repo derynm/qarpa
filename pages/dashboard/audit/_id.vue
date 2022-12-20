@@ -67,22 +67,22 @@
             </p>
           </div>
           <div>
-            <p>Pengeluaran</p>
+            <p>Kerugian</p>
             <p class="font-normal text-xs">
-              (Transaksi Pembelian)
+              (Total Diskon)
             </p>
           </div>
           <div>
             <p>Total Keuntungan</p>
             <p class="font-normal text-xs">
-              (Pemasukan - Pengeluaran)
+              (Pemasukan - Total Diskon)
             </p>
           </div>
         </div>
         <div class="right text-right flex flex-col justify-evenly gap-3">
           <p>Rp.{{ toRupiah(temp.total_incomes) }}</p>
           <p class="text-red-500">
-            -Rp.{{ toRupiah(temp.total_expenses) }}
+            Rp.{{ toRupiah(temp.total_discount) }}
           </p>
           <p class="text-green-500">
             Rp.{{ toRupiah(temp.total_profit) }}
