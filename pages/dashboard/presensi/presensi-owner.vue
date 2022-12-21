@@ -74,7 +74,6 @@ export default {
           const cd = moment(e.check_out, 'DD-MM-YYYY HH:mm').format(
             'YYYY-MM-DD'
           )
-          console.log(cd)
           return cd === this.sortDate
         })
       }

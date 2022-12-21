@@ -47,6 +47,7 @@
         <InputFieldBasicInput
           v-model="dataBank.noRekening"
           type="number"
+          :min="0"
           label="Nomor Rekening"
           placeholder="Rekekning"
         />
@@ -96,7 +97,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewBank', this.dataBank)
-        .then(
+        .then(() =>
           this.$router.replace(
             `/dashboard/pos/${this.$route.params.id}/pembayaran/pilih-bank`
           )

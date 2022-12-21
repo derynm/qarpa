@@ -27,7 +27,7 @@
       <ButtonGlobal
         v-if="!item.status"
         class="w-full"
-        text="Buka"
+        text="Buka Toko"
         color="bg-primary"
         padding="p-2"
         @click="validateModal = true"
@@ -35,7 +35,7 @@
       <ButtonGlobal
         v-else
         class="w-full"
-        text="Tutup"
+        text="Tutup Toko"
         color="bg-red-700"
         padding="p-2"
         @click="validateModal = true"

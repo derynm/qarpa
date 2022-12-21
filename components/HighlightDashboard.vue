@@ -20,10 +20,12 @@
           <p>Uang Keluar</p>
         </div>
       </div>
-      <div class="note flex gap-2 mx-auto items-center px-2">
-        <p>Lihat laporan keuanganmu minggu ini, yuk!</p>
+      <div class="note flex gap-[2px] md:gap-2 mx-auto items-center px-2">
+        <p class="text-[13px] md:text-base">
+          Lihat laporan keuanganmu minggu ini, yuk!
+        </p>
         <nuxt-link to="dashboard/keuangan">
-          <div class="bg-[#2a3679] rounded-full py-2 px-3">
+          <div class="bg-[#2a3679] rounded-full py-2 px-[10px] md:px-3">
             <IconsArrowRight color="white" />
           </div>
         </nuxt-link>
@@ -50,10 +52,12 @@
           </p>
         </div>
       </div>
-      <div class="note flex gap-2 mx-auto items-center px-2">
-        <p>Lihat tugas-tugasmu minggu ini, yuk!</p>
+      <div class="note flex gap-[2px] md:gap-2 mx-auto items-center px-2">
+        <p class="text-[13px] md:text-base">
+          Lihat tugas-tugasmu minggu ini, yuk!
+        </p>
         <nuxt-link to="dashboard/wom">
-          <div class="bg-[#2a3679] rounded-full py-2 px-3">
+          <div class="bg-[#2a3679] py-2 px-[10px] md:px-3">
             <IconsArrowRight color="white" />
           </div>
         </nuxt-link>

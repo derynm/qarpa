@@ -23,6 +23,7 @@
         <InputFieldBasicInput
           v-model="dataCabang.noHp"
           type="number"
+          :min="0"
           label="Nomor Handphone"
           placeholder="Handphne"
         />
@@ -72,7 +73,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewCabang', this.dataCabang)
-        .then(this.$router.replace('/dashboard/pos'))
+        .then(() => this.$router.replace('/dashboard/pos'))
     },
     checkInput () {
       this.isDisable = !Object.keys(this.dataCabang).every(

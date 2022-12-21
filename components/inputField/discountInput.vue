@@ -12,6 +12,8 @@
       :value="value"
       class="w-full px-3 pb-2"
       required
+      min="0"
+      max="100"
       @input="updateValue($event.target.value)"
     >
   </fieldset>

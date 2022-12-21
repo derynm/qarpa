@@ -44,11 +44,13 @@
           v-model="dataCuti.tglMulai"
           label="Tanggal Mulai"
           placeholder="..."
+          :min-date="DateNow"
         />
         <InputFieldDateInput
           v-model="dataCuti.tglBerakhir"
           label="Tanggal Berakhir"
           placeholder="..."
+          :min-date="dataCuti.tglMulai"
         />
       </div>
       <div class="btn">
@@ -66,6 +68,7 @@
 
 <script>
 import { mapActions, mapMutations } from 'vuex'
+import moment from 'moment'
 export default {
   layout: 'navigation',
   data () {
@@ -79,6 +82,11 @@ export default {
       isDisabled: true
     }
   },
+  computed: {
+    DateNow () {
+      return moment(new Date()).format('YYYY-MM-DD')
+    }
+  },
   created () {
     this.setPageTitle('Cuti')
   },
@@ -86,10 +94,9 @@ export default {
     ...mapMutations(['setPageTitle']),
     ...mapActions('cuti', ['postNewCuti']),
     handleSubmit () {
-      console.log(this.dataCuti)
       this.$store
         .dispatch('cuti/postNewCuti', this.dataCuti)
-        .then(this.$router.replace('/dashboard/cuti'))
+        .then(() => this.$router.replace('/dashboard/cuti'))
     },
     disabledButton () {
       if (

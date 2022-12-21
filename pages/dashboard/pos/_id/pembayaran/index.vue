@@ -1,6 +1,6 @@
 <template>
   <div class="container px-4">
-    <div class="card-total border p-2 rounded-lg text-center shadow-md">
+    <div class="card-total border py-8 rounded-lg text-center shadow-md">
       <p class="text-xl">
         Total Pembayaran
       </p>
@@ -18,7 +18,7 @@
       <div class="option flex flex-col gap-4">
         <div class="cursor-pointer" @click="handleTunai">
           <div
-            class="tunai rounded-lg shadow-md flex justify-between border px-2 py-4 font-semibold"
+            class="tunai rounded-lg shadow-md flex justify-between border px-6 py-4 font-semibold"
           >
             <div class="left">
               <p>Tunai</p>
@@ -30,7 +30,7 @@
         </div>
         <div class="cursor-pointer" @click="handleBank">
           <div
-            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-2 py-4"
+            class="bank rounded-lg shadow-md flex justify-between border font-semibold px-6 py-4"
           >
             <div class="left">
               <p>Transfer Bank</p>
@@ -62,52 +62,26 @@ export default {
       newOrder: {}
     }
   },
-  computed: {
-    /* eslint-disable */
-    getItemsOrder() {
-      const temp = this.order.items.map(
-        ({ product_branch_id, qty_product }) => ({
-          product_branch_id,
-          qty: qty_product
-        })
-      )
-      return temp
-    },
-    getNewOrder() {
-      const { totalInt, totalStr, items, ...item } = this.order
-      item.items = this.getItemsOrder
-      return item
-    }
-  },
-  created() {
+  created () {
     this.setPageTitle('Pembayaran')
   },
-  mounted() {
+  mounted () {
     this.getOrder()
-    console.log(this.order)
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    getOrder() {
+    getOrder () {
       this.order = this.$cookies.get('order')
     },
-    handleTunai() {
-      this.getNewOrder.payment = 'cash'
+    handleTunai () {
       this.order.payment = 'cash'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
-      this.$store
-        .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.replace('pembayaran/tunai'))
+      this.$router.replace('pembayaran/tunai')
     },
-    handleBank() {
-      this.getNewOrder.payment = 'transfer'
+    handleBank () {
       this.order.payment = 'transfer'
       this.$cookies.set('order', this.order)
-      console.log(this.getNewOrder)
-      this.$store
-        .dispatch('pos/postNewOrder', this.getNewOrder)
-        .then(this.$router.replace('pembayaran/pilih-bank'))
+      this.$router.replace('pembayaran/pilih-bank')
     }
   }
 }

@@ -24,7 +24,7 @@
               :key="item.id"
               class="snap-start"
               :item="item"
-              @click="handleDelete"
+              @click="getDeleteId"
               @getPelanggan="setPelanggan"
             />
           </div>
@@ -32,18 +32,22 @@
             <Loading class="m-auto" />
           </div>
           <div class="btn flex justify-end">
-            <!-- <nuxt-link to="tambah-pelanggan"> -->
             <ButtonGlobal
               text="+ Customer"
               padding="p-2"
               color="bg-primary"
               @click="$emit('showModal')"
             />
-            <!-- </nuxt-link> -->
           </div>
         </div>
       </div>
     </div>
+    <ModalValidate
+      v-if="showModalValidateDelete"
+      :text="modalDelete"
+      @accept="handleDelete"
+      @decline="showModalValidateDelete = false"
+    />
   </div>
 </template>
 
@@ -53,7 +57,14 @@ export default {
   layout: 'navigation',
   data () {
     return {
-      searchValue: ''
+      searchValue: '',
+      showModalValidateDelete: false,
+      modalDelete: {
+        content: 'Yakin ingin Menghapus Pelanggan?',
+        btn1: 'Tidak',
+        btn2: 'Yakin'
+      },
+      idCustomer: null
     }
   },
   // async fetch ({ store }) {
@@ -75,14 +86,19 @@ export default {
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    handleDelete (id) {
-      this.$store.dispatch('pos/deleteCustomer', id)
+    handleDelete () {
+      this.$store.dispatch('pos/deleteCustomer', this.idCustomer)
+      this.showModalValidateDelete = false
     },
     setPelanggan (name, id) {
       this.$emit('getPelanggan', name, id)
     },
     closeModal () {
       this.$emit('close')
+    },
+    getDeleteId (id) {
+      this.showModalValidateDelete = true
+      this.idCustomer = id
     }
   }
 }

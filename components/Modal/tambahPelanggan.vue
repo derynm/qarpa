@@ -30,6 +30,7 @@
           />
           <InputFieldBasicInput
             v-model="dataCustomer.noHp"
+            :min="0"
             type="number"
             label="Nomor Handphone"
             placeholder="Nomor Handphone"
@@ -89,7 +90,7 @@ export default {
     handleSubmit () {
       this.$store
         .dispatch('pos/postNewCustomer', this.dataCustomer)
-        .then(this.$emit('closeModal'))
+        .then(() => this.$emit('closeModal'))
     },
     closeModal () {
       this.$emit('close')

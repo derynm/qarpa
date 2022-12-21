@@ -67,5 +67,11 @@ export const actions = {
       commit('setSummaryOwner', response.data)
       commit('setIsLoading', false)
     })
+  },
+  updateNewProfile ({ commit }, data) {
+    const headers = { 'Content-Type': 'multipart/form-data' }
+    const dataPut = new FormData()
+    dataPut.append('avatar', data)
+    return this.$axios.$put('users/update', dataPut, { headers })
   }
 }

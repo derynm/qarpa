@@ -1,8 +1,33 @@
 <template>
   <div class="container px-4">
     <div class="header-text px-6 my-4 flex flex-col items-center gap-2">
-      <IconsPosIcon />
-      <!-- <ButtonGlobal padding="p-2" text="upload gambar" color="bg-primary" /> -->
+      <div class="relative">
+        <IconsPosIcon v-if="!stokBarang.photo" class="rounded-full" />
+        <div
+          v-else
+          class="rounded-full h-[72px] w-[72px] bg-slate-400 border border-red overflow-hidden flex justify-center"
+        >
+          <img :src="previewImg" alt="product">
+        </div>
+        <div
+          class="absolute rounded-full top-12 -right-1 cursor-pointer w-[27] h-[27]"
+        >
+          <input
+            id="file_upload"
+            type="file"
+            name="file"
+            accept="image/png, image/jpeg, image/jpg"
+            @change="handleUploadPhoto($event)"
+          >
+          <icons-camera />
+        </div>
+      </div>
+      <div v-if="isNotImageValid" class="pl-3 my-1 flex">
+        <IconsWarningIcon />
+        <p class="ml-1 text-danger text-[10px] font-semibold">
+          Ukuran gambar maksimum 1MB
+        </p>
+      </div>
     </div>
     <form
       class="flex flex-col justify-between min-h-[60vh]"
@@ -24,6 +49,7 @@
           v-model="stokBarang.stok"
           type="number"
           label="Stok"
+          :min="0"
           placeholder="Stok"
         />
         <div class="dropdown">
@@ -69,8 +95,11 @@ export default {
         harga: null,
         stok: null,
         tipe: null,
-        cabangId: parseInt(this.$route.query.cabang)
-      }
+        cabangId: parseInt(this.$route.query.cabang),
+        photo: null
+      },
+      previewImg: null,
+      isNotImageValid: null
     }
   },
   async fetch ({ store }) {
@@ -88,14 +117,41 @@ export default {
       // console.log(this.stokBarang)
       this.$store
         .dispatch('stok/postNewStok', this.stokBarang)
-        .then(this.$router.replace('/dashboard/stok'))
+        .then(() => this.$router.replace('/dashboard/stok'))
+    },
+    handleUploadPhoto (e) {
+      if (e.target.files[0]?.size > 1000000) {
+        this.isNotImageValid = true
+        this.previewImg = null
+        this.stokBarang.photo = null
+      } else {
+        this.stokBarang.photo = e.target.files[0]
+        if (this.stokBarang.photo) {
+          const reader = new FileReader()
+          reader.onload = (e) => {
+            this.previewImg = e.target.result
+          }
+          this.isNotImageValid = false
+          reader.readAsDataURL(this.stokBarang.photo)
+        }
+      }
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 select {
   outline: none;
+}
+input[type='file'] {
+  position: absolute;
+  width: 100%;
+  height: 27px;
+  opacity: 0;
+  cursor: pointer;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
 }
 </style>

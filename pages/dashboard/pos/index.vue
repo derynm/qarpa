@@ -50,9 +50,7 @@ export default {
     this.setPageTitle('Point of Sale')
   },
   mounted () {
-    console.log(this.dataCabang)
     this.getCabang()
-    console.log(this.dataCabang)
   },
   methods: {
     ...mapMutations(['setPageTitle']),

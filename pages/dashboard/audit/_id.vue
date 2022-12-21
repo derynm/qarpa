@@ -6,34 +6,34 @@
       :item="item"
     />
     <div
-      class="pengiriman-suplier shadow-md border-t-4 rounded-md border-orange-400 p-3"
+      class="pengiriman-suplier shadow-md border-t-4 rounded-md border-orange-400 p-3 flex flex-col gap-3"
     >
-      <div class="title font-semibold mb-2">
-        <p>Penerimaan Suplier</p>
+      <div class="title font-semibold">
+        <p>Penerimaan barang dari Suplier</p>
       </div>
       <div>
         <p class="font-semibold">
           Transaksi
         </p>
         <p class="font-normal text-xs">
-          Total semua transaksi pengiriman yang dilakukan pada pengiriman cabang
+          Total semua transaksi penerimaan barang dari supplier
         </p>
       </div>
       <div class="content-bot flex justify-between">
-        <div class="left font-semibold">
+        <div class="left font-semibold flex flex-col gap-2">
           <p>Total Pembelian Produk</p>
           <p>Total Transaksi Pembelian</p>
         </div>
-        <div class="right text-right">
+        <div class="right text-right flex flex-col gap-2">
           <p>{{ temp.total_purchased_products }}</p>
           <p>Rp.{{ toRupiah(temp.total_expenses) }}</p>
         </div>
       </div>
     </div>
     <div
-      class="pengiriman-cabang shadow-md border-t-4 rounded-md border-orange-400 p-3"
+      class="pengiriman-cabang shadow-md border-t-4 rounded-md border-orange-400 p-3 flex flex-col gap-3"
     >
-      <div class="title font-semibold mb-2">
+      <div class="title font-semibold">
         <p>Pengiriman Cabang</p>
       </div>
       <div>
@@ -41,7 +41,8 @@
           Transaksi
         </p>
         <p class="font-normal text-xs">
-          Total semua transaksi pengiriman yang dilakukan pada pengiriman cabang
+          Total semua transaksi pengiriman barang untuk keperluan stok produk
+          antar cabang
         </p>
       </div>
       <div class="content-bot flex justify-between">
@@ -54,11 +55,11 @@
       </div>
     </div>
     <div class="total shadow-md border-t-4 rounded-md border-orange-400 p-3">
-      <div class="title font-semibold mb-2">
+      <div class="title font-semibold mb-3">
         <p>Total Keuntungan</p>
       </div>
       <div class="content flex justify-between">
-        <div class="left font-semibold">
+        <div class="left font-semibold flex flex-col gap-3">
           <div>
             <p>Pemasukkan</p>
             <p class="font-normal text-xs">
@@ -66,22 +67,22 @@
             </p>
           </div>
           <div>
-            <p>Pengeluaran</p>
+            <p>Kerugian</p>
             <p class="font-normal text-xs">
-              (Transaksi Pembelian)
+              (Total Diskon)
             </p>
           </div>
           <div>
             <p>Total Keuntungan</p>
             <p class="font-normal text-xs">
-              (Pemasukan - Pengeluaran)
+              (Pemasukan - Total Diskon)
             </p>
           </div>
         </div>
-        <div class="right text-right flex flex-col justify-evenly">
+        <div class="right text-right flex flex-col justify-evenly gap-3">
           <p>Rp.{{ toRupiah(temp.total_incomes) }}</p>
           <p class="text-red-500">
-            -Rp.{{ toRupiah(temp.total_expenses) }}
+            Rp.{{ toRupiah(temp.total_discount) }}
           </p>
           <p class="text-green-500">
             Rp.{{ toRupiah(temp.total_profit) }}

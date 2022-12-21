@@ -15,10 +15,12 @@
       <input-field-date-input
         v-model="form.durasi_mulai"
         label="Durasi Mulai"
+        :minDate="DateNow"
       />
       <input-field-date-input
         v-model="form.durasi_akhir"
         label="Durasi Berakhir"
+        :minDate="form.durasi_mulai"
       />
       <input-field-drop-down-input
         v-model="form.karyawan"
@@ -46,6 +48,8 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from 'vuex'
+import moment from 'moment'
+
 export default {
   layout: 'navigation',
   middleware: 'auth',
@@ -79,7 +83,10 @@ export default {
   },
   computed: {
     ...mapState('dropdown', ['employees']),
-    ...mapState('wom', ['modal'])
+    ...mapState('wom', ['modal']),
+    DateNow () {
+      return moment(new Date()).format('YYYY-MM-DD')
+    }
   },
   methods: {
     ...mapMutations(['setPageTitle']),

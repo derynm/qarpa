@@ -5,13 +5,19 @@
         class="profile-top bg-gradient-to-b from-[#3f51b5] to-[#afb7e0] text-white flex flex-col items-center p-8 rounded-md mb-8 gap-2"
       >
         <div class="relative">
-          <IconsPosIcon class="rounded-full" />
-          <!-- <div
+          <IconsPosIcon v-if="!$auth.user.avatar" class="rounded-full" />
+          <div
+            v-else
+            class="rounded-full h-[72px] w-[72px] bg-white border border-red overflow-hidden flex justify-center"
+          >
+            <img :src="$auth.user.avatar" alt="avatar">
+          </div>
+          <div
             class="absolute w-fit rounded-full top-12 -right-1 cursor-pointer"
             @click="handleModal"
           >
             <icons-camera />
-          </div> -->
+          </div>
         </div>
         <p class="name">
           {{ user.name }}
@@ -30,12 +36,6 @@
         </div>
       </div>
       <div class="info flex flex-col gap-3">
-        <div class="information p-2">
-          <p class="font-semibold">
-            Informasi Usaha
-          </p>
-          <p>{{ user.company_name }}</p>
-        </div>
         <div
           v-if="user.role === 'owner'"
           class="upgrade border shadow-lg rounded-md pl-2 pr-4 py-2 flex flex-col gap-3"
@@ -44,7 +44,10 @@
             <p class="font-semibold">
               Qarpa Pro
             </p>
-            <button class="bg-[#344397] text-white rounded-md px-2 py-1">
+            <button
+              class="bg-[#344397] text-white rounded-md px-2 py-1"
+              @click="modalUpgrade = true"
+            >
               Upgrade Pro
             </button>
           </div>
@@ -73,6 +76,12 @@
       </div>
     </div>
     <modal-change-photo v-if="showModalChangePhoto" @closeModal="handleModal" />
+    <ModalConfirmModal
+      v-if="modalUpgrade"
+      title="Upgrade Qarpa Pro"
+      text="Maaf fitur ini belum tersedia"
+      @closeModal="modalUpgrade = false"
+    />
   </div>
 </template>
 
@@ -80,11 +89,13 @@
 import { mapMutations } from 'vuex'
 export default {
   layout: 'navigation',
+  middleware: 'auth',
   data () {
     return {
       role: true,
       user: this.$auth.user,
-      showModalChangePhoto: false
+      showModalChangePhoto: false,
+      modalUpgrade: false
     }
   },
   created () {

@@ -73,6 +73,9 @@ export default {
     if (this.$auth.user.role === 'employee') {
       this.$store.dispatch('stok/getStokByBranch', this.dataBranch)
     }
+    if (this.$auth.user.role === 'owner') {
+      this.$store.commit('stok/resetStokByBranch')
+    }
   },
 
   computed: {

@@ -18,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="btn flex justify-center pt-2 md:pt-0">
+    <div class="btn flex justify-center pt-2 md:pt-0" @click.stop="">
       <button
         class="p-2 border border-red-600 rounded-lg"
         @click="$emit('click', item.id)"

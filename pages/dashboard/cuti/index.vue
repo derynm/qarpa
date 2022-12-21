@@ -77,7 +77,6 @@ export default {
     this.setPageTitle('Cuti')
   },
   mounted () {
-    console.log(this.employeeCuti)
     this.filteredList = this.employeeCuti.data
   },
   methods: {

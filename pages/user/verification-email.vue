@@ -9,6 +9,12 @@
           <p>Masukkan kode yang telah dikirimkan ke email dibawah ini</p>
         </div>
         <form @submit.prevent="handleSubmit">
+          <div v-if="codeValid" class="pl-3 my-1 flex">
+            <IconsWarningIcon />
+            <p class="ml-1 text-danger text-[10px] font-semibold">
+              Kode yang anda masukan salah
+            </p>
+          </div>
           <div class="mb-8 flex justify-center">
             <div
               class="my-2 mx-2 rounded-md border-2 border-solid border-black p-1 w-full max-w-[60px]"
@@ -141,7 +147,8 @@ export default {
         code6: ''
       },
       email: this.$route.query.email,
-      isDisabled: true
+      isDisabled: true,
+      codeValid: false
     }
   },
   watch: {
@@ -207,7 +214,7 @@ export default {
           console.log(response)
           this.$router.push({ path: 'register', query: { code } })
         })
-        .catch(error => console.log(error.response))
+        .catch(() => (this.codeValid = true))
     }
   }
 }

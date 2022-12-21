@@ -40,21 +40,41 @@ export default {
       order: {}
     }
   },
-  created () {
+  computed: {
+    /* eslint-disable */
+    getItemsOrder() {
+      const temp = this.order.items.map(
+        ({ products_branch_id, qty_product }) => ({
+          products_branch_id,
+          qty: qty_product
+        })
+      )
+      return temp
+    },
+    getNewOrder() {
+      const { totalInt, totalStr, items, ...item } = this.order
+      item.items = this.getItemsOrder
+      return item
+    }
+  },
+  created() {
     this.setPageTitle('Pembayaran Bank')
   },
-  mounted () {
+  mounted() {
     this.getOrder()
   },
   methods: {
     ...mapMutations(['setPageTitle']),
-    getOrder () {
+    getOrder() {
       this.order = this.$cookies.get('order')
     },
-    handlePayment () {
+    handlePayment() {
       this.order.pay = this.order.totalInt
       this.$cookies.set('order', this.order)
-      this.$router.replace('report')
+      this.$store
+        .dispatch('pos/postNewOrder', this.getNewOrder)
+        .then(() => this.$router.replace('report'))
+      // this.$router.replace('report')
     }
   }
 }

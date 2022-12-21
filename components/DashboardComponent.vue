@@ -1,7 +1,7 @@
 <template>
   <div class="nav flex justify-between py-10 items-center px-4">
     <div :class="headerClass">
-      <div v-if="back" class="cursor-pointer" @click="$router.go(-1)">
+      <div v-if="back" class="cursor-pointer w-5 h-5 flex items-center" @click="$router.go(-1)">
         <IconsBackIcon />
       </div>
       <div class="title-dashboard">
@@ -9,7 +9,11 @@
           {{ title }}
         </p>
       </div>
-      <div />
+      <div>
+        <nuxt-link v-if="home" to="/dashboard">
+          <IconsHome />
+        </nuxt-link>
+      </div>
     </div>
   </div>
 </template>
@@ -21,21 +25,16 @@ export default {
       type: String,
       required: true
     },
-    notif: Boolean,
     back: {
+      type: Boolean,
+      default: true
+    },
+    home: {
       type: Boolean,
       default: true
     }
   },
   computed: {
-    IconClass () {
-      return {
-        'icon grid justify-items-center grid-cols-3 md:grid-cols-4 lg:grid-cols-5':
-          this.notif,
-        'icon grid justify-items-center grid-cols-2 md:grid-cols-3 lg:grid-cols-4':
-          !this.notif
-      }
-    },
     headerClass () {
       return {
         'flex justify-between items-center gap-8 w-full': this.back,

@@ -28,12 +28,9 @@ export default {
       id: this.$auth.user.branch_id
     }
   },
-  async fetch ({ store }) {
-    await store.dispatch('stok/getStokBarang')
-  },
   computed: {
     ...mapState('dropdown', ['branch', 'categories']),
-    ...mapState('stok', ['stokBarang', 'stokByBranch', 'isLoading']),
+    ...mapState('stok', ['stokByBranch', 'isLoading']),
     getFilteredStokByCategory () {
       if (this.dropdownValue !== 0) {
         return this.stokByBranch.filter(e => e.category === this.dropdownValue)

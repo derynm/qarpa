@@ -17,6 +17,9 @@ export const mutations = {
   },
   setProductById (state, value) {
     state.productById = value
+  },
+  resetStokByBranch (state) {
+    state.stokByBranch = []
   }
 }
 
@@ -42,6 +45,7 @@ export const actions = {
     data.append('qty', stokBarang.stok)
     data.append('category_id', stokBarang.tipe)
     data.append('branch_id', stokBarang.cabangId)
+    data.append('image', stokBarang.photo)
     return this.$axios.$post('inventory/products', data, { headers })
   },
   deleteStok (ctx, id) {
@@ -66,6 +70,7 @@ export const actions = {
   updateProduct (ctx, { product, params }) {
     const headers = { 'Content-Type': 'multipart/form-data' }
     const data = new FormData()
+    data.append('image', product.photo)
     data.append('name', product.nama)
     data.append('selling_price', product.harga)
     data.append('qty', product.stok)

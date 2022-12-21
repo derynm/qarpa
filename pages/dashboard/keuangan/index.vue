@@ -42,7 +42,7 @@
             :convert="true"
           />
           <KeuanganCardLaporan
-            text="Total Transaksi Produk"
+            text="Total Transaksi Customer"
             :money="dataKeuangan.total_transactions"
           />
           <KeuanganCardLaporan
@@ -118,7 +118,7 @@ export default {
       this.setIsLoading(true)
       this.$store
         .dispatch('keuangan/getDataKeuanganDefault', { date, id })
-        .then(this.setIsLoading(false))
+        .then(() => this.setIsLoading(false))
     }
   }
 }
