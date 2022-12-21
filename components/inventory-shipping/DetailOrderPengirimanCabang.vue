@@ -52,6 +52,11 @@
         @click="postPengiriman"
       />
     </div>
+    <modal-confirm-modal
+      v-if="isError"
+      text="Pengiriman Gagal"
+      @closeModal="closeModal()"
+    />
   </div>
 </template>
 
@@ -70,7 +75,8 @@ export default {
         produk: []
       },
       totalOrder: 0,
-      isDisabled: true
+      isDisabled: true,
+      isError: false
     }
   },
   watch: {
@@ -128,6 +134,9 @@ export default {
         this.totalOrder = 0
       }
     },
+    closeModal () {
+      this.isError = !this.isError
+    },
     postPengiriman () {
       /* eslint-disable */
       const dataBarang = this.dataOrder.produk.map(({ id, qty_product }) => ({
@@ -148,6 +157,7 @@ export default {
             query: { destination_branch: this.cabang }
           })
         })
+        .catch(() => (this.isError = true))
     }
   }
 }
